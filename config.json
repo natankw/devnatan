@@ -19,19 +19,11 @@
       "categoria": "Amizade",
       "titulo": ".",
       "imagem": "",
-      "vip": false,
+      "vip": true,
       "fixado": false
     }
   ],
   "grupos": [
-    {
-      "link": "https://whatsapp.com/exemplo2",
-      "categoria": "Recrutamento",
-      "titulo": "",
-      "imagem": "",
-      "vip": true,
-      "fixado": true
-    },
     {
       "link": "https://whatsapp.com/exemplo3",
       "categoria": "Amizades",
