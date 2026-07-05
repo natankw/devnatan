@@ -1,0 +1,44 @@
+{
+  "site": {
+    "nome": "𝙺ñø𝚆𝚂.exe",
+    "descricao": "Se Deus é por nós, quem será contra nós?",
+    "logo": "NOME_DA_SUA_LOGO.png",
+    "avatar": "NOME_DO_SEU_AVATAR.jpg",
+    "banner": "NOME_DA_SUA_LOGO.png",
+    "whatsapp": "https://whatsapp.com/channel/0029Vb8XsOg7dmeZYaHEhg3p",
+    "musica": "",
+    "fundoTipo": "matrix",
+    "videoFundo": ""
+  },
+  "footer": {
+    "texto": "© 2026 KnowS.exe - Todos os direitos reservados."
+  },
+  "canais": [
+    {
+      "link": "https://whatsapp.com/channel/0029Vb8XsOg7dmeZYaHEhg3p",
+      "categoria": "Entretenimento",
+      "vip": false,
+      "fixado": true,
+      "titulo": "",
+      "imagem": ""
+    }
+  ],
+  "grupos": [
+    {
+      "link": "https://whatsapp.com/exemplo2",
+      "categoria": "Recrutamento",
+      "vip": true,
+      "fixado": true,
+      "titulo": "",
+      "imagem": ""
+    },
+    {
+      "link": "https://whatsapp.com/exemplo3",
+      "categoria": "Amizades",
+      "vip": true,
+      "fixado": false,
+      "titulo": "",
+      "imagem": ""
+    }
+  ]
+}
