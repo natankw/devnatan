@@ -15,30 +15,30 @@
   },
   "canais": [
     {
-      "link": "https://whatsapp.com/channel/0029Vb8XsOg7dmeZYaHEhg3p",
-      "categoria": "Entretenimento",
+      "link": "https://whatsapp.com/channel/0029Vb7Is6WBqbr0V6D5lD31",
+      "categoria": "Amizade",
+      "titulo": ".",
+      "imagem": "",
       "vip": false,
-      "fixado": true,
-      "titulo": "",
-      "imagem": ""
+      "fixado": false
     }
   ],
   "grupos": [
     {
       "link": "https://whatsapp.com/exemplo2",
       "categoria": "Recrutamento",
-      "vip": true,
-      "fixado": true,
       "titulo": "",
-      "imagem": ""
+      "imagem": "",
+      "vip": true,
+      "fixado": true
     },
     {
       "link": "https://whatsapp.com/exemplo3",
       "categoria": "Amizades",
-      "vip": true,
-      "fixado": false,
       "titulo": "",
-      "imagem": ""
+      "imagem": "",
+      "vip": true,
+      "fixado": false
     }
   ]
 }
