@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>𝙺ñø𝚆𝚂.exe</title>
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <canvas id="matrix"></canvas>
+  <video id="bgVideo" autoplay muted loop playsinline></video>
+  <div id="videoOverlay"></div>
+
+  <div id="loader">
+    <div class="loaderBox">
+      <img id="loaderLogo" src="" alt="Logo">
+      <h1 id="loaderNome"></h1>
+      <span>Inicializando...</span>
+    </div>
+  </div>
+
+  <nav>
+    <div class="logoArea">
+      <img id="navLogo" src="" alt="Logo">
+      <span id="navNome"></span>
+    </div>
+    <div class="menu">
+      <a href="#inicio">Início</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#footer">Contato</a>
+    </div>
+  </nav>
+
+  <header id="inicio">
+    <div class="overlay"></div>
+    <img id="avatar" src="" alt="Avatar">
+    <h1 id="siteNome"></h1>
+    <p id="bio"></p>
+    <div class="buttons">
+      <a id="btnWhatsapp" target="_blank">Entrar no Canal</a>
+      <button id="copyButton">Copiar Link</button>
+    </div>
+  </header>
+
+  <section id="catalogo">
+    <h2>Grupos & Canais</h2>
+
+    <input id="search" type="text" placeholder="Pesquisar...">
+
+    <div id="filtros"></div>
+
+    <h3 class="carouselTitulo">📡 Canais</h3>
+    <div class="carousel" id="canaisRow"></div>
+
+    <h3 class="carouselTitulo">👥 Grupos</h3>
+    <div class="carousel" id="gruposRow"></div>
+  </section>
+
+  <footer id="footer">
+    <img id="footerLogo" src="" alt="Logo">
+    <h2 id="footerNome"></h2>
+    <p id="footerText"></p>
+  </footer>
+
+  <audio id="bgAudio" loop></audio>
+  <button id="musicButton" title="Música">🎵</button>
+  <button id="topButton">↑</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
