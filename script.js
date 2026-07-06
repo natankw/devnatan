@@ -408,7 +408,7 @@ if (canvas) {
 
 async function iniciarSite() {
   try {
-    const resposta = await fetch("config.json");
+    const resposta = await fetch(`config.json?v=${Date.now()}`, { cache: "no-store" });
     config = await resposta.json();
   } catch (erro) {
     console.error("Não foi possível carregar config.json:", erro);
