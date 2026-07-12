@@ -98,20 +98,28 @@ function configurarMusica() {
   }
 
   bgAudio.src = config.site.musica;
+  bgAudio.loop = true;
   musicButton.style.display = "flex";
 
   let tocando = false;
+
+  // Tenta tocar automaticamente
+  bgAudio.play().then(() => {
+    tocando = true;
+    musicButton.textContent = "🎵";
+  }).catch(() => {
+    console.log("Reprodução automática bloqueada pelo navegador.");
+  });
 
   musicButton.addEventListener("click", () => {
     if (tocando) {
       bgAudio.pause();
       musicButton.textContent = "🔇";
     } else {
-      bgAudio.play().catch(() => {
-        console.warn("O navegador bloqueou a reprodução automática, clique novamente.");
-      });
+      bgAudio.play();
       musicButton.textContent = "🎵";
     }
+
     tocando = !tocando;
   });
 }
