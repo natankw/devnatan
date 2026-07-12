@@ -108,19 +108,31 @@ function configurarMusica() {
     tocando = true;
     musicButton.textContent = "🎵";
   }).catch(() => {
-    console.log("Reprodução automática bloqueada pelo navegador.");
+    console.log("Reprodução automática bloqueada.");
   });
 
+  // Se o navegador bloquear, toca no primeiro clique em qualquer lugar
+  document.addEventListener("click", () => {
+    if (!tocando) {
+      bgAudio.play().then(() => {
+        tocando = true;
+        musicButton.textContent = "🎵";
+      }).catch(() => {});
+    }
+  }, { once: true });
+
+  // Botão de ligar/desligar
   musicButton.addEventListener("click", () => {
     if (tocando) {
       bgAudio.pause();
       musicButton.textContent = "🔇";
+      tocando = false;
     } else {
-      bgAudio.play();
-      musicButton.textContent = "🎵";
+      bgAudio.play().then(() => {
+        musicButton.textContent = "🎵";
+        tocando = true;
+      });
     }
-
-    tocando = !tocando;
   });
 }
 
