@@ -143,18 +143,20 @@ function configurarMusica() {
 function configurarFundo() {
   const tipo = config.site.fundoTipo || "matrix";
 
+  bgVideo.style.display = "none";
+  videoOverlay.style.display = "none";
+
+  if (canvas) canvas.style.display = "block";
+
   if (tipo === "video" && config.site.videoFundo) {
     bgVideo.src = config.site.videoFundo;
     bgVideo.style.display = "block";
     videoOverlay.style.display = "block";
     if (canvas) canvas.style.display = "none";
-  } else if (tipo === "imagem") {
-    bgVideo.style.display = "none";
-    videoOverlay.style.display = "none";
+  }
+
+  if (tipo === "imagem") {
     if (canvas) canvas.style.display = "none";
-  } else {
-    bgVideo.style.display = "none";
-    videoOverlay.style.display = "none";
   }
 }
 
