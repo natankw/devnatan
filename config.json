@@ -19,7 +19,15 @@
       "categoria": "Aliança.",
       "titulo": "",
       "imagem": "",
-      "vip": false,
+      "vip": true,
+      "fixado": false
+    },
+    {
+      "link": "https://whatsapp.com/channel/0029Vb8XsOg7dmeZYaHEhg3p",
+      "categoria": "Aliança.",
+      "titulo": "",
+      "imagem": "",
+      "vip": true,
       "fixado": false
     }
   ],
