@@ -15,8 +15,8 @@
   },
   "canais": [
     {
-      "link": "https://whatsapp.com/channel/0029Vb7Is6WBqbr0V6D5lD31",
-      "categoria": "Amizade",
+      "link": "https://whatsapp.com/channel/0029VbCxAlH1iUxcnOfbSD0I",
+      "categoria": "Aliança.",
       "titulo": "",
       "imagem": "",
       "vip": true,
@@ -25,11 +25,27 @@
   ],
   "grupos": [
     {
-      "link": "https://whatsapp.com/exemplo3",
+      "link": "https://chat.whatsapp.com/Igk42gqDpbADLp7z00IkIB?s=cl&p=a&ilr=1&amv=2",
       "categoria": "Amizades",
       "titulo": "",
       "imagem": "",
-      "vip": true,
+      "vip": false,
+      "fixado": false
+    },
+    {
+      "link": "https://chat.whatsapp.com/CbMhkcKsbpi9ql0esdwINJ",
+      "categoria": "Amizade",
+      "titulo": "",
+      "imagem": "",
+      "vip": false,
+      "fixado": false
+    },
+    {
+      "link": "https://chat.whatsapp.com/ISyKVJIC5B560a8WEQh2Cd",
+      "categoria": "Amizade",
+      "titulo": "",
+      "imagem": "",
+      "vip": false,
       "fixado": false
     }
   ]
