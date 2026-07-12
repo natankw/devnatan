@@ -31,10 +31,7 @@ html, body {
 }
 
 body {
-  background-image: linear-gradient(rgba(0,0,0,.75), rgba(0,0,0,.85)), url("NOME_DA_SUA_LOGO.png");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background: #050505;
 }
 
 img {
