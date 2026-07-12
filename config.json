@@ -29,6 +29,14 @@
       "imagem": "",
       "vip": true,
       "fixado": false
+    },
+    {
+      "link": "https://whatsapp.com/channel/0029VbDU8Cm4NVicTNmPUb13",
+      "categoria": "Aliança.",
+      "titulo": "",
+      "imagem": "",
+      "vip": true,
+      "fixado": false
     }
   ],
   "grupos": [
@@ -93,7 +101,7 @@
       "categoria": "Amizade",
       "titulo": "",
       "imagem": "",
-      "vip": true,
+      "vip": false,
       "fixado": false
     }
   ]
