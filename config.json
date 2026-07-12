@@ -64,10 +64,10 @@
     },
     {
       "link": "https://whatsapp.com/channel/0029Vb8TT9UHQbRz3oqutY42",
-      "categoria": "",
+      "categoria": "Aliança",
       "titulo": "",
-      "imagem": "uploads/1783892539170-1000424292.jpg",
-      "vip": false,
+      "imagem": ".jpg",
+      "vip": true,
       "fixado": false
     }
   ],
