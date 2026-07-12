@@ -448,6 +448,9 @@ async function iniciarSite() {
   carregarLista(config.grupos, "Grupo", gruposRow);
 }
 
+console.log("Canvas:", canvas);
+console.log("Contexto:", canvas ? canvas.getContext("2d") : null);
+
 iniciarSite();
 
 console.log("✅ KnowS.exe carregado com sucesso");
