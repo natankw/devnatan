@@ -75,7 +75,7 @@
       "categoria": "Aliança",
       "titulo": "",
       "imagem": "",
-      "vip": false,
+      "vip": true,
       "fixado": false
     }
   ],
