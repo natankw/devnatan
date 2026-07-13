@@ -66,8 +66,16 @@
       "link": "https://whatsapp.com/channel/0029Vb8TT9UHQbRz3oqutY42",
       "categoria": "Aliança",
       "titulo": "",
-      "imagem": ".jpg",
+      "imagem": "",
       "vip": true,
+      "fixado": false
+    },
+    {
+      "link": "https://whatsapp.com/channel/0029Vb7zSAWJpe8hC7KDPE3h",
+      "categoria": "Aliança",
+      "titulo": "",
+      "imagem": "",
+      "vip": false,
       "fixado": false
     }
   ],
@@ -162,9 +170,17 @@
     },
     {
       "link": "https://chat.whatsapp.com/H7X8VKY0mUGHAKYMmkXQ6G",
-      "categoria": "",
+      "categoria": "Amizade",
       "titulo": "",
       "imagem": "uploads/1783918116577-1000427822.jpg",
+      "vip": false,
+      "fixado": false
+    },
+    {
+      "link": "https://chat.whatsapp.com/GSey0hRf2cEIZUSApMPjxD?s=cl&p=a&mlu=4",
+      "categoria": "Amizade",
+      "titulo": "",
+      "imagem": "",
       "vip": false,
       "fixado": false
     }
