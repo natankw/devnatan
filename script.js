@@ -74,7 +74,7 @@ window.addEventListener("load", () => {
 
         setTimeout(() => {
 
-            loader.remove();
+            if (loader) loader.remove();
 
         },700);
 
@@ -131,6 +131,33 @@ function carregarConfig(){
 }
 
 /* ===================================================
+   CONFIGURAR FUNDO
+=================================================== */
+
+function configurarFundo() {
+    // Verifica se o vídeo existe e tem configuração
+    if (bgVideo && config.site.fundoVideo) {
+        bgVideo.src = config.site.fundoVideo;
+        bgVideo.style.display = "block";
+        
+        if (videoOverlay) {
+            videoOverlay.style.display = "block";
+        }
+    } else if (bgVideo) {
+        // Se não tiver vídeo configurado, esconde o vídeo e overlay
+        bgVideo.style.display = "none";
+        if (videoOverlay) {
+            videoOverlay.style.display = "none";
+        }
+    }
+
+    // Configura o canvas Matrix como fallback
+    if (canvas) {
+        canvas.style.display = "block";
+    }
+}
+
+/* ===================================================
    MÚSICA
 =================================================== */
 
@@ -138,7 +165,7 @@ function configurarMusica(){
 
     if(!config.site.musica){
 
-        musicButton.style.display="none";
+        if (musicButton) musicButton.style.display="none";
         return;
 
     }
@@ -147,9 +174,10 @@ function configurarMusica(){
     bgAudio.loop=true;
     bgAudio.volume=config.site.volume || 0.5;
 
-    musicButton.style.display="flex";
-
-    musicButton.innerHTML="🔇";
+    if (musicButton) {
+        musicButton.style.display="flex";
+        musicButton.innerHTML="🔇";
+    }
 
     if(enterSite){
 
@@ -161,7 +189,7 @@ function configurarMusica(){
 
                 await bgAudio.play();
 
-                musicButton.innerHTML="🎵";
+                if (musicButton) musicButton.innerHTML="🎵";
 
             }catch(e){
 
@@ -173,21 +201,23 @@ function configurarMusica(){
 
     }
 
-    musicButton.onclick=()=>{
+    if (musicButton) {
+        musicButton.onclick=()=>{
 
-        if(bgAudio.paused){
+            if(bgAudio.paused){
 
-            bgAudio.play();
-            musicButton.innerHTML="🎵";
+                bgAudio.play();
+                musicButton.innerHTML="🎵";
 
-        }else{
+            }else{
 
-            bgAudio.pause();
-            musicButton.innerHTML="🔇";
+                bgAudio.pause();
+                musicButton.innerHTML="🔇";
 
-        }
+            }
 
-    };
+        };
+    }
 
 }
 
@@ -219,7 +249,7 @@ function criarBotaoFiltro(nome, valor){
 
     };
 
-    filtrosEl.appendChild(botao);
+    if (filtrosEl) filtrosEl.appendChild(botao);
 
 }
 
@@ -247,11 +277,13 @@ function obterCategoriasUsadas(){
    PESQUISA
 =================================================== */
 
-searchEl.addEventListener("input", aplicarFiltros);
+if (searchEl) {
+    searchEl.addEventListener("input", aplicarFiltros);
+}
 
 function aplicarFiltros(){
 
-    const texto=searchEl.value.toLowerCase().trim();
+    const texto = searchEl ? searchEl.value.toLowerCase().trim() : "";
 
     document.querySelectorAll(".card").forEach(card=>{
 
@@ -444,7 +476,7 @@ function criarCard(item,tipo,container){
 
     };
 
-    container.appendChild(card);
+    if (container) container.appendChild(card);
 
     if(!item.imagem||!item.titulo){
 
@@ -604,7 +636,7 @@ function carregarParcerias(){
 
     }
 
-                }
+}
 
 /* ===================================================
    MATRIX
@@ -712,29 +744,31 @@ if (canvas) {
    TOPO
 =================================================== */
 
-window.addEventListener("scroll",()=>{
+if (topButton) {
+    window.addEventListener("scroll",()=>{
 
-    topButton.style.display=
+        topButton.style.display=
 
-        window.scrollY>250
+            window.scrollY>250
 
-        ? "flex"
+            ? "flex"
 
-        : "none";
-
-});
-
-topButton.onclick=()=>{
-
-    window.scrollTo({
-
-        top:0,
-
-        behavior:"smooth"
+            : "none";
 
     });
 
-};
+    topButton.onclick=()=>{
+
+        window.scrollTo({
+
+            top:0,
+
+            behavior:"smooth"
+
+        });
+
+    };
+}
 
 /* ===================================================
    INICIAR
