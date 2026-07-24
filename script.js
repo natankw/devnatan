@@ -168,53 +168,34 @@ admins:[]
 
 
 
-// ==========================
 // RENDER
-// ==========================
-
 
 function carregar(){
 
-
-mostrarGrupos(dados.grupos);
-
-mostrarCanais(dados.canais);
+mostrarComunidades(dados.grupos, dados.canais);
 
 mostrarAliados(dados.aliados);
 
-
 carregarADM();
 
-
 contador();
-
 
 }
 
 
+// AQUI VEM A NOVA FUNÇÃO
+
+function mostrarComunidades(grupos, canais){
+
+...
+}
 
 
+// DEPOIS CONTINUA:
 
+function mostrarAliados(lista){
 
-
-function mostrarGrupos(lista){
-
-
-grupos.innerHTML="";
-
-
-lista.forEach(item=>{
-
-
-grupos.innerHTML += criarCard(
-item,
-"👥"
-);
-
-
-});
-
-
+...
 }
 
 
