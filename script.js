@@ -1,5 +1,5 @@
 /* ==========================
-        R.H.S PREMIUM v2
+        R.H.S PREMIUM v3
 ========================== */
 
 
@@ -10,29 +10,20 @@
 
 
 const entrar = document.getElementById("entrar");
-
 const welcome = document.getElementById("welcome");
-
 const site = document.getElementById("site");
-
 const music = document.getElementById("music");
 
 
+entrar.onclick = () => {
 
-entrar.onclick = ()=>{
+    music.play().catch(()=>{});
 
+    welcome.style.display="none";
 
-music.play().catch(()=>{});
-
-
-welcome.style.display="none";
-
-
-site.style.display="block";
-
+    site.style.display="block";
 
 };
-
 
 
 
@@ -44,61 +35,45 @@ site.style.display="block";
 // ==========================
 
 
-const canvas =
-document.getElementById("matrix");
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
 
-const ctx =
-canvas.getContext("2d");
+function resize(){
 
-
-
-function tamanhoCanvas(){
-
-canvas.width =
-window.innerWidth;
-
-
-canvas.height =
-window.innerHeight;
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 
 }
 
 
-tamanhoCanvas();
+resize();
+
+window.onresize = resize;
 
 
-window.onresize=tamanhoCanvas;
 
-
-
-const textos = [
+const codigo = [
 
 "R.H.S",
 "system.online",
-"connect",
-"groups.load",
-"partner.active",
-"0101",
-"security"
+"loading...",
+"groups.connect",
+"partner.ok",
+"0101"
 
 ];
 
 
 
-const fonte = 15;
+let colunas = Math.floor(canvas.width / 120);
 
-
-let colunas =
-Math.floor(canvas.width/fonte);
-
-
-let linhas = [];
+let drops=[];
 
 
 for(let i=0;i<colunas;i++){
 
-linhas[i]=0;
+drops[i]=Math.random()*canvas.height;
 
 }
 
@@ -120,50 +95,39 @@ canvas.height
 
 
 
-ctx.font =
-fonte+"px monospace";
+ctx.fillStyle="rgba(180,180,180,.35)";
 
-
-ctx.fillStyle=
-"rgba(180,180,180,.45)";
+ctx.font="14px monospace";
 
 
 
-linhas.forEach((y,i)=>{
+drops.forEach((y,i)=>{
 
 
-let texto =
-textos[
-Math.floor(
-Math.random()*textos.length
-)
+let text =
+codigo[
+Math.floor(Math.random()*codigo.length)
 ];
 
 
 
 ctx.fillText(
-
-texto,
-
-i*fonte,
-
+text,
+i*120,
 y
-
 );
 
 
 
-if(
-y > canvas.height &&
-Math.random()>0.97
-){
+if(y > canvas.height){
 
-linhas[i]=0;
+drops[i]=0;
 
 }
 
 
-linhas[i]+=fonte;
+
+drops[i]+=2;
 
 
 });
@@ -173,8 +137,7 @@ linhas[i]+=fonte;
 
 
 
-setInterval(matrix,80);
-
+setInterval(matrix,60);
 
 
 
@@ -189,25 +152,13 @@ setInterval(matrix,80);
 
 
 let dados =
-JSON.parse(
-localStorage.getItem("rhs")
-)
+JSON.parse(localStorage.getItem("rhs"))
 ||
 {
-
 grupos:[],
 canais:[],
 aliados:[],
-
-admins:[
-
-{
-nome:"ADM R.H.S",
-numero:"5591981520185"
-}
-
-]
-
+admins:[]
 };
 
 
@@ -217,121 +168,25 @@ numero:"5591981520185"
 
 
 
-
-
 // ==========================
-// CARREGAR CARDS
+// RENDER
 // ==========================
-
 
 
 function carregar(){
 
 
+mostrarGrupos(dados.grupos);
 
-let grupos =
-document.getElementById("grupos");
+mostrarCanais(dados.canais);
 
-
-let canais =
-document.getElementById("canais");
-
-
-let aliados =
-document.getElementById("aliados");
-
-
-
-grupos.innerHTML="";
-
-canais.innerHTML="";
-
-aliados.innerHTML="";
-
-
-
-
-
-dados.grupos.forEach(x=>{
-
-
-grupos.innerHTML += card(
-
-x.nome,
-
-x.desc,
-
-x.link
-
-);
-
-
-});
-
-
-
-
-
-dados.canais.forEach(x=>{
-
-
-canais.innerHTML += card(
-
-x.nome,
-
-x.desc,
-
-x.link
-
-);
-
-
-});
-
-
-
-
-
-
-dados.aliados.forEach(x=>{
-
-
-aliados.innerHTML += `
-
-
-<div class="card">
-
-
-<h3>
-⭐ ${x.nome}
-</h3>
-
-
-<p>
-${x.desc || ""}
-</p>
-
-
-<a href="${x.link}" target="_blank">
-Conhecer →
-</a>
-
-
-</div>
-
-
-`;
-
-
-});
-
-
-
-animarNumeros();
-
+mostrarAliados(dados.aliados);
 
 
 carregarADM();
+
+
+contador();
 
 
 }
@@ -342,7 +197,87 @@ carregarADM();
 
 
 
-function card(nome,desc,link){
+function mostrarGrupos(lista){
+
+
+grupos.innerHTML="";
+
+
+lista.forEach(item=>{
+
+
+grupos.innerHTML += criarCard(
+item,
+"👥"
+);
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+function mostrarCanais(lista){
+
+
+canais.innerHTML="";
+
+
+lista.forEach(item=>{
+
+
+canais.innerHTML += criarCard(
+item,
+"📢"
+);
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+
+function mostrarAliados(lista){
+
+
+aliados.innerHTML="";
+
+
+lista.forEach(item=>{
+
+
+aliados.innerHTML += criarCard(
+item,
+"⭐"
+);
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+
+function criarCard(item,icone){
 
 
 return `
@@ -352,23 +287,19 @@ return `
 
 
 <h3>
-
-${nome}
-
+${icone} ${item.nome}
 </h3>
 
 
 <p>
-
-${desc || ""}
-
+${item.desc || ""}
 </p>
 
 
 
-<a href="${link}" target="_blank">
+<a href="${item.link}" target="_blank">
 
-Entrar →
+Acessar →
 
 </a>
 
@@ -389,72 +320,60 @@ Entrar →
 
 
 // ==========================
-// NUMEROS
+// PESQUISA
 // ==========================
 
 
-
-function contador(id,valor){
-
-
-let el =
-document.getElementById(id);
+document
+.getElementById("pesquisa")
+.addEventListener("input",e=>{
 
 
-let atual=0;
+let busca =
+e.target.value.toLowerCase();
 
 
 
-let timer =
-setInterval(()=>{
+mostrarGrupos(
 
+dados.grupos.filter(x=>
 
-atual++;
+x.nome.toLowerCase()
+.includes(busca)
 
+)
 
-el.innerText=atual;
-
-
-
-if(atual>=valor){
-
-clearInterval(timer);
-
-}
-
-
-},20);
-
-
-
-}
-
-
-
-
-
-function animarNumeros(){
-
-
-contador(
-"totalGrupos",
-dados.grupos.length
 );
 
 
-contador(
-"totalCanais",
-dados.canais.length
+
+mostrarCanais(
+
+dados.canais.filter(x=>
+
+x.nome.toLowerCase()
+.includes(busca)
+
+)
+
 );
 
 
-contador(
-"totalAliados",
-dados.aliados.length
+
+mostrarAliados(
+
+dados.aliados.filter(x=>
+
+x.nome.toLowerCase()
+.includes(busca)
+
+)
+
 );
 
 
-}
+
+});
 
 
 
@@ -465,27 +384,92 @@ dados.aliados.length
 
 
 // ==========================
-// WHATSAPP PARCERIA
+// FILTROS
 // ==========================
 
+
+function filtrar(tipo){
+
+
+
+document.getElementById("areaGrupos")
+.style.display =
+(tipo=="canais" || tipo=="aliados")
+?
+"none":"block";
+
+
+
+document.getElementById("areaCanais")
+.style.display =
+(tipo=="grupos" || tipo=="aliados")
+?
+"none":"block";
+
+
+
+document.getElementById("areaAliados")
+.style.display =
+(tipo=="grupos" || tipo=="canais")
+?
+"none":"block";
+
+
+
+}
+
+
+
+
+
+
+
+
+// ==========================
+// CONTADORES
+// ==========================
+
+
+function contador(){
+
+
+totalGrupos.innerText =
+dados.grupos.length;
+
+
+totalCanais.innerText =
+dados.canais.length;
+
+
+totalAliados.innerText =
+dados.aliados.length;
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================
+// ADM WHATSAPP
+// ==========================
 
 
 function carregarADM(){
 
 
-let select =
-document.getElementById("admSelect");
-
-
-
-select.innerHTML="";
-
+admSelect.innerHTML="";
 
 
 dados.admins.forEach((adm,i)=>{
 
 
-select.innerHTML += `
+admSelect.innerHTML += `
 
 <option value="${i}">
 ${adm.nome}
@@ -502,40 +486,36 @@ ${adm.nome}
 
 
 
-document
-.getElementById("whatsapp")
-.onclick=()=>{
+
+whatsapp.onclick=()=>{
 
 
 let adm =
 dados.admins[
-document.getElementById("admSelect").value
+admSelect.value
 ];
 
 
 
 let msg =
-document.getElementById("mensagemParceria").value;
+mensagemParceria.value;
 
 
 
-let url =
+window.open(
 
-"https://wa.me/"+
+"https://wa.me/"
++
+adm.numero
++
+"?text="
++
+encodeURIComponent(msg)
 
-adm.numero+
-
-"?text="+
-
-encodeURIComponent(msg);
-
-
-
-window.open(url,"_blank");
+);
 
 
 };
-
 
 
 
