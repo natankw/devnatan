@@ -1,6 +1,7 @@
 /* ==========================
-        R.H.S ADM v2
+        R.H.S ADM V4
 ========================== */
+
 
 
 const SENHA = "RHS2026";
@@ -8,34 +9,50 @@ const SENHA = "RHS2026";
 
 
 
+
+// ==========================
 // BANCO
+// ==========================
 
 
 function banco(){
 
+
 return JSON.parse(
+
 localStorage.getItem("rhs")
+
 )
+
 ||
+
 {
 
-grupos:[],
-canais:[],
+comunidades:[],
+
 aliados:[],
+
 admins:[]
 
 };
 
+
 }
+
 
 
 
 function salvar(dados){
 
+
 localStorage.setItem(
+
 "rhs",
+
 JSON.stringify(dados)
+
 );
+
 
 }
 
@@ -46,13 +63,18 @@ JSON.stringify(dados)
 
 
 
+
+// ==========================
 // LOGIN
+// ==========================
 
 
 function entrarADM(){
 
 
+
 let senha =
+
 document.getElementById("senha").value;
 
 
@@ -60,12 +82,15 @@ document.getElementById("senha").value;
 if(senha === SENHA){
 
 
-login.style.display="none";
 
-painel.style.display="block";
+document.getElementById("login").style.display="none";
 
 
-listarItens();
+document.getElementById("painel").style.display="block";
+
+
+listar();
+
 
 
 }else{
@@ -77,6 +102,7 @@ alert("Senha incorreta");
 }
 
 
+
 }
 
 
@@ -87,44 +113,59 @@ alert("Senha incorreta");
 
 
 
-// SALVAR ITEM
+// ==========================
+// SALVAR COMUNIDADE
+// ==========================
 
 
-function salvarItem(){
-
-
-let dados=banco();
+function salvarComunidade(){
 
 
 
-let tipo =
-document.getElementById("tipo").value;
+let dados = banco();
 
 
 
 let item = {
 
+
 nome:
+
 nome.value,
 
+
+imagem:
+
+imagem.value || "img/default.png",
+
+
 link:
+
 link.value,
 
-desc:
-descricao.value,
-
-categoria:
-categoria.value,
 
 tipo:
-tipo.value
+
+tipo.value,
+
+
+categoria:
+
+categoria.value,
+
+
+desc:
+
+descricao.value
+
+
 
 };
 
 
 
 
-dados[tipo].push(item);
+dados.comunidades.push(item);
 
 
 
@@ -132,14 +173,15 @@ salvar(dados);
 
 
 
-alert("Publicado com sucesso ✅");
+alert("Comunidade publicada ✅");
 
 
 
 limpar();
 
 
-listarItens();
+listar();
+
 
 
 }
@@ -152,94 +194,56 @@ listarItens();
 
 
 
-// LISTAR NO ADM
+// ==========================
+// SALVAR ALIADO
+// ==========================
 
 
-function listarItens(){
-
-
-let area =
-document.getElementById("listaAdmin");
-
-
-area.innerHTML="";
+function salvarAliado(){
 
 
 
-let dados=banco();
+let dados = banco();
 
 
 
-["grupos","canais","aliados"]
-.forEach(tipo=>{
+let item = {
 
 
 
-dados[tipo].forEach((item,index)=>{
+nome:
+
+aliadoNome.value,
+
+
+imagem:
+
+aliadoImagem.value || "img/default.png",
+
+
+link:
+
+aliadoLink.value,
+
+
+desc:
+
+aliadoDesc.value,
+
+
+categoria:
+
+"Aliado"
 
 
 
-area.innerHTML += `
-
-
-<div class="card">
-
-
-<h3>
-
-${item.nome}
-
-</h3>
-
-
-<p>
-${tipo}
-</p>
-
-
-<button onclick="excluir('${tipo}',${index})">
-
-Excluir
-
-</button>
-
-
-
-</div>
-
-
-`;
-
-
-
-});
-
-
-
-});
-
-
-}
+};
 
 
 
 
 
-
-
-
-
-// EXCLUIR
-
-
-function excluir(tipo,index){
-
-
-let dados=banco();
-
-
-
-dados[tipo].splice(index,1);
+dados.aliados.push(item);
 
 
 
@@ -247,7 +251,11 @@ salvar(dados);
 
 
 
-listarItens();
+alert("Aliado salvo ⭐");
+
+
+
+listar();
 
 
 
@@ -261,10 +269,13 @@ listarItens();
 
 
 
+// ==========================
 // ADM PARCERIA
+// ==========================
 
 
 function addADM(){
+
 
 
 let dados=banco();
@@ -273,12 +284,16 @@ let dados=banco();
 
 dados.admins.push({
 
+
 nome:
+
 admNome.value,
 
 
 numero:
+
 admNumero.value
+
 
 
 });
@@ -308,7 +323,193 @@ admNumero.value="";
 
 
 
+// ==========================
+// LISTAR
+// ==========================
+
+
+function listar(){
+
+
+
+let area =
+
+document.getElementById("listaAdmin");
+
+
+
+area.innerHTML="";
+
+
+
+let dados=banco();
+
+
+
+
+
+dados.comunidades.forEach((item,index)=>{
+
+
+
+area.innerHTML += `
+
+
+<div class="item">
+
+
+<h3>
+
+${item.nome}
+
+</h3>
+
+
+<p>
+
+${item.tipo}
+
+-
+
+${item.categoria}
+
+</p>
+
+
+
+<button onclick="excluirComunidade(${index})">
+
+Excluir
+
+</button>
+
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+
+
+
+dados.aliados.forEach((item,index)=>{
+
+
+
+area.innerHTML += `
+
+
+<div class="item">
+
+
+<h3>
+
+⭐ ${item.nome}
+
+</h3>
+
+
+<button onclick="excluirAliado(${index})">
+
+Excluir
+
+</button>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================
+// EXCLUIR
+// ==========================
+
+
+function excluirComunidade(index){
+
+
+let dados=banco();
+
+
+
+dados.comunidades.splice(index,1);
+
+
+
+salvar(dados);
+
+
+
+listar();
+
+
+}
+
+
+
+
+
+
+
+function excluirAliado(index){
+
+
+let dados=banco();
+
+
+
+dados.aliados.splice(index,1);
+
+
+
+salvar(dados);
+
+
+
+listar();
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================
+// LIMPAR
+// ==========================
+
+
 function limpar(){
+
 
 
 nome.value="";
@@ -328,8 +529,11 @@ descricao.value="";
 
 
 
+
 function sair(){
 
+
 location.reload();
+
 
 }
