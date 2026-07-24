@@ -1,17 +1,51 @@
 {
+  "principal": {
+    "nome": "R.H.S Oficial",
+    "imagem": "img/canal.png",
+    "descricao": "Canal oficial da R.H.S",
+    "link": "https://chat.whatsapp.com/SEU_LINK"
+  },
+
   "grupos": [
-    
+    {
+      "nome": "Grupo R.H.S Comunidade",
+      "imagem": "img/default.png",
+      "categoria": "Amizade",
+      "descricao": "Grupo para conversar e conhecer pessoas",
+      "link": "https://chat.whatsapp.com/SEU_LINK"
+    }
   ],
+
 
   "canais": [
-    
+    {
+      "nome": "R.H.S Notícias",
+      "imagem": "img/default.png",
+      "categoria": "Divulgação",
+      "descricao": "Canal de novidades",
+      "link": "https://whatsapp.com/channel/SEU_LINK"
+    }
   ],
+
 
   "vip": [
-    
+    {
+      "nome": "R.H.S VIP",
+      "imagem": "img/default.png",
+      "categoria": "VIP",
+      "descricao": "Área exclusiva",
+      "link": "https://chat.whatsapp.com/SEU_LINK"
+    }
   ],
 
+
   "parceiros": [
-    
+    {
+      "nome": "Parceiro R.H.S",
+      "imagem": "img/default.png",
+      "categoria": "Parceiro",
+      "descricao": "Canal parceiro",
+      "link": "https://chat.whatsapp.com/SEU_LINK"
+    }
   ]
 }
