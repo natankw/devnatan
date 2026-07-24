@@ -1,529 +1,192 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel • KnowS.exe</title>
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Arial, sans-serif; }
-  :root {
-    --bg:#050505; --card:#111214; --red:#ff2020; --red2:#b30000;
-    --green:#17c964; --gold:#ffd447; --text:#fff; --text2:#a8a8a8; --linha:#232323;
-  }
-  body { background:var(--bg); color:var(--text); padding:20px; padding-bottom:100px; }
-  h1 { font-size:22px; margin-bottom:4px; }
-  h2 { font-size:16px; margin:26px 0 12px; padding-left:10px; border-left:3px solid var(--red); }
-  .sub { color:var(--text2); font-size:13px; margin-bottom:20px; }
-  .painel { background:var(--card); border:1px solid var(--linha); border-radius:14px; padding:18px; margin-bottom:18px; }
-  label { display:block; font-size:12px; color:var(--text2); margin:10px 0 5px; }
-  input[type=text], input[type=password], input[type=url] {
-    width:100%; padding:11px; border-radius:10px; background:#1a1a1a; border:1px solid var(--linha);
-    color:#fff; font-size:14px; outline:none;
-  }
-  input:focus { border-color:var(--red); }
-  .linha2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-  .checks { display:flex; gap:18px; margin-top:12px; flex-wrap:wrap; }
-  .checks label { display:flex; align-items:center; gap:6px; font-size:13px; color:#fff; margin:0; }
-  button {
-    cursor:pointer; border:none; border-radius:10px; padding:11px 18px; font-size:14px; font-weight:600;
-    transition:.2s;
-  }
-  .btnPrimario { background:linear-gradient(45deg,var(--red),var(--red2)); color:#fff; }
-  .btnPrimario:hover { filter:brightness(1.15); }
-  .btnSecundario { background:#1c1c1c; color:#fff; border:1px solid var(--linha); }
-  .btnSecundario:hover { background:#252525; }
-  .btnPerigo { background:#2a0000; color:#ff8080; border:1px solid #4d0000; }
-  .btnPerigo:hover { background:#3a0000; }
-  .btnSucesso { background:#0a2a1a; color:#17c964; border:1px solid #17c964; }
-  .btnSucesso:hover { background:#0f3a24; }
-  .item {
-    background:#161616; border:1px solid var(--linha); border-radius:12px; padding:14px; margin-bottom:12px;
-    position:relative;
-  }
-  .item.fixado { border-color:rgba(255,212,71,.5); }
-  .itemTopo { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
-  .itemTopo span { font-size:12px; color:var(--text2); }
-  .preview {
-    width:70px; height:70px; border-radius:10px; object-fit:cover; background:#000;
-    border:1px solid var(--linha); flex-shrink:0;
-  }
-  .linhaImagem { display:flex; gap:10px; align-items:center; margin-top:5px; }
-  .linhaImagem input[type=file] { font-size:12px; color:var(--text2); flex:1; }
-  .barraFixa {
-    position:fixed; bottom:0; left:0; width:100%; padding:14px 20px; background:#000;
-    border-top:1px solid var(--linha); display:flex; gap:10px; align-items:center; z-index:99;
-  }
-  .barraFixa button { flex:1; max-width:260px; }
-  #status { font-size:13px; flex:1; }
-  #status.ok { color:var(--green); }
-  #status.erro { color:var(--red); }
-  #status.carregando { color:var(--gold); }
-  .aviso {
-    background:rgba(255,212,71,.08); border:1px solid rgba(255,212,71,.3); color:#ffe9a8;
-    padding:12px 14px; border-radius:10px; font-size:13px; line-height:1.6; margin-bottom:18px;
-  }
-  .aviso a { color:var(--gold); }
-  details { margin-top:10px; }
-  summary { cursor:pointer; color:var(--text2); font-size:13px; }
-  .btnPreview { background:rgba(23,201,100,.15); color:var(--green); border:1px solid var(--green); }
-  .btnPreview:hover { background:rgba(23,201,100,.25); }
-</style>
+
+<title>R.H.S ADM</title>
+
+<link rel="stylesheet" href="admin.css">
+
 </head>
+
+
 <body>
 
-  <h1>🛠️ Painel do KnowS.exe</h1>
-  <p class="sub">Edite tudo por aqui e salve direto no GitHub, sem mexer em código.</p>
-
-  <div class="aviso">
-    ⚠️ Essa página só funciona pra <b>você</b>, o dono do site. Sem a sua chave de acesso, ninguém mais consegue salvar nada por aqui — só visualizar a página em branco.
-    <br><br>
-    Nunca compartilhe sua chave (token) com ninguém. Se desconfiar que alguém pegou a sua, revogue em
-    <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a> e crie outra.
-  </div>
-
-  <div class="painel">
-    <h2 style="margin-top:0">🔑 Acesso ao GitHub</h2>
-
-    <div class="linha2">
-      <div>
-        <label>Seu usuário do GitHub</label>
-        <input type="text" id="campoUsuario" placeholder="ex: drexxnt6-pixel">
-      </div>
-      <div>
-        <label>Nome do repositório</label>
-        <input type="text" id="campoRepo" placeholder="ex: devkanows">
-      </div>
-    </div>
-
-    <label>Branch (deixe "main" se não souber)</label>
-    <input type="text" id="campoBranch" value="main">
-
-    <label>Chave de acesso (Personal Access Token)</label>
-    <input type="password" id="campoToken" placeholder="github_pat_...">
-
-    <details>
-      <summary>Como gerar a chave de acesso?</summary>
-      <p class="sub" style="margin-top:8px; line-height:1.7;">
-        1. Acesse <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" style="color:var(--gold)">github.com/settings/personal-access-tokens/new</a><br>
-        2. Em "Repository access", escolha "Only select repositories" e selecione o seu repositório do site<br>
-        3. Em "Permissions → Repository permissions", ache "Contents" e mude pra "Read and write"<br>
-        4. Clique em "Generate token" e copie o código gerado (começa com github_pat_)<br>
-        5. Cole no campo acima
-      </p>
-    </details>
-
-    <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
-      <button class="btnPrimario" onclick="carregarDados()">📥 Carregar dados do site</button>
-      <button class="btnSecundario" onclick="salvarCredenciaisLocais()">💾 Lembrar usuário/repo neste navegador</button>
-    </div>
-  </div>
-
-  <div id="areaEdicao" style="display:none">
-
-    <div class="painel">
-      <h2 style="margin-top:0">⚙️ Dados gerais do site</h2>
-
-      <label>Nome do site</label>
-      <input type="text" id="siteNomeInput">
-
-      <label>Descrição</label>
-      <input type="text" id="siteDescInput">
-
-      <label>Nome do arquivo da logo (ex: logo.png)</label>
-      <input type="text" id="siteLogoInput">
-
-      <label>Nome do arquivo do avatar (ex: avatar.jpg)</label>
-      <input type="text" id="siteAvatarInput">
-
-      <label>Link do WhatsApp principal</label>
-      <input type="text" id="siteWhatsInput">
-
-      <label>Link de música de fundo (opcional, .mp3)</label>
-      <input type="text" id="siteMusicaInput">
-
-      <label>Tipo de fundo</label>
-      <select id="siteFundoInput" style="width:100%; padding:11px; border-radius:10px; background:#1a1a1a; border:1px solid var(--linha); color:#fff;">
-        <option value="matrix">Matrix (chuva vermelha)</option>
-        <option value="video">Vídeo</option>
-        <option value="imagem">Imagem estática</option>
-      </select>
-
-      <label>Link do vídeo de fundo (só se escolheu "Vídeo" acima)</label>
-      <input type="text" id="siteVideoInput">
-
-      <label>Texto do rodapé</label>
-      <input type="text" id="footerTextoInput">
-    </div>
-
-    <h2>📡 Canais</h2>
-    <div id="listaCanais"></div>
-    <button class="btnSecundario" onclick="adicionarItem('canais')">+ Adicionar canal</button>
-
-    <h2>👥 Grupos</h2>
-    <div id="listaGrupos"></div>
-    <button class="btnSecundario" onclick="adicionarItem('grupos')">+ Adicionar grupo</button>
-
-  </div>
-
-  <div class="barraFixa">
-    <span id="status"></span>
-    <button class="btnPrimario" id="btnSalvar" onclick="salvarTudo()" disabled>💾 Salvar tudo no site</button>
-  </div>
-
-<script>
-"use strict";
-
-let dados = null;
-let shaConfig = null;
-const pendentesImagem = new Map(); // itemEl -> File
-
-/* ==============================
-   CREDENCIAIS
-============================== */
-
-function lerCredenciais() {
-  return {
-    usuario: document.getElementById("campoUsuario").value.trim(),
-    repo: document.getElementById("campoRepo").value.trim(),
-    branch: document.getElementById("campoBranch").value.trim() || "main",
-    token: document.getElementById("campoToken").value.trim()
-  };
-}
-
-function salvarCredenciaisLocais() {
-  const { usuario, repo, branch } = lerCredenciais();
-  localStorage.setItem("admin_usuario", usuario);
-  localStorage.setItem("admin_repo", repo);
-  localStorage.setItem("admin_branch", branch);
-  setStatus("Usuário e repositório lembrados neste navegador (a chave não é salva).", "ok");
-}
-
-window.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("campoUsuario").value = localStorage.getItem("admin_usuario") || "";
-  document.getElementById("campoRepo").value = localStorage.getItem("admin_repo") || "";
-  document.getElementById("campoBranch").value = localStorage.getItem("admin_branch") || "main";
-});
-
-/* ==============================
-   STATUS
-============================== */
-
-function setStatus(mensagem, tipo) {
-  const el = document.getElementById("status");
-  el.textContent = mensagem;
-  el.className = tipo || "";
-}
-
-/* ==============================
-   GITHUB API
-============================== */
-
-async function githubGetFile(caminho) {
-  const { usuario, repo, branch, token } = lerCredenciais();
-  const url = `https://api.github.com/repos/${usuario}/${repo}/contents/${caminho}?ref=${branch}`;
-
-  const resposta = await fetch(url, {
-    headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" }
-  });
-
-  if (!resposta.ok) {
-    throw new Error(`Não achei "${caminho}" (status ${resposta.status}). Confira usuário/repositório/branch/token.`);
-  }
-
-  const json = await resposta.json();
-  const conteudo = decodeURIComponent(escape(atob(json.content.replace(/\n/g, ""))));
-  return { conteudo, sha: json.sha };
-}
-
-async function githubPutTexto(caminho, conteudoTexto, sha, mensagem) {
-  const { usuario, repo, branch, token } = lerCredenciais();
-  const url = `https://api.github.com/repos/${usuario}/${repo}/contents/${caminho}`;
-
-  const corpo = {
-    message: mensagem,
-    content: btoa(unescape(encodeURIComponent(conteudoTexto))),
-    branch
-  };
-  if (sha) corpo.sha = sha;
-
-  const resposta = await fetch(url, {
-    method: "PUT",
-    headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" },
-    body: JSON.stringify(corpo)
-  });
-
-  if (!resposta.ok) {
-    const erro = await resposta.json().catch(() => ({}));
-    throw new Error(erro.message || `Erro ao salvar "${caminho}" (status ${resposta.status})`);
-  }
-
-  return resposta.json();
-}
-
-async function githubPutImagemBase64(caminho, base64SemPrefixo, mensagem) {
-  const { usuario, repo, branch, token } = lerCredenciais();
-  const url = `https://api.github.com/repos/${usuario}/${repo}/contents/${caminho}`;
-
-  const resposta = await fetch(url, {
-    method: "PUT",
-    headers: { Authorization: `token ${token}`, Accept: "application/vnd.github+json" },
-    body: JSON.stringify({ message: mensagem, content: base64SemPrefixo, branch })
-  });
-
-  if (!resposta.ok) {
-    const erro = await resposta.json().catch(() => ({}));
-    throw new Error(erro.message || `Erro ao subir imagem "${caminho}" (status ${resposta.status})`);
-  }
-
-  return resposta.json();
-}
-
-/* ==============================
-   CARREGAR DADOS DO SITE
-============================== */
-
-async function carregarDados() {
-  const { usuario, repo, token } = lerCredenciais();
-
-  if (!usuario || !repo || !token) {
-    setStatus("Preenche usuário, repositório e a chave de acesso primeiro.", "erro");
-    return;
-  }
-
-  if (!token.startsWith("github_pat_")) {
-    setStatus("Token inválido. Deve começar com 'github_pat_'.", "erro");
-    return;
-  }
-
-  setStatus("Carregando...", "carregando");
-
-  try {
-    const { conteudo, sha } = await githubGetFile("config.json");
-    dados = JSON.parse(conteudo);
-    shaConfig = sha;
-
-    preencherFormulario();
-
-    document.getElementById("areaEdicao").style.display = "block";
-    document.getElementById("btnSalvar").disabled = false;
-    setStatus("Dados carregados! Já pode editar.", "ok");
-  } catch (erro) {
-    setStatus(erro.message, "erro");
-  }
-}
-
-/* ==============================
-   PREENCHER FORMULÁRIO
-============================== */
-
-function preencherFormulario() {
-  document.getElementById("siteNomeInput").value = dados.site.nome || "";
-  document.getElementById("siteDescInput").value = dados.site.descricao || "";
-  document.getElementById("siteLogoInput").value = dados.site.logo || "";
-  document.getElementById("siteAvatarInput").value = dados.site.avatar || "";
-  document.getElementById("siteWhatsInput").value = dados.site.whatsapp || "";
-  document.getElementById("siteMusicaInput").value = dados.site.musica || "";
-  document.getElementById("siteFundoInput").value = dados.site.fundoTipo || "matrix";
-  document.getElementById("siteVideoInput").value = dados.site.videoFundo || "";
-  document.getElementById("footerTextoInput").value = dados.footer.texto || "";
-
-  const listaCanais = document.getElementById("listaCanais");
-  const listaGrupos = document.getElementById("listaGrupos");
-  listaCanais.innerHTML = "";
-  listaGrupos.innerHTML = "";
-
-  (dados.canais || []).forEach((item) => criarLinhaItem(item, listaCanais));
-  (dados.grupos || []).forEach((item) => criarLinhaItem(item, listaGrupos));
-}
-
-function criarLinhaItem(item, container) {
-  const el = document.createElement("div");
-  el.className = "item" + (item.fixado ? " fixado" : "");
-
-  el.innerHTML = `
-    <div class="itemTopo">
-      <span>Item</span>
-      <button class="btnPerigo" style="padding:5px 10px; font-size:12px;" data-acao="remover">✕ Remover</button>
-    </div>
-
-    <label>Link do WhatsApp</label>
-    <input type="text" data-campo="link" value="${item.link || ""}">
-
-    <div class="linha2">
-      <div>
-        <label>Categoria</label>
-        <input type="text" data-campo="categoria" value="${item.categoria || ""}">
-      </div>
-      <div>
-        <label>Título (deixe vazio pra tentar buscar automático)</label>
-        <input type="text" data-campo="titulo" value="${item.titulo || ""}">
-      </div>
-    </div>
-
-    <label>Imagem</label>
-    <div class="linhaImagem">
-      <img class="preview" data-preview src="${item.imagem || ""}" onerror="this.style.opacity=0.2">
-      <div style="flex:1">
-        <input type="text" data-campo="imagem" placeholder="Cole o link da imagem, ou escolha um arquivo abaixo" value="${item.imagem || ""}">
-        <input type="file" accept="image/*" data-campo="arquivo" style="margin-top:6px">
-        <button class="btnSucesso" style="margin-top:6px; padding:5px 12px; font-size:12px;" data-acao="atualizar-preview">🔄 Atualizar Preview</button>
-      </div>
-    </div>
-
-    <div class="checks">
-      <label><input type="checkbox" data-campo="vip" ${item.vip ? "checked" : ""}> ★ VIP</label>
-      <label><input type="checkbox" data-campo="fixado" ${item.fixado ? "checked" : ""}> 📌 Fixar no topo</label>
-    </div>
-  `;
-
-  el.querySelector('[data-acao="remover"]').addEventListener("click", () => {
-    pendentesImagem.delete(el);
-    el.remove();
-  });
-
-  const inputImagemUrl = el.querySelector('[data-campo="imagem"]');
-  const preview = el.querySelector("[data-preview]");
-  
-  const atualizarPreview = () => {
-    const url = inputImagemUrl.value.trim();
-    if (url) {
-      preview.style.opacity = 1;
-      preview.src = url;
-    } else {
-      preview.style.opacity = 0.2;
-      preview.src = '';
-    }
-  };
-
-  inputImagemUrl.addEventListener("input", atualizarPreview);
-
-  el.querySelector('[data-acao="atualizar-preview"]').addEventListener("click", () => {
-    atualizarPreview();
-    setStatus("Preview atualizado!", "ok");
-  });
-
-  const inputArquivo = el.querySelector('[data-campo="arquivo"]');
-  inputArquivo.addEventListener("change", () => {
-    const arquivo = inputArquivo.files[0];
-    if (!arquivo) return;
-
-    pendentesImagem.set(el, arquivo);
-
-    const leitor = new FileReader();
-    leitor.onload = () => {
-      preview.style.opacity = 1;
-      preview.src = leitor.result;
-    };
-    leitor.readAsDataURL(arquivo);
-  });
-
-  const fixadoCheckbox = el.querySelector('[data-campo="fixado"]');
-  fixadoCheckbox.addEventListener("change", () => {
-    el.classList.toggle("fixado", fixadoCheckbox.checked);
-  });
-
-  container.appendChild(el);
-  return el;
-}
-
-function adicionarItem(tipo) {
-  if (!dados) {
-    setStatus("Carrega os dados do site primeiro.", "erro");
-    return;
-  }
-  const container = tipo === "canais" ? document.getElementById("listaCanais") : document.getElementById("listaGrupos");
-  criarLinhaItem({ link: "", categoria: "", titulo: "", imagem: "", vip: false, fixado: false }, container);
-}
-
-/* ==============================
-   LER FORMULÁRIO DE VOLTA PROS DADOS
-============================== */
-
-function lerItensDe(container) {
-  return [...container.querySelectorAll(".item")].map((el) => ({
-    link: el.querySelector('[data-campo="link"]').value.trim(),
-    categoria: el.querySelector('[data-campo="categoria"]').value.trim(),
-    titulo: el.querySelector('[data-campo="titulo"]').value.trim(),
-    imagem: el.querySelector('[data-campo="imagem"]').value.trim(),
-    vip: el.querySelector('[data-campo="vip"]').checked,
-    fixado: el.querySelector('[data-campo="fixado"]').checked
-  }));
-}
-
-function lerFormularioParaDados() {
-  dados.site.nome = document.getElementById("siteNomeInput").value.trim();
-  dados.site.descricao = document.getElementById("siteDescInput").value.trim();
-  dados.site.logo = document.getElementById("siteLogoInput").value.trim();
-  dados.site.avatar = document.getElementById("siteAvatarInput").value.trim();
-  dados.site.whatsapp = document.getElementById("siteWhatsInput").value.trim();
-  dados.site.musica = document.getElementById("siteMusicaInput").value.trim();
-  dados.site.fundoTipo = document.getElementById("siteFundoInput").value;
-  dados.site.videoFundo = document.getElementById("siteVideoInput").value.trim();
-  dados.footer.texto = document.getElementById("footerTextoInput").value.trim();
-
-  dados.canais = lerItensDe(document.getElementById("listaCanais"));
-  dados.grupos = lerItensDe(document.getElementById("listaGrupos"));
-}
-
-/* ==============================
-   SALVAR TUDO
-============================== */
-
-function sanitizarNomeArquivo(nome) {
-  return nome.toLowerCase().replace(/[^a-z0-9.]+/g, "-").replace(/-+/g, "-");
-}
-
-async function enviarImagensPendentes() {
-  for (const [el, arquivo] of pendentesImagem.entries()) {
-    const leitor = new FileReader();
-
-    const base64Completo = await new Promise((resolve, reject) => {
-      leitor.onload = () => resolve(leitor.result);
-      leitor.onerror = reject;
-      leitor.readAsDataURL(arquivo);
-    });
-
-    const base64SemPrefixo = base64Completo.split(",")[1];
-    const nomeArquivo = `${Date.now()}-${sanitizarNomeArquivo(arquivo.name)}`;
-    const caminho = `uploads/${nomeArquivo}`;
-
-    setStatus(`Enviando imagem ${arquivo.name}...`, "carregando");
-    await githubPutImagemBase64(caminho, base64SemPrefixo, `Upload de imagem via painel: ${nomeArquivo}`);
-
-    const caminhoCompleto = `./uploads/${nomeArquivo}`;
-    el.querySelector('[data-campo="imagem"]').value = caminhoCompleto;
-    
-    // Atualizar preview
-    const preview = el.querySelector("[data-preview]");
-    if (preview) {
-      preview.style.opacity = 1;
-      preview.src = caminhoCompleto;
-    }
-  }
-
-  pendentesImagem.clear();
-}
-
-async function salvarTudo() {
-  if (!dados) {
-    setStatus("Carrega os dados do site primeiro.", "erro");
-    return;
-  }
-
-  const btn = document.getElementById("btnSalvar");
-  btn.disabled = true;
-
-  try {
-    setStatus("Enviando imagens novas (se tiver)...", "carregando");
-    await enviarImagensPendentes();
-
-    lerFormularioParaDados();
-
-    // Ordenar fixados automaticamente
-    dados.canais.sort((a, b) => {
-      if (a.fixado && !b.fixado) return -1;
-      if (!a.fixado && b.fixado) return 1;
-      return 0;
-    });
-    dados.grupos.sort((a, b) => {
-      if (a.fixado && !b.fixado) re
+
+<div class="login" id="login">
+
+
+<h1>
+R.H.S ADM
+</h1>
+
+
+<input id="senha" type="password" placeholder="Senha">
+
+
+<button onclick="entrarADM()">
+Entrar
+</button>
+
+
+</div>
+
+
+
+
+
+<div id="painel" style="display:none;">
+
+
+
+<h1>
+Painel R.H.S
+</h1>
+
+
+
+
+
+<section>
+
+
+<h2>
+Adicionar Grupo
+</h2>
+
+
+<input id="gNome" placeholder="Nome">
+
+
+<input id="gLink" placeholder="Link">
+
+
+<input id="gDesc" placeholder="Descrição">
+
+
+<button onclick="addGrupo()">
+Adicionar
+</button>
+
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+
+<h2>
+Adicionar Canal
+</h2>
+
+
+<input id="cNome" placeholder="Nome">
+
+
+<input id="cLink" placeholder="Link">
+
+
+<input id="cDesc" placeholder="Descrição">
+
+
+<button onclick="addCanal()">
+Adicionar
+</button>
+
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+
+<h2>
+Adicionar Aliado ⭐
+</h2>
+
+
+<input id="aNome" placeholder="Nome">
+
+
+<input id="aLink" placeholder="Link">
+
+
+<input id="aDesc" placeholder="Descrição">
+
+
+<button onclick="addAliado()">
+Adicionar
+</button>
+
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+
+<h2>
+ADM de Parceria
+</h2>
+
+
+
+<input id="admNome" placeholder="Nick do ADM">
+
+
+<input id="admNumero" placeholder="Número WhatsApp">
+
+
+<button onclick="addADM()">
+Salvar ADM
+</button>
+
+
+
+</section>
+
+
+
+
+
+
+
+<button onclick="sair()">
+
+Sair
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+<script src="admin.js"></script>
+
+
+</body>
+
+</html>
