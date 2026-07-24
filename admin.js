@@ -1,5 +1,5 @@
 /* ==========================
-        R.H.S ADM
+        R.H.S ADM v2
 ========================== */
 
 
@@ -8,9 +8,10 @@ const SENHA = "RHS2026";
 
 
 
+// BANCO
+
 
 function banco(){
-
 
 return JSON.parse(
 localStorage.getItem("rhs")
@@ -18,33 +19,23 @@ localStorage.getItem("rhs")
 ||
 {
 
-
 grupos:[],
-
 canais:[],
-
 aliados:[],
-
-
 admins:[]
 
-
 };
-
 
 }
 
 
 
-
 function salvar(dados){
-
 
 localStorage.setItem(
 "rhs",
 JSON.stringify(dados)
 );
-
 
 }
 
@@ -69,11 +60,12 @@ document.getElementById("senha").value;
 if(senha === SENHA){
 
 
-document.getElementById("login").style.display="none";
+login.style.display="none";
+
+painel.style.display="block";
 
 
-document.getElementById("painel").style.display="block";
-
+listarItens();
 
 
 }else{
@@ -95,31 +87,46 @@ alert("Senha incorreta");
 
 
 
-// GRUPO
+// SALVAR ITEM
 
 
-function addGrupo(){
+function salvarItem(){
 
 
 let dados=banco();
 
 
 
-dados.grupos.push({
+let tipo =
+document.getElementById("tipo").value;
+
+
+
+let item = {
+
 
 nome:
-gNome.value,
+nome.value,
+
+
+imagem:
+imagem.value,
 
 
 link:
-gLink.value,
+link.value,
 
 
 desc:
-gDesc.value
+descricao.value
 
 
-});
+
+};
+
+
+
+dados[tipo].push(item);
 
 
 
@@ -127,10 +134,14 @@ salvar(dados);
 
 
 
-alert("Grupo salvo ✅");
+alert("Publicado com sucesso ✅");
+
 
 
 limpar();
+
+
+listarItens();
 
 
 }
@@ -143,42 +154,71 @@ limpar();
 
 
 
-// CANAL
+// LISTAR NO ADM
 
 
-function addCanal(){
+function listarItens(){
+
+
+let area =
+document.getElementById("listaAdmin");
+
+
+area.innerHTML="";
+
 
 
 let dados=banco();
 
 
 
-dados.canais.push({
-
-nome:
-cNome.value,
+["grupos","canais","aliados"]
+.forEach(tipo=>{
 
 
-link:
-cLink.value,
+
+dados[tipo].forEach((item,index)=>{
 
 
-desc:
-cDesc.value
+
+area.innerHTML += `
+
+
+<div class="card">
+
+
+<h3>
+
+${item.nome}
+
+</h3>
+
+
+<p>
+${tipo}
+</p>
+
+
+<button onclick="excluir('${tipo}',${index})">
+
+Excluir
+
+</button>
+
+
+
+</div>
+
+
+`;
+
 
 
 });
 
 
 
-salvar(dados);
-
-
-
-alert("Canal salvo ✅");
-
-
-limpar();
+});
 
 
 }
@@ -191,31 +231,17 @@ limpar();
 
 
 
-// ALIADO
+// EXCLUIR
 
 
-function addAliado(){
+function excluir(tipo,index){
 
 
 let dados=banco();
 
 
 
-dados.aliados.push({
-
-nome:
-aNome.value,
-
-
-link:
-aLink.value,
-
-
-desc:
-aDesc.value
-
-
-});
+dados[tipo].splice(index,1);
 
 
 
@@ -223,10 +249,8 @@ salvar(dados);
 
 
 
-alert("Aliado premium salvo ⭐");
+listarItens();
 
-
-limpar();
 
 
 }
@@ -270,7 +294,10 @@ salvar(dados);
 alert("ADM salvo 🤝");
 
 
-limpar();
+
+admNome.value="";
+
+admNumero.value="";
 
 
 }
@@ -286,22 +313,17 @@ limpar();
 function limpar(){
 
 
-document
-.querySelectorAll("input")
-.forEach(item=>{
+nome.value="";
 
+imagem.value="";
 
-if(item.id !== "senha"){
+link.value="";
 
-item.value="";
-
-}
-
-
-});
+descricao.value="";
 
 
 }
+
 
 
 
@@ -310,8 +332,6 @@ item.value="";
 
 function sair(){
 
-
 location.reload();
-
 
 }
