@@ -104,25 +104,23 @@ document.getElementById("tipo").value;
 
 let item = {
 
-
 nome:
 nome.value,
-
-
-imagem:
-imagem.value,
-
 
 link:
 link.value,
 
-
 desc:
-descricao.value
+descricao.value,
 
+categoria:
+categoria.value,
 
+tipo:
+tipo.value
 
 };
+
 
 
 
