@@ -41,6 +41,23 @@ let categoriaAtiva = "todas";
 let config = null;
 
 /* ==============================
+   TELA DE BOAS-VINDAS
+============================== */
+
+const welcomeScreen = document.getElementById("welcomeScreen");
+const welcomeLogo = document.getElementById("welcomeLogo");
+const welcomeTitle = document.getElementById("welcomeTitle");
+const welcomeText = document.getElementById("welcomeText");
+const enterSite = document.getElementById("enterSite");
+
+const aliadosRow = document.getElementById("aliadosRow");
+
+const admSelect = document.getElementById("admSelect");
+const btnParceria = document.getElementById("btnParceria");
+
+let musicaIniciada = false;
+
+/* ==============================
    LOADER
 ============================== */
 
@@ -85,13 +102,26 @@ function carregarConfig() {
     copyButton.textContent = "Copiado!";
     setTimeout(() => (copyButton.textContent = "Copiar Link"), 1500);
   });
-}
 
+  /* Tela de boas-vindas */
+
+  if (welcomeLogo)
+    welcomeLogo.src = config.site.logo;
+
+  if (welcomeTitle)
+    welcomeTitle.textContent = "Bem-vindo à " + config.site.nome;
+
+  if (welcomeText)
+    welcomeText.textContent = config.site.descricao;
+
+}
+   
 /* ==============================
    MÚSICA DE FUNDO
 ============================== */
 
 function configurarMusica() {
+
   if (!config.site.musica) {
     musicButton.style.display = "none";
     return;
@@ -99,41 +129,50 @@ function configurarMusica() {
 
   bgAudio.src = config.site.musica;
   bgAudio.loop = true;
+  bgAudio.volume = config.site.volume || 0.5;
+
   musicButton.style.display = "flex";
 
-  let tocando = false;
+  musicButton.textContent = "🔇";
 
-  // Tenta tocar automaticamente
-  bgAudio.play().then(() => {
-    tocando = true;
-    musicButton.textContent = "🎵";
-  }).catch(() => {
-    console.log("Reprodução automática bloqueada.");
-  });
-
-  // Se o navegador bloquear, toca no primeiro clique em qualquer lugar
-  document.addEventListener("click", () => {
-    if (!tocando) {
-      bgAudio.play().then(() => {
-        tocando = true;
-        musicButton.textContent = "🎵";
-      }).catch(() => {});
-    }
-  }, { once: true });
-
-  // Botão de ligar/desligar
   musicButton.addEventListener("click", () => {
-    if (tocando) {
-      bgAudio.pause();
-      musicButton.textContent = "🔇";
-      tocando = false;
+
+    if (bgAudio.paused) {
+
+      bgAudio.play();
+
+      musicButton.textContent = "🎵";
+
     } else {
-      bgAudio.play().then(() => {
-        musicButton.textContent = "🎵";
-        tocando = true;
-      });
+
+      bgAudio.pause();
+
+      musicButton.textContent = "🔇";
+
     }
+
   });
+
+  if (enterSite) {
+
+    enterSite.addEventListener("click", async () => {
+
+      welcomeScreen.classList.add("hide");
+
+      try {
+
+        await bgAudio.play();
+
+        musicButton.textContent = "🎵";
+
+      } catch (e) {
+        console.log("Não foi possível iniciar a música:", e);
+      }
+
+    }, { once: true });
+
+  }
+
 }
 
 /* ==============================
