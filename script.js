@@ -1,11 +1,11 @@
 /* ==========================
-      R.H.S SCRIPT
-   ========================== */
+        R.H.S PREMIUM v2
+========================== */
 
 
 
 // ==========================
-// ENTRAR + MÚSICA
+// ENTRADA + MÚSICA
 // ==========================
 
 
@@ -19,195 +19,16 @@ const music = document.getElementById("music");
 
 
 
-entrar.addEventListener("click",()=>{
+entrar.onclick = ()=>{
 
 
-    // libera música após clique
+music.play().catch(()=>{});
 
-    music.play()
-    .catch(()=>{});
 
+welcome.style.display="none";
 
-    // remove tela inicial
 
-    welcome.style.display="none";
-
-
-    // mostra site
-
-    site.style.display="block";
-
-
-});
-
-
-
-
-
-
-
-// ==========================
-// MATRIX
-// ==========================
-
-
-const canvas = document.getElementById("matrix");
-
-const ctx = canvas.getContext("2d");
-
-
-
-canvas.width = window.innerWidth;
-
-canvas.height = window.innerHeight;
-
-
-
-const letras =
-"R.H.S010101010101ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-
-
-const tamanho = 16;
-
-
-let colunas =
-canvas.width / tamanho;
-
-
-
-let gotas = [];
-
-
-
-for(let i=0;i<colunas;i++){
-
-    gotas[i]=1;
-
-}
-
-
-
-
-
-function matrix(){
-
-
-    ctx.fillStyle="rgba(0,0,0,0.08)";
-
-    ctx.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
-
-    ctx.fillStyle="#ff0000";
-
-    ctx.font =
-    tamanho+"px monospace";
-
-
-
-    for(let i=0;i<gotas.length;i++){
-
-
-        let texto =
-        letras[
-        Math.floor(
-        Math.random()*letras.length)
-        ];
-
-
-
-        ctx.fillText(
-            texto,
-            i*tamanho,
-            gotas[i]*tamanho
-        );
-
-
-
-        if(
-        gotas[i]*tamanho >
-        canvas.height
-        &&
-        Math.random()>0.975
-        ){
-
-            gotas[i]=0;
-
-        }
-
-
-        gotas[i]++;
-
-    }
-
-
-}
-
-
-
-setInterval(matrix,50);
-
-
-
-
-
-
-window.addEventListener("resize",()=>{
-
-
-canvas.width =
-window.innerWidth;
-
-
-canvas.height =
-window.innerHeight;
-
-
-});
-
-
-
-
-
-
-
-
-// ==========================
-// BANCO LOCAL
-// ==========================
-
-
-let dados =
-JSON.parse(
-localStorage.getItem("rhs")
-)
-||
-{
-
-
-grupos:[],
-
-canais:[],
-
-aliados:[],
-
-admins:[
-
-{
-
-nome:"ADM R.H.S",
-
-numero:"5591981520185"
-
-}
-
-]
+site.style.display="block";
 
 
 };
@@ -219,7 +40,187 @@ numero:"5591981520185"
 
 
 // ==========================
-// CRIAR CARDS
+// MATRIX MINIMALISTA
+// ==========================
+
+
+const canvas =
+document.getElementById("matrix");
+
+
+const ctx =
+canvas.getContext("2d");
+
+
+
+function tamanhoCanvas(){
+
+canvas.width =
+window.innerWidth;
+
+
+canvas.height =
+window.innerHeight;
+
+}
+
+
+tamanhoCanvas();
+
+
+window.onresize=tamanhoCanvas;
+
+
+
+const textos = [
+
+"R.H.S",
+"system.online",
+"connect",
+"groups.load",
+"partner.active",
+"0101",
+"security"
+
+];
+
+
+
+const fonte = 15;
+
+
+let colunas =
+Math.floor(canvas.width/fonte);
+
+
+let linhas = [];
+
+
+for(let i=0;i<colunas;i++){
+
+linhas[i]=0;
+
+}
+
+
+
+
+
+function matrix(){
+
+
+ctx.fillStyle="rgba(0,0,0,.08)";
+
+ctx.fillRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+
+
+ctx.font =
+fonte+"px monospace";
+
+
+ctx.fillStyle=
+"rgba(180,180,180,.45)";
+
+
+
+linhas.forEach((y,i)=>{
+
+
+let texto =
+textos[
+Math.floor(
+Math.random()*textos.length
+)
+];
+
+
+
+ctx.fillText(
+
+texto,
+
+i*fonte,
+
+y
+
+);
+
+
+
+if(
+y > canvas.height &&
+Math.random()>0.97
+){
+
+linhas[i]=0;
+
+}
+
+
+linhas[i]+=fonte;
+
+
+});
+
+
+}
+
+
+
+setInterval(matrix,80);
+
+
+
+
+
+
+
+
+
+// ==========================
+// BANCO
+// ==========================
+
+
+let dados =
+JSON.parse(
+localStorage.getItem("rhs")
+)
+||
+{
+
+grupos:[],
+canais:[],
+aliados:[],
+
+admins:[
+
+{
+nome:"ADM R.H.S",
+numero:"5591981520185"
+}
+
+]
+
+};
+
+
+
+
+
+
+
+
+
+
+// ==========================
+// CARREGAR CARDS
 // ==========================
 
 
@@ -227,26 +228,23 @@ numero:"5591981520185"
 function carregar(){
 
 
-const grupos =
+
+let grupos =
 document.getElementById("grupos");
 
 
-const canais =
+let canais =
 document.getElementById("canais");
 
 
-const aliados =
+let aliados =
 document.getElementById("aliados");
-
-
 
 
 
 grupos.innerHTML="";
 
-
 canais.innerHTML="";
-
 
 aliados.innerHTML="";
 
@@ -254,33 +252,38 @@ aliados.innerHTML="";
 
 
 
-dados.grupos.forEach(item=>{
+dados.grupos.forEach(x=>{
 
 
-grupos.innerHTML +=
-`
+grupos.innerHTML += card(
 
-<div class="card">
+x.nome,
 
-<h3>
-${item.nome}
-</h3>
+x.desc,
 
-<p>
-${item.desc || ""}
-</p>
+x.link
+
+);
 
 
-<a href="${item.link}" target="_blank">
+});
 
-Entrar
 
-</a>
 
-</div>
 
-`;
 
+dados.canais.forEach(x=>{
+
+
+canais.innerHTML += card(
+
+x.nome,
+
+x.desc,
+
+x.link
+
+);
 
 
 });
@@ -290,76 +293,41 @@ Entrar
 
 
 
+dados.aliados.forEach(x=>{
 
-dados.canais.forEach(item=>{
 
+aliados.innerHTML += `
 
-canais.innerHTML +=
-`
 
 <div class="card">
 
-<h3>
-${item.nome}
-</h3>
-
-<p>
-${item.desc || ""}
-</p>
-
-
-<a href="${item.link}" target="_blank">
-
-Acessar
-
-</a>
-
-</div>
-
-`;
-
-
-
-});
-
-
-
-
-
-
-
-
-dados.aliados.forEach(item=>{
-
-
-aliados.innerHTML +=
-`
-
-<div class="card">
 
 <h3>
-⭐ ${item.nome}
+⭐ ${x.nome}
 </h3>
 
 
 <p>
-${item.desc || ""}
+${x.desc || ""}
 </p>
 
 
-<a href="${item.link}" target="_blank">
-
-Visitar
-
+<a href="${x.link}" target="_blank">
+Conhecer →
 </a>
 
 
 </div>
 
+
 `;
 
 
 });
+
+
+
+animarNumeros();
 
 
 
@@ -374,9 +342,130 @@ carregarADM();
 
 
 
+function card(nome,desc,link){
+
+
+return `
+
+
+<div class="card">
+
+
+<h3>
+
+${nome}
+
+</h3>
+
+
+<p>
+
+${desc || ""}
+
+</p>
+
+
+
+<a href="${link}" target="_blank">
+
+Entrar →
+
+</a>
+
+
+
+</div>
+
+
+`;
+
+}
+
+
+
+
+
+
+
 
 // ==========================
-// PARCERIA WHATSAPP
+// NUMEROS
+// ==========================
+
+
+
+function contador(id,valor){
+
+
+let el =
+document.getElementById(id);
+
+
+let atual=0;
+
+
+
+let timer =
+setInterval(()=>{
+
+
+atual++;
+
+
+el.innerText=atual;
+
+
+
+if(atual>=valor){
+
+clearInterval(timer);
+
+}
+
+
+},20);
+
+
+
+}
+
+
+
+
+
+function animarNumeros(){
+
+
+contador(
+"totalGrupos",
+dados.grupos.length
+);
+
+
+contador(
+"totalCanais",
+dados.canais.length
+);
+
+
+contador(
+"totalAliados",
+dados.aliados.length
+);
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================
+// WHATSAPP PARCERIA
 // ==========================
 
 
@@ -384,8 +473,7 @@ carregarADM();
 function carregarADM(){
 
 
-
-const select =
+let select =
 document.getElementById("admSelect");
 
 
@@ -394,21 +482,16 @@ select.innerHTML="";
 
 
 
-dados.admins.forEach((adm,index)=>{
+dados.admins.forEach((adm,i)=>{
 
 
-select.innerHTML +=
-`
+select.innerHTML += `
 
-<option value="${index}">
-
+<option value="${i}">
 ${adm.nome}
-
 </option>
 
-
 `;
-
 
 
 });
@@ -419,12 +502,9 @@ ${adm.nome}
 
 
 
-
-
 document
 .getElementById("whatsapp")
-.addEventListener("click",()=>{
-
+.onclick=()=>{
 
 
 let adm =
@@ -434,26 +514,28 @@ document.getElementById("admSelect").value
 
 
 
-let mensagem =
-document.getElementById("mensagemParceria")
-.value;
+let msg =
+document.getElementById("mensagemParceria").value;
 
 
 
-let link =
+let url =
 
 "https://wa.me/"+
+
 adm.numero+
+
 "?text="+
-encodeURIComponent(mensagem);
+
+encodeURIComponent(msg);
 
 
 
-window.open(link,"_blank");
+window.open(url,"_blank");
 
 
+};
 
-});
 
 
 
