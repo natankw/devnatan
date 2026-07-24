@@ -1027,3 +1027,121 @@ text-shadow:
 
 
 }
+
+/* ==========================
+   CARDS PLATINUM
+========================== */
+
+
+.card{
+
+
+background:
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.10),
+rgba(255,255,255,.02)
+);
+
+
+border:
+
+1px solid rgba(255,255,255,.20);
+
+
+box-shadow:
+
+0 15px 40px rgba(0,0,0,.5);
+
+
+overflow:hidden;
+
+
+}
+
+
+
+.card:hover{
+
+
+transform:translateY(-8px);
+
+
+border-color:#fff;
+
+
+box-shadow:
+
+0 0 30px rgba(255,255,255,.25);
+
+
+}
+
+
+
+.card h3{
+
+
+color:#eee;
+
+
+letter-spacing:1px;
+
+
+}
+
+
+
+
+.card p{
+
+
+color:#aaa;
+
+
+}
+
+
+
+
+
+.card-button{
+
+
+background:
+
+linear-gradient(
+145deg,
+#fff,
+#777
+);
+
+
+color:#000 !important;
+
+
+border-radius:25px;
+
+
+padding:12px 28px;
+
+
+font-weight:800;
+
+
+}
+
+
+
+
+
+.card-button:hover{
+
+
+box-shadow:
+
+0 0 20px #fff;
+
+
+}
