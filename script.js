@@ -277,27 +277,59 @@ item,
 
 
 
-function criarCard(item,icone){
+function criarCard(item, icone){
 
 
 return `
 
+<div class="card premium-card">
 
-<div class="card">
+
+${item.imagem ? 
+`
+<img 
+src="${item.imagem}" 
+class="card-img"
+>
+`
+:
+""
+}
+
+
+
+<div class="card-content">
+
+
+<span class="tag">
+
+${icone}
+
+</span>
+
 
 
 <h3>
-${icone} ${item.nome}
+
+${item.nome}
+
 </h3>
 
 
+
 <p>
-${item.desc || ""}
+
+${item.desc || "Comunidade R.H.S"}
+
 </p>
 
 
 
-<a href="${item.link}" target="_blank">
+<a 
+href="${item.link}" 
+target="_blank"
+class="card-button"
+>
 
 Acessar →
 
@@ -307,6 +339,8 @@ Acessar →
 
 </div>
 
+
+</div>
 
 `;
 
