@@ -1,16 +1,25 @@
 /* ==========================
-        R.H.S ADM V5
+        R.H.S ADM V6
 ========================== */
 
 
 const SENHA = "RHS2026";
 
 
+const API = "https://SEU-WORKER.workers.dev";
+
+
+
 let dados = {
 
+principal:{},
+
 grupos:[],
+
 canais:[],
+
 vip:[],
+
 parceiros:[]
 
 };
@@ -18,7 +27,6 @@ parceiros:[]
 
 
 let editando = null;
-
 
 
 
@@ -71,8 +79,9 @@ alert("Senha incorreta");
 
 
 
+
 // ==========================
-// BANCO
+// CARREGAR BANCO
 // ==========================
 
 
@@ -84,7 +93,6 @@ try{
 
 let resposta =
 await fetch("banco.json");
-
 
 
 dados =
@@ -101,14 +109,14 @@ listar();
 catch(e){
 
 
-alert("Erro ao carregar banco.json");
+alert("Erro carregando banco");
 
 
 }
 
 
-
 }
+
 
 
 
@@ -118,7 +126,93 @@ alert("Erro ao carregar banco.json");
 
 
 // ==========================
-// SALVAR ITEM
+// SALVAR NO GITHUB
+// ==========================
+
+
+async function publicar(){
+
+
+try{
+
+
+let resposta =
+await fetch(API,{
+
+method:"POST",
+
+headers:{
+
+
+"Content-Type":"application/json"
+
+
+},
+
+
+body:JSON.stringify({
+
+
+senha:SENHA,
+
+
+banco:dados
+
+
+})
+
+
+});
+
+
+
+let resultado =
+await resposta.json();
+
+
+
+if(resultado.ok){
+
+
+alert("Publicado no GitHub ✅");
+
+
+}
+
+else{
+
+
+alert("Erro ao publicar");
+
+
+}
+
+
+
+}
+
+catch(e){
+
+
+alert("Worker offline");
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================
+// ADICIONAR ITEM
 // ==========================
 
 
@@ -131,27 +225,27 @@ document.getElementById("tipo").value;
 
 
 
-let item = {
+let item={
 
 
 nome:
-document.getElementById("nome").value,
+nome.value,
 
 
 imagem:
-document.getElementById("imagem").value,
+imagem.value,
 
 
 link:
-document.getElementById("link").value,
+link.value,
 
 
 categoria:
-document.getElementById("categoria").value,
+categoria.value,
 
 
-desc:
-document.getElementById("descricao").value
+descricao:
+descricao.value
 
 
 };
@@ -181,12 +275,10 @@ return;
 if(editando !== null){
 
 
-
-dados[tipo][editando] = item;
+dados[tipo][editando]=item;
 
 
 editando=null;
-
 
 
 }
@@ -201,18 +293,15 @@ dados[tipo].push(item);
 
 
 
-
-
-
-
 listar();
 
 
+
+publicar();
+
+
+
 limpar();
-
-
-
-alert("Salvo ✅");
 
 
 
@@ -248,22 +337,15 @@ area.innerHTML="";
 
 
 
-let categorias=[
-
+[
 "grupos",
-
 "canais",
-
 "vip",
-
 "parceiros"
 
-];
+]
 
-
-
-
-categorias.forEach(tipo=>{
+.forEach(tipo=>{
 
 
 
@@ -271,27 +353,20 @@ dados[tipo].forEach((item,index)=>{
 
 
 
-area.innerHTML += `
+area.innerHTML+=`
 
 
 <div class="item">
 
 
-<h3>
-
-${item.nome}
-
-</h3>
+<h3>${item.nome}</h3>
 
 
 <p>
 
 ${tipo}
 
-- ${item.categoria}
-
 </p>
-
 
 
 
@@ -321,8 +396,8 @@ Excluir
 });
 
 
-
 });
+
 
 
 }
@@ -343,7 +418,6 @@ Excluir
 function editarItem(tipo,index){
 
 
-
 let item =
 dados[tipo][index];
 
@@ -352,19 +426,19 @@ dados[tipo][index];
 document.getElementById("tipo").value=tipo;
 
 
-document.getElementById("nome").value=item.nome;
+nome.value=item.nome;
 
 
-document.getElementById("imagem").value=item.imagem;
+imagem.value=item.imagem;
 
 
-document.getElementById("link").value=item.link;
+link.value=item.link;
 
 
-document.getElementById("categoria").value=item.categoria;
+categoria.value=item.categoria;
 
 
-document.getElementById("descricao").value=item.desc;
+descricao.value=item.descricao;
 
 
 
@@ -390,7 +464,6 @@ editando=index;
 function excluirItem(tipo,index){
 
 
-
 dados[tipo].splice(index,1);
 
 
@@ -398,8 +471,12 @@ dados[tipo].splice(index,1);
 listar();
 
 
+publicar();
+
+
 
 }
+
 
 
 
@@ -416,16 +493,16 @@ listar();
 function limpar(){
 
 
-document.getElementById("nome").value="";
+nome.value="";
 
 
-document.getElementById("imagem").value="";
+imagem.value="";
 
 
-document.getElementById("link").value="";
+link.value="";
 
 
-document.getElementById("descricao").value="";
+descricao.value="";
 
 
 }
