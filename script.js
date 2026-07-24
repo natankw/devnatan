@@ -1,7 +1,6 @@
 /* ==========================
-        R.H.S V4 SCRIPT
+        R.H.S V4 SCRIPT FIX
 ========================== */
-
 
 
 // ==========================
@@ -10,93 +9,77 @@
 
 
 const entrar = document.getElementById("entrar");
-
 const welcome = document.getElementById("welcome");
-
 const site = document.getElementById("site");
-
 const music = document.getElementById("music");
 
 
+if(entrar){
 
 entrar.onclick = ()=>{
 
-
+if(music){
 music.play().catch(()=>{});
+}
 
-
+if(welcome){
 welcome.style.display="none";
+}
 
-
+if(site){
 site.style.display="block";
-
+}
 
 };
-
-
-
-
-
-
-
-
-// ==========================
-// MATRIX BRANCA LEVE
-// ==========================
-
-
-const canvas = document.getElementById("matrix");
-
-const ctx = canvas.getContext("2d");
-
-
-
-function resize(){
-
-canvas.width = innerWidth;
-
-canvas.height = innerHeight;
 
 }
 
 
 
+
+
+
+// ==========================
+// MATRIX
+// ==========================
+
+
+const canvas = document.getElementById("matrix");
+
+
+if(canvas){
+
+
+const ctx = canvas.getContext("2d");
+
+
+function resize(){
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+}
+
+
 resize();
 
-
-window.onresize = resize;
-
+window.addEventListener("resize",resize);
 
 
 
-const letras = [
-
+const letras=[
 "R.H.S",
-
 "0101",
-
 "system",
-
 "online",
-
 "community",
-
-"partner",
-
 "01"
-
 ];
 
 
-
-let tamanho = 120;
-
-
-let colunas = Math.floor(canvas.width / tamanho);
-
+let colunas=Math.floor(canvas.width/120);
 
 let gotas=[];
-
 
 
 for(let i=0;i<colunas;i++){
@@ -108,12 +91,10 @@ gotas[i]=Math.random()*canvas.height;
 
 
 
-
 function chuva(){
 
 
 ctx.fillStyle="rgba(0,0,0,.08)";
-
 
 ctx.fillRect(
 0,
@@ -126,7 +107,6 @@ canvas.height
 
 ctx.fillStyle="rgba(255,255,255,.25)";
 
-
 ctx.font="14px monospace";
 
 
@@ -134,27 +114,19 @@ ctx.font="14px monospace";
 gotas.forEach((y,i)=>{
 
 
-let texto =
-letras[
-Math.floor(Math.random()*letras.length)
-];
-
-
-
 ctx.fillText(
-texto,
-i*tamanho,
+letras[Math.floor(Math.random()*letras.length)],
+i*120,
 y
 );
 
 
 
-if(y > canvas.height){
+if(y>canvas.height){
 
 gotas[i]=0;
 
 }
-
 
 
 gotas[i]+=1.5;
@@ -163,14 +135,13 @@ gotas[i]+=1.5;
 });
 
 
-
 }
-
 
 
 setInterval(chuva,50);
 
 
+}
 
 
 
@@ -184,19 +155,14 @@ setInterval(chuva,50);
 // ==========================
 
 
-
-let dados =
-
-JSON.parse(localStorage.getItem("rhs"))
-
+let dados = JSON.parse(
+localStorage.getItem("rhs")
+)
 ||
-
 {
 
 comunidades:[],
-
 aliados:[],
-
 admins:[]
 
 };
@@ -217,10 +183,14 @@ admins:[]
 function carregar(){
 
 
-mostrarComunidades(dados.comunidades);
+mostrarComunidades(
+dados.comunidades
+);
 
 
-mostrarAliados(dados.aliados);
+mostrarAliados(
+dados.aliados
+);
 
 
 carregarADM();
@@ -238,8 +208,6 @@ contador();
 
 
 
-
-
 // ==========================
 // COMUNIDADES
 // ==========================
@@ -248,8 +216,11 @@ contador();
 function mostrarComunidades(lista){
 
 
+const area =
+document.getElementById("comunidades");
 
-let area = document.getElementById("comunidades");
+
+if(!area) return;
 
 
 area.innerHTML="";
@@ -263,7 +234,7 @@ area.innerHTML += criarCard(
 
 item,
 
-item.tipo === "canal"
+item.tipo==="canal"
 
 ?
 
@@ -279,10 +250,7 @@ item.tipo === "canal"
 });
 
 
-
 }
-
-
 
 
 
@@ -300,7 +268,11 @@ item.tipo === "canal"
 function mostrarAliados(lista){
 
 
-let area = document.getElementById("parceiros");
+const area =
+document.getElementById("parceiros");
+
+
+if(!area) return;
 
 
 area.innerHTML="";
@@ -311,21 +283,15 @@ lista.forEach(item=>{
 
 
 area.innerHTML += criarCard(
-
 item,
-
 "⭐"
-
 );
-
 
 
 });
 
 
 }
-
-
 
 
 
@@ -340,9 +306,7 @@ item,
 // ==========================
 
 
-
 function criarCard(item,icone){
-
 
 
 return `
@@ -351,12 +315,13 @@ return `
 <div class="community-card">
 
 
-
 <img
 
 src="${item.imagem || 'img/default.png'}"
 
 class="community-img"
+
+onerror="this.src='img/default.png'"
 
 >
 
@@ -365,42 +330,32 @@ class="community-img"
 <div class="community-info">
 
 
-
 <span>
-
 ${icone}
-
 </span>
 
 
-
 <h3>
-
-${item.nome}
-
+${item.nome || "Comunidade"}
 </h3>
 
 
 
 <p>
-
 ${item.desc || "Comunidade R.H.S"}
-
 </p>
 
 
 
 <small>
-
 ${item.categoria || "Geral"}
-
 </small>
 
 
 
 <a
 
-href="${item.link}"
+href="${item.link || '#'}"
 
 target="_blank"
 
@@ -413,13 +368,10 @@ Entrar →
 </a>
 
 
-
 </div>
 
 
-
 </div>
-
 
 
 `;
@@ -434,29 +386,32 @@ Entrar →
 
 
 
-
-
 // ==========================
 // PESQUISA
 // ==========================
 
 
-document
-.getElementById("pesquisa")
-.addEventListener("input",(e)=>{
+const pesquisa =
+document.getElementById("pesquisa");
+
+
+if(pesquisa){
+
+
+pesquisa.addEventListener("input",(e)=>{
 
 
 let busca =
-
 e.target.value.toLowerCase();
 
 
 
-let resultado = dados.comunidades.filter(item=>
+let resultado =
+dados.comunidades.filter(item=>
 
-
-item.nome.toLowerCase().includes(busca)
-
+item.nome
+.toLowerCase()
+.includes(busca)
 
 );
 
@@ -469,6 +424,9 @@ mostrarComunidades(resultado);
 });
 
 
+}
+
+
 
 
 
@@ -477,20 +435,18 @@ mostrarComunidades(resultado);
 
 
 // ==========================
-// FILTROS
+// FILTRO
 // ==========================
-
 
 
 function filtrar(tipo){
 
 
-
 if(tipo==="todos"){
 
-
-mostrarComunidades(dados.comunidades);
-
+mostrarComunidades(
+dados.comunidades
+);
 
 return;
 
@@ -498,17 +454,15 @@ return;
 
 
 
-let lista = dados.comunidades.filter(item=>{
+mostrarComunidades(
 
+dados.comunidades.filter(item=>
 
-return item.tipo === tipo;
+item.tipo===tipo
 
+)
 
-});
-
-
-
-mostrarComunidades(lista);
+);
 
 
 }
@@ -529,23 +483,29 @@ mostrarComunidades(lista);
 function contador(){
 
 
-
-document.getElementById("totalComunidades").innerText =
-
-dados.comunidades.length;
+let a =
+document.getElementById("totalComunidades");
 
 
-
-document.getElementById("totalAliados").innerText =
-
-dados.aliados.length;
+let b =
+document.getElementById("totalAliados");
 
 
+let c =
+document.getElementById("totalParceiros");
 
-document.getElementById("totalParceiros").innerText =
 
-dados.admins.length;
 
+if(a)
+a.innerText=dados.comunidades.length;
+
+
+if(b)
+b.innerText=dados.aliados.length;
+
+
+if(c)
+c.innerText=dados.admins.length;
 
 
 }
@@ -559,15 +519,18 @@ dados.admins.length;
 
 
 // ==========================
-// PARCERIA WHATSAPP
+// ADM WHATSAPP
 // ==========================
 
 
 function carregarADM(){
 
 
+const select =
+document.getElementById("admSelect");
 
-let select = document.getElementById("admSelect");
+
+if(!select) return;
 
 
 select.innerHTML="";
@@ -580,17 +543,12 @@ dados.admins.forEach((adm,index)=>{
 select.innerHTML += `
 
 <option value="${index}">
-
 ${adm.nome}
-
 </option>
 
 `;
 
-
-
 });
-
 
 
 }
@@ -600,45 +558,56 @@ ${adm.nome}
 
 
 
-document.getElementById("whatsapp").onclick=()=>{
 
+
+
+const whatsapp =
+document.getElementById("whatsapp");
+
+
+if(whatsapp){
+
+
+whatsapp.onclick=()=>{
 
 
 let adm =
-
 dados.admins[
 document.getElementById("admSelect").value
 ];
 
 
 
-let msg =
+if(!adm){
 
+alert("Nenhum ADM cadastrado");
+
+return;
+
+}
+
+
+
+let msg =
 document.getElementById("mensagemParceria").value;
 
 
 
 window.open(
 
-"https://wa.me/"
-
-+
-
-adm.numero
-
-+
-
-"?text="
-
-+
-
+"https://wa.me/"+
+adm.numero+
+"?text="+
 encodeURIComponent(msg)
 
 );
 
 
-
 };
+
+
+}
+
 
 
 
