@@ -4,7 +4,6 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>R.H.S ADM</title>
@@ -15,10 +14,6 @@
 
 
 <body>
-
-
-
-<div class="blur"></div>
 
 
 
@@ -35,19 +30,16 @@ Painel Administrativo
 </p>
 
 
-
 <input 
 id="senha"
 type="password"
-placeholder="Senha de acesso"
+placeholder="Senha"
 >
-
 
 
 <button onclick="entrarADM()">
 Entrar
 </button>
-
 
 
 </div>
@@ -64,16 +56,13 @@ Entrar
 
 <header>
 
-
 <h1>
 R.H.S ADM
 </h1>
 
-
 <p>
-Gerenciamento do sistema
+Gerencie o catálogo
 </p>
-
 
 </header>
 
@@ -83,102 +72,88 @@ Gerenciamento do sistema
 
 
 
-<section class="box">
-
-
-<h2>
-👥 Novo Grupo
-</h2>
-
-
-<input id="gNome" placeholder="Nome do grupo">
-
-
-<input id="gLink" placeholder="Link WhatsApp">
-
-
-<input id="gDesc" placeholder="Descrição">
-
-
-
-<button onclick="addGrupo()">
-Salvar Grupo
-</button>
-
-
-
-</section>
-
-
-
-
-
-
-
-
 
 <section class="box">
 
 
 <h2>
-📢 Novo Canal
+➕ Adicionar Item
 </h2>
 
 
 
-<input id="cNome" placeholder="Nome do canal">
+<select id="tipo">
 
 
-<input id="cLink" placeholder="Link do canal">
+<option value="grupos">
+👥 Grupo
+</option>
 
 
-<input id="cDesc" placeholder="Descrição">
+<option value="canais">
+📢 Canal
+</option>
+
+
+<option value="aliados">
+⭐ Aliado
+</option>
+
+
+</select>
 
 
 
-<button onclick="addCanal()">
-Salvar Canal
+
+
+
+
+<input 
+id="nome"
+placeholder="Nome"
+>
+
+
+
+
+
+<input 
+id="imagem"
+placeholder="URL da imagem"
+>
+
+
+
+
+
+<input 
+id="link"
+placeholder="Link WhatsApp/Site"
+>
+
+
+
+
+
+<textarea 
+id="descricao"
+placeholder="Descrição"
+></textarea>
+
+
+
+
+
+
+<button onclick="salvarItem()">
+
+Publicar
+
 </button>
 
 
 
 </section>
-
-
-
-
-
-
-
-
-
-<section class="box">
-
-
-<h2>
-⭐ Novo Aliado
-</h2>
-
-
-
-<input id="aNome" placeholder="Nome do aliado">
-
-
-<input id="aLink" placeholder="Link">
-
-
-<input id="aDesc" placeholder="Descrição">
-
-
-
-<button onclick="addAliado()">
-Salvar Aliado
-</button>
-
-
-
-</section>
-
 
 
 
@@ -196,16 +171,50 @@ Salvar Aliado
 
 
 
-<input id="admNome" placeholder="Nick do ADM">
+<input 
+id="admNome"
+placeholder="Nick do ADM"
+>
 
 
-<input id="admNumero" placeholder="Número WhatsApp">
+
+<input 
+id="admNumero"
+placeholder="WhatsApp"
+>
+
 
 
 
 <button onclick="addADM()">
+
 Salvar ADM
+
 </button>
+
+
+</section>
+
+
+
+
+
+
+
+
+<section class="box">
+
+
+<h2>
+📦 Itens publicados
+</h2>
+
+
+
+<div id="listaAdmin">
+
+
+</div>
 
 
 
@@ -225,7 +234,9 @@ Sair
 
 
 
+
 </div>
+
 
 
 
