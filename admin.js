@@ -521,3 +521,50 @@ location.reload();
 
 
 }
+
+// ==========================
+// BUSCAR INFORMAÇÕES
+// ==========================
+
+
+async function buscarInfo(){
+
+
+let linkAtual =
+document.getElementById("link").value;
+
+
+
+if(!linkAtual){
+
+
+alert("Coloque um link primeiro");
+
+
+return;
+
+
+}
+
+
+// Nome temporário baseado no link
+
+let nomeGerado =
+"Comunidade R.H.S";
+
+
+
+document.getElementById("nome").value =
+nomeGerado;
+
+
+
+document.getElementById("descricao").value =
+"Comunidade encontrada pelo sistema R.H.S";
+
+
+
+alert("Dados preparados ✅");
+
+
+         }
