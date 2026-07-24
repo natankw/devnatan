@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="R.H.S — Central de comunidades. Grupos, canais e parceiros do WhatsApp em um só lugar.">
+<meta name="theme-color" content="#0A0F0D">
+<title>R.H.S — Central de Comunidades</title>
+
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<canvas id="sinal"></canvas>
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+
+<!-- TELA DE ENTRADA -->
+<section id="welcome">
+  <div class="welcome-card">
+    <div class="pulse-mark">
+      <span class="ring r1"></span>
+      <span class="ring r2"></span>
+      <span class="ring r3"></span>
+      <img src="img/logo.svg" class="logo" alt="R.H.S">
+    </div>
+    <h1>R.H.S</h1>
+    <p class="verse">"Se Deus é por nós, quem será contra nós?"</p>
+    <p class="sub">Conectando comunidades, canais e parceiros</p>
+    <button id="entrar">
+      <span>Entrar na central</span>
+    </button>
+  </div>
+</section>
+
+<audio id="music" loop></audio>
+
+<!-- SITE PRINCIPAL -->
+<div id="site">
+
+  <header class="top">
+    <div class="brand">
+      <img src="img/logo.svg" class="logo-sm" alt="R.H.S">
+      <div>
+        <h1>R.H.S</h1>
+        <p id="siteDescricao">Sistema de comunidades premium</p>
+      </div>
+    </div>
+    <a href="#" id="canalOficial" class="main-button" target="_blank" rel="noopener">Canal Oficial</a>
+  </header>
+
+  <!-- LEITURA DE SINAL (stats) -->
+  <section class="signal-strip" aria-label="Estatísticas">
+    <div class="signal-item">
+      <span class="signal-value" id="statGrupos" data-target="0">0</span>
+      <span class="signal-label">Grupos</span>
+    </div>
+    <div class="signal-item">
+      <span class="signal-value" id="statCanais" data-target="0">0</span>
+      <span class="signal-label">Canais</span>
+    </div>
+    <div class="signal-item">
+      <span class="signal-value" id="statAliados" data-target="0">0</span>
+      <span class="signal-label">Aliados</span>
+    </div>
+    <div class="signal-item">
+      <span class="signal-value" id="statVisitantes" data-target="0">0</span>
+      <span class="signal-label">Visitantes</span>
+    </div>
+    <div class="signal-item live">
+      <span class="signal-value" id="statOnline">0</span>
+      <span class="signal-label">Online agora</span>
+    </div>
+  </section>
+
+  <!-- EXPLORAR / SINTONIZADOR -->
+  <section class="explorar">
+    <h2>Explorar R.H.S</h2>
+
+    <div class="search-row">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm10 2-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="pesquisa" placeholder="Pesquisar comunidades...">
+    </div>
+
+    <!-- Sintonizador de frequência (seletor de categoria) -->
+    <div class="tuner" role="tablist" aria-label="Filtrar por frequência">
+      <div class="tuner-needle" id="tunerNeedle"></div>
+      <button class="tuner-btn active" data-f="todos" role="tab" aria-selected="true">Todos</button>
+      <button class="tuner-btn" data-f="grupo" role="tab">Grupos</button>
+      <button class="tuner-btn" data-f="canal" role="tab">Canais</button>
+      <button class="tuner-btn" data-f="vip" role="tab">VIP</button>
+      <button class="tuner-btn" data-f="recentes" role="tab">Recentes</button>
+    </div>
+
+    <div id="comunidades" class="cards"></div>
+    <p id="vazioComunidades" class="empty-state" hidden>
+      Nenhuma comunidade nessa frequência ainda.<br>
+      <span>Tente outro filtro ou volte mais tarde — a central está sempre recebendo novos sinais.</span>
+    </p>
+  </section>
+
+  <!-- PARCEIROS -->
+  <section class="parceiros">
+    <h2>Parceiros R.H.S</h2>
+    <p class="section-sub">Parceiros oficiais da plataforma</p>
+    <div id="parceiros" class="cards"></div>
+    <p id="vazioParceiros" class="empty-state" hidden>Nenhum parceiro cadastrado ainda.</p>
+  </section>
+
+  <!-- PARCERIA -->
+  <section class="parceria">
+    <h2>Fazer parceria</h2>
+    <div class="partner-box">
+      <select id="admSelect"></select>
+      <textarea id="mensagemParceria">Olá, vim pela R.H.S e quero fazer parceria.</textarea>
+      <button id="whatsapp">Enviar no WhatsApp</button>
+    </div>
+  </section>
+
+  <footer>
+    <p id="footerTexto">© 2026 R.H.S — Todos os direitos reservados.</p>
+    <a href="admin.html" class="admin-link">Painel administrativo</a>
+  </footer>
+
+</div>
+
+<!-- MODAL: DETALHES / DENÚNCIA -->
+<div id="modalDenuncia" class="modal" hidden>
+  <div class="modal-box">
+    <button class="modal-close" id="fecharModal" aria-label="Fechar">×</button>
+    <h3>Denunciar comunidade</h3>
+    <p class="modal-sub">Nos diga o que está errado com <strong id="denunciaNome"></strong>.</p>
+    <label>Motivo</label>
+    <select id="motivoDenuncia">
+      <option value="">Selecione...</option>
+      <option>Link inválido / grupo cheio</option>
+      <option>Conteúdo ilegal</option>
+      <option>Spam / golpe</option>
+      <option>Conteúdo adulto</option>
+      <option>Discurso de ódio</option>
+      <option>Outro</option>
+    </select>
+    <label>Detalhes (opcional)</label>
+    <textarea id="detalhesDenuncia" placeholder="Conte mais, se quiser."></textarea>
+    <button id="enviarDenuncia">Enviar denúncia</button>
+    <p id="denunciaSucesso" class="success-msg" hidden>Denúncia enviada. Vamos analisar em breve — obrigado por ajudar a manter a central segura.</p>
+  </div>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="js/firebase-config.js"></script>
+<script src="js/whatsapp-meta.js"></script>
+<script src="js/main.js"></script>
+</body>
+        </html>
