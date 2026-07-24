@@ -6,7 +6,7 @@
 const SENHA = "RHS2026";
 
 
-const API = "https://SEU-WORKER.workers.dev";
+const API = "https://rhs-api.seudominio.workers.dev";
 
 
 
@@ -220,33 +220,17 @@ function salvarItem(){
 
 
 
-let tipo =
-document.getElementById("tipo").value;
-
-
-
 let item={
 
+nome: document.getElementById("nome").value,
 
-nome:
-nome.value,
+imagem: document.getElementById("imagem").value,
 
+link: document.getElementById("link").value,
 
-imagem:
-imagem.value,
+categoria: document.getElementById("categoria").value,
 
-
-link:
-link.value,
-
-
-categoria:
-categoria.value,
-
-
-descricao:
-descricao.value
-
+descricao: document.getElementById("descricao").value
 
 };
 
