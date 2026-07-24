@@ -1428,3 +1428,26 @@ min-width:260px;
 flex-shrink:0;
 
 }
+
+/* ======================
+   MOBILE CARROSSEL
+====================== */
+
+@media(max-width:600px){
+
+.cards{
+
+display:flex;
+
+overflow-x:auto;
+
+}
+
+
+.card{
+
+min-width:85%;
+
+}
+
+}
