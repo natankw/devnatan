@@ -1,46 +1,50 @@
-/* =========================
-   R.H.S STYLE
-   CYBER NEON
-========================= */
+/* ==========================
+        R.H.S PREMIUM v2
+========================== */
 
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+
 }
 
 
 
 body{
 
-    background:#000;
-    color:white;
-    overflow-x:hidden;
+background:#030303;
+
+color:#fff;
+
+overflow-x:hidden;
 
 }
-
 
 
 
 
 /* MATRIX */
 
-
 #matrix{
 
-    position:fixed;
-    top:0;
-    left:0;
+position:fixed;
 
-    width:100%;
-    height:100%;
+top:0;
+left:0;
 
-    z-index:-1;
+width:100%;
+height:100%;
+
+z-index:-3;
+
+opacity:.35;
 
 }
 
@@ -48,47 +52,148 @@ body{
 
 
 
-/* TELA DE ENTRADA */
+/* BOLHAS BLUR */
+
+
+.blur-bg{
+
+position:fixed;
+
+width:350px;
+
+height:350px;
+
+border-radius:50%;
+
+filter:blur(100px);
+
+opacity:.15;
+
+z-index:-2;
+
+animation:float 12s infinite alternate;
+
+}
+
+
+
+.b1{
+
+background:#fff;
+
+top:10%;
+
+left:-100px;
+
+}
+
+
+.b2{
+
+background:#ff0000;
+
+right:-100px;
+
+top:40%;
+
+}
+
+
+
+.b3{
+
+background:#777;
+
+bottom:-100px;
+
+left:40%;
+
+}
+
+
+
+@keyframes float{
+
+from{
+
+transform:translateY(0);
+
+}
+
+
+to{
+
+transform:translateY(80px);
+
+}
+
+
+}
+
+
+
+
+
+
+
+/* WELCOME */
 
 
 #welcome{
 
-    position:fixed;
+position:fixed;
 
-    width:100%;
-    height:100vh;
+inset:0;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+display:flex;
 
-    background:#000;
+align-items:center;
 
-    z-index:999;
+justify-content:center;
+
+background:#0008;
+
+backdrop-filter:blur(10px);
+
+z-index:99;
 
 }
 
 
 
-.welcome-box{
 
-    width:90%;
-    max-width:400px;
 
-    padding:35px;
+.welcome-card{
 
-    text-align:center;
 
-    background:rgba(255,255,255,0.05);
+width:90%;
 
-    border:1px solid #ff0000;
+max-width:420px;
 
-    border-radius:20px;
 
-    backdrop-filter:blur(15px);
+padding:40px 30px;
 
-    box-shadow:
-    0 0 20px red;
+
+text-align:center;
+
+
+background:
+
+rgba(255,255,255,.04);
+
+
+border:
+
+1px solid rgba(255,255,255,.15);
+
+
+border-radius:25px;
+
+
+box-shadow:
+
+0 0 50px #000;
+
 
 }
 
@@ -98,71 +203,90 @@ body{
 
 .logo{
 
-    width:120px;
+width:120px;
 
-    height:120px;
+height:120px;
 
-    object-fit:cover;
+border-radius:50%;
 
-    border-radius:50%;
+object-fit:cover;
 
-    border:3px solid red;
 
-    box-shadow:
-    0 0 20px red;
+border:2px solid #fff;
+
+
+box-shadow:
+
+0 0 30px #fff5;
+
 
 }
+
 
 
 
 
 h1{
 
-    font-size:45px;
+font-size:50px;
 
-    font-weight:800;
+font-weight:800;
 
-    color:white;
-
-    text-shadow:
-    0 0 15px red;
+letter-spacing:5px;
 
 }
 
 
 
 
+.typing{
+
+color:#aaa;
+
+margin-top:15px;
+
+font-size:14px;
+
+}
+
+
+
+
+
+
+
 button,
-.top-btn{
+.main-button{
 
 
-    display:inline-block;
-
-    margin-top:20px;
-
-    padding:12px 30px;
+margin-top:25px;
 
 
-    color:white;
-
-    background:#ff0000;
-
-    border:none;
-
-    border-radius:30px;
-
-    cursor:pointer;
-
-    text-decoration:none;
-
-    font-weight:bold;
+padding:14px 35px;
 
 
-    box-shadow:
-    0 0 15px red;
+border-radius:30px;
 
 
-    transition:.3s;
+background:#fff;
+
+
+color:#000;
+
+
+font-weight:700;
+
+
+border:none;
+
+
+cursor:pointer;
+
+
+text-decoration:none;
+
+
+transition:.3s;
 
 
 }
@@ -170,9 +294,16 @@ button,
 
 
 button:hover,
-.top-btn:hover{
+.main-button:hover{
 
-    transform:scale(1.05);
+
+transform:translateY(-5px);
+
+
+box-shadow:
+
+0 10px 30px #fff5;
+
 
 }
 
@@ -180,34 +311,30 @@ button:hover,
 
 
 
-/* SITE */
 
 
-main{
-
-    min-height:100vh;
-
-}
 
 
+/* HEADER */
 
 
 header{
 
-    text-align:center;
+text-align:center;
 
-    padding:50px 20px;
+padding:60px 20px 30px;
 
 }
+
 
 
 
 
 header p{
 
-    color:#ddd;
+color:#888;
 
-    margin-top:10px;
+margin:15px;
 
 }
 
@@ -215,15 +342,116 @@ header p{
 
 
 
-.container,
-.catalogo,
+
+
+
+
+/* STATS */
+
+
+.stats{
+
+
+width:90%;
+
+max-width:1000px;
+
+
+margin:30px auto;
+
+
+display:grid;
+
+
+grid-template-columns:
+
+repeat(auto-fit,minmax(180px,1fr));
+
+
+gap:20px;
+
+
+}
+
+
+
+
+.stat{
+
+
+padding:25px;
+
+
+background:
+
+rgba(255,255,255,.05);
+
+
+border:
+
+1px solid rgba(255,255,255,.1);
+
+
+border-radius:20px;
+
+
+text-align:center;
+
+
+backdrop-filter:blur(15px);
+
+
+}
+
+
+
+
+.stat h2{
+
+
+font-size:45px;
+
+margin:0;
+
+
+}
+
+
+
+.stat p{
+
+color:#888;
+
+}
+
+
+
+.premium{
+
+border-color:gold;
+
+box-shadow:
+
+0 0 25px #ffd70033;
+
+}
+
+
+
+
+
+/* AREAS */
+
+
+.area,
 .parceria{
 
-    width:90%;
 
-    max-width:1100px;
+width:90%;
 
-    margin:auto;
+max-width:1100px;
+
+margin:60px auto;
 
 
 }
@@ -231,32 +459,34 @@ header p{
 
 
 
-h2{
 
-    margin:40px 0 20px;
+.area h2,
+.aliados h2,
+.parceria h2{
 
-    color:white;
 
-    text-shadow:
-    0 0 10px red;
+font-size:28px;
+
 
 }
 
 
 
-
-
-/* CARDS */
 
 
 .cards{
 
-    display:grid;
 
-    grid-template-columns:
-    repeat(auto-fit,minmax(250px,1fr));
+display:grid;
 
-    gap:20px;
+
+grid-template-columns:
+
+repeat(auto-fit,minmax(250px,1fr));
+
+
+gap:20px;
+
 
 }
 
@@ -266,23 +496,27 @@ h2{
 
 .card{
 
-    padding:25px;
+
+padding:25px;
 
 
-    background:
-    rgba(255,255,255,0.06);
+background:
+
+rgba(255,255,255,.05);
 
 
-    border:1px solid rgba(255,0,0,.5);
+border:
+
+1px solid rgba(255,255,255,.12);
 
 
-    border-radius:20px;
+border-radius:20px;
 
 
-    backdrop-filter:blur(10px);
+backdrop-filter:blur(15px);
 
 
-    transition:.3s;
+transition:.3s;
 
 
 }
@@ -291,10 +525,12 @@ h2{
 
 .card:hover{
 
-    transform:translateY(-8px);
 
-    box-shadow:
-    0 0 25px red;
+transform:translateY(-8px);
+
+
+border-color:white;
+
 
 }
 
@@ -305,12 +541,24 @@ h2{
 
 .card a{
 
-    color:white;
 
-    text-decoration:none;
+display:inline-block;
+
+
+margin-top:15px;
+
+
+color:white;
+
+
+text-decoration:none;
 
 
 }
+
+
+
+
 
 
 
@@ -322,51 +570,60 @@ h2{
 .aliados{
 
 
-    margin-top:60px;
+width:90%;
 
-    padding:30px;
+max-width:1100px;
 
-
-    border-radius:25px;
-
-
-    background:
-    linear-gradient(
-    145deg,
-    rgba(255,215,0,.15),
-    rgba(0,0,0,.8)
-    );
+margin:60px auto;
 
 
-    border:2px solid gold;
+padding:35px;
 
 
-    box-shadow:
-    0 0 25px gold;
+border-radius:30px;
+
+
+background:
+
+linear-gradient(
+
+135deg,
+
+rgba(255,215,0,.12),
+
+rgba(0,0,0,.7)
+
+);
+
+
+border:
+
+1px solid gold;
+
+
+box-shadow:
+
+0 0 40px #ffd70022;
 
 
 }
+
 
 
 
 .aliados h2{
 
-    color:gold;
 
-    text-shadow:
-    0 0 15px gold;
+color:#ffd700;
+
+text-shadow:
+
+0 0 20px gold;
+
 
 }
 
 
-
-
-
-.aliados-box .card{
-
-    border-color:gold;
-
-}
 
 
 
@@ -375,37 +632,26 @@ h2{
 /* PARCERIA */
 
 
-.parceria{
-
-    margin-top:50px;
-
-    padding-bottom:50px;
-
-}
+.partner-box{
 
 
-
-.parceria-box{
-
-
-    background:
-    rgba(255,255,255,.05);
+padding:30px;
 
 
-    padding:30px;
+background:
+
+rgba(255,255,255,.05);
 
 
-    border-radius:20px;
+border-radius:25px;
 
 
-    border:1px solid red;
+border:
 
-
-    backdrop-filter:blur(15px);
+1px solid rgba(255,255,255,.1);
 
 
 }
-
 
 
 
@@ -414,38 +660,41 @@ select,
 textarea{
 
 
-    width:100%;
+width:100%;
 
 
-    margin-top:15px;
+margin-top:15px;
 
 
-    padding:15px;
+padding:15px;
 
 
-    background:#111;
+background:#080808;
 
 
-    color:white;
+color:white;
 
 
-    border:1px solid red;
+border:1px solid #333;
 
 
-    border-radius:15px;
+border-radius:15px;
 
 
 }
+
+
 
 
 
 textarea{
 
-    height:120px;
+height:120px;
 
-    resize:none;
+resize:none;
 
 }
+
 
 
 
@@ -454,11 +703,11 @@ textarea{
 footer{
 
 
-    text-align:center;
+text-align:center;
 
-    padding:30px;
+padding:40px;
 
-    color:#aaa;
+color:#666;
 
 
 }
@@ -468,8 +717,6 @@ footer{
 
 
 
-
-/* MOBILE */
 
 
 @media(max-width:600px){
@@ -477,18 +724,18 @@ footer{
 
 h1{
 
-    font-size:35px;
+font-size:38px;
 
 }
 
 
 .logo{
 
-    width:100px;
+width:100px;
 
-    height:100px;
+height:100px;
 
 }
 
 
-   }
+}
