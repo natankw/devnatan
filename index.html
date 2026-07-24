@@ -54,48 +54,75 @@
     <a href="#" id="canalOficial" class="main-button" target="_blank" rel="noopener">Canal Oficial</a>
   </header>
 
-  <!-- LEITURA DE SINAL (stats) -->
-  <section class="signal-strip" aria-label="Estatísticas">
-    <div class="signal-item">
-      <span class="signal-value" id="statGrupos" data-target="0">0</span>
-      <span class="signal-label">Grupos</span>
+  <!-- PAINEL DE ESTATÍSTICAS -->
+  <section class="stats-grid" aria-label="Estatísticas">
+    <div class="stat-card stat-pink">
+      <div class="stat-top">
+        <span class="stat-icon">👥</span>
+        <svg class="stat-trend" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="stat-value" id="statGrupos" data-target="0">0</span>
+      <span class="stat-label">Total de grupos</span>
     </div>
-    <div class="signal-item">
-      <span class="signal-value" id="statCanais" data-target="0">0</span>
-      <span class="signal-label">Canais</span>
+    <div class="stat-card stat-blue">
+      <div class="stat-top">
+        <span class="stat-icon">📅</span>
+        <svg class="stat-trend" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="stat-value" id="statHoje" data-target="0">0</span>
+      <span class="stat-label">Visitantes hoje</span>
     </div>
-    <div class="signal-item">
-      <span class="signal-value" id="statAliados" data-target="0">0</span>
-      <span class="signal-label">Aliados</span>
+    <div class="stat-card stat-green">
+      <div class="stat-top">
+        <span class="stat-icon">●</span>
+        <svg class="stat-trend" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="stat-value" id="statOnline">0</span>
+      <span class="stat-label">Online agora</span>
     </div>
-    <div class="signal-item">
-      <span class="signal-value" id="statVisitantes" data-target="0">0</span>
-      <span class="signal-label">Visitantes</span>
-    </div>
-    <div class="signal-item live">
-      <span class="signal-value" id="statOnline">0</span>
-      <span class="signal-label">Online agora</span>
+    <div class="stat-card stat-pink">
+      <div class="stat-top">
+        <span class="stat-icon">📈</span>
+        <svg class="stat-trend" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 4 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="stat-value" id="statVisitantes" data-target="0">0</span>
+      <span class="stat-label">Visitantes total</span>
     </div>
   </section>
 
   <!-- EXPLORAR / SINTONIZADOR -->
   <section class="explorar">
-    <h2>Explorar R.H.S</h2>
+    <div class="section-heading">
+      <span class="section-icon">👥</span>
+      <h2>Grupos &amp; Canais</h2>
+      <span class="count-pill" id="totalComunidades">0</span>
+    </div>
 
     <div class="search-row">
       <svg class="search-icon" viewBox="0 0 24 24" fill="none"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm10 2-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      <input id="pesquisa" placeholder="Pesquisar comunidades...">
+      <input id="pesquisa" placeholder="Buscar grupos e canais...">
     </div>
 
-    <!-- Sintonizador de frequência (seletor de categoria) -->
-    <div class="tuner" role="tablist" aria-label="Filtrar por frequência">
-      <div class="tuner-needle" id="tunerNeedle"></div>
-      <button class="tuner-btn active" data-f="todos" role="tab" aria-selected="true">Todos</button>
-      <button class="tuner-btn" data-f="grupo" role="tab">Grupos</button>
-      <button class="tuner-btn" data-f="canal" role="tab">Canais</button>
-      <button class="tuner-btn" data-f="vip" role="tab">VIP</button>
-      <button class="tuner-btn" data-f="recentes" role="tab">Recentes</button>
+    <div class="filtros" role="tablist" aria-label="Filtrar">
+      <button class="filtro-pill principal active" data-f="todos" role="tab" aria-selected="true">🔽 Todos</button>
+      <button class="filtro-pill principal" data-f="grupo" role="tab">👥 Grupos</button>
+      <button class="filtro-pill principal" data-f="canal" role="tab">📢 Canais</button>
+      <button class="filtro-pill principal" data-f="vip" role="tab">★ VIP</button>
+      <button class="filtro-pill principal" data-f="recentes" role="tab">⚡ Recentes</button>
     </div>
+
+    <div class="filtros filtros-cat" role="tablist" aria-label="Categoria">
+      <button class="filtro-pill active" data-cat="todas">Todas</button>
+      <button class="filtro-pill" data-cat="Entretenimento">Entretenimento</button>
+      <button class="filtro-pill" data-cat="Recrutamento">Recrutamento</button>
+      <button class="filtro-pill" data-cat="Amizade">Amizades</button>
+      <button class="filtro-pill" data-cat="Geral">Geral</button>
+      <button class="filtro-pill" data-cat="Amor e Romance">Amor e Romance</button>
+      <button class="filtro-pill" data-cat="Jogos">Jogos</button>
+      <button class="filtro-pill" data-cat="Divulgação">Divulgações</button>
+    </div>
+
+    <p class="mostrando">Mostrando <span id="qtdMostrada">0</span> de <span id="qtdTotal">0</span> comunidades</p>
 
     <div id="comunidades" class="cards"></div>
     <p id="vazioComunidades" class="empty-state" hidden>
@@ -106,8 +133,11 @@
 
   <!-- PARCEIROS -->
   <section class="parceiros">
-    <h2>Parceiros R.H.S</h2>
-    <p class="section-sub">Parceiros oficiais da plataforma</p>
+    <div class="section-heading">
+      <span class="section-icon">⭐</span>
+      <h2>Parceiros R.H.S</h2>
+      <span class="count-pill" id="totalAliados">0</span>
+    </div>
     <div id="parceiros" class="cards"></div>
     <p id="vazioParceiros" class="empty-state" hidden>Nenhum parceiro cadastrado ainda.</p>
   </section>
@@ -139,4 +169,4 @@
 <script src="js/whatsapp-meta.js"></script>
 <script src="js/main.js"></script>
 </body>
-        </html>
+                                                 </html>
