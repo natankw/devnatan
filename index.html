@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>R.H.S</title>
+
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<canvas id="matrix"></canvas>
+
+
+
+<audio id="music" loop>
+
+<source src="audio/music.mp3" type="audio/mp3">
+
+</audio>
+
+
+
+
+
+<!-- ENTRADA -->
+
+<section id="welcome">
+
+
+<div class="welcome-box">
+
+
+<img src="img/logo.png" class="logo">
+
+
+<h1>
+R.H.S
+</h1>
+
+
+<p>
+Explore comunidades, canais e parceiros.
+</p>
+
+
+<button id="entrar">
+
+Entrar
+
+</button>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- SITE -->
+
+
+<main id="site">
+
+
+
+<header>
+
+
+<h1>
+R.H.S
+</h1>
+
+
+<p>
+Catálogo de comunidades
+</p>
+
+
+</header>
+
+
+
+
+
+
+
+
+<section class="stats">
+
+
+<div>
+
+<h2 id="totalGrupos">
+0
+</h2>
+
+<p>
+Grupos
+</p>
+
+</div>
+
+
+
+<div>
+
+<h2 id="totalCanais">
+0
+</h2>
+
+<p>
+Canais
+</p>
+
+</div>
+
+
+
+
+<div>
+
+<h2 id="totalVip">
+0
+</h2>
+
+<p>
+VIP
+</p>
+
+</div>
+
+
+
+<div>
+
+<h2 id="totalParceiros">
+0
+</h2>
+
+<p>
+Parceiros
+</p>
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="explorar">
+
+
+<h2>
+🌐 Explorar
+</h2>
+
+
+
+<input 
+id="pesquisa"
+placeholder="Pesquisar comunidades..."
+>
+
+
+
+<div class="filtros">
+
+
+<button onclick="mostrarArea('todos')">
+🌐 Todos
+</button>
+
+
+<button onclick="mostrarArea('grupos')">
+👥 Grupos
+</button>
+
+
+<button onclick="mostrarArea('canais')">
+📢 Canais
+</button>
+
+
+<button onclick="mostrarArea('vip')">
+⭐ VIP
+</button>
+
+
+<button onclick="mostrarArea('parceiros')">
+🤝 Parceiros
+</button>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="area">
+
+
+<h2>
+👥 Grupos
+</h2>
+
+
+<div id="grupos" class="cards">
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="area">
+
+
+<h2>
+📢 Canais
+</h2>
+
+
+<div id="canais" class="cards">
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="area">
+
+
+<h2>
+⭐ VIP
+</h2>
+
+
+<div id="vip" class="cards">
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="area">
+
+
+<h2>
+🤝 Parceiros
+</h2>
+
+
+<div id="parceiros" class="cards">
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+<footer>
+
+R.H.S © 2026
+
+</footer>
+
+
+
+
+</main>
+
+
+
+
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+  </html>
