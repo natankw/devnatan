@@ -568,3 +568,80 @@ alert("Dados preparados ✅");
 
 
          }
+
+// ==========================
+// BUSCAR FOTO PELO LINK
+// ==========================
+
+
+async function buscarFoto(){
+
+
+let link = document.getElementById("link").value;
+
+
+
+if(!link){
+
+alert("Coloque o link primeiro");
+
+return;
+
+}
+
+
+
+try{
+
+
+let resposta = await fetch(
+
+"https://api.microlink.io?url=" 
++
+encodeURIComponent(link)
+
+);
+
+
+
+let dados = await resposta.json();
+
+
+
+let imagem = 
+dados.data?.image?.url;
+
+
+
+if(imagem){
+
+
+document.getElementById("imagem").value = imagem;
+
+
+alert("Foto encontrada ✅");
+
+
+}else{
+
+
+alert("Não foi encontrada uma imagem nesse link");
+
+
+}
+
+
+
+}catch(erro){
+
+
+console.log(erro);
+
+
+alert("Erro ao buscar foto");
+
+
+}
+
+
+}
