@@ -7,9 +7,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <title>R.H.S</title>
-
 
 <link rel="stylesheet" href="style.css">
 
@@ -25,9 +23,11 @@
 
 <audio id="music" loop>
 
-<source src="audio/music.mp3" type="audio/mp3">
+<source src="audio/music.mp3" type="audio/mpeg">
 
 </audio>
+
+
 
 
 
@@ -38,7 +38,7 @@
 <section id="welcome">
 
 
-<div class="welcome-box">
+<div class="welcome-card">
 
 
 <img src="img/logo.png" class="logo">
@@ -50,14 +50,12 @@ R.H.S
 
 
 <p>
-Explore comunidades, canais e parceiros.
+Comunidades, canais e parceiros.
 </p>
 
 
 <button id="entrar">
-
 Entrar
-
 </button>
 
 
@@ -81,17 +79,40 @@ Entrar
 
 
 
-<header>
 
 
-<h1>
-R.H.S
+<header class="top">
+
+
+<img 
+id="logoPrincipal"
+class="main-logo"
+src="img/logo.png"
+>
+
+
+
+<h1 id="nomePrincipal">
+R.H.S Oficial
 </h1>
 
 
+
 <p>
-Catálogo de comunidades
+Central de comunidades
 </p>
+
+
+
+<a 
+id="linkPrincipal"
+class="main-button"
+target="_blank"
+>
+
+Acessar Canal
+
+</a>
 
 
 </header>
@@ -103,124 +124,19 @@ Catálogo de comunidades
 
 
 
-<section class="stats">
+
+<!-- PESQUISA -->
 
 
-<div>
-
-<h2 id="totalGrupos">
-0
-</h2>
-
-<p>
-Grupos
-</p>
-
-</div>
-
-
-
-<div>
-
-<h2 id="totalCanais">
-0
-</h2>
-
-<p>
-Canais
-</p>
-
-</div>
-
-
-
-
-<div>
-
-<h2 id="totalVip">
-0
-</h2>
-
-<p>
-VIP
-</p>
-
-</div>
-
-
-
-<div>
-
-<h2 id="totalParceiros">
-0
-</h2>
-
-<p>
-Parceiros
-</p>
-
-</div>
-
-
-
-</section>
-
-
-
-
-
-
-
-
-
-<section class="explorar">
-
-
-<h2>
-🌐 Explorar
-</h2>
-
+<section class="search-box">
 
 
 <input 
 id="pesquisa"
-placeholder="Pesquisar comunidades..."
+placeholder="Pesquisar..."
 >
 
 
-
-<div class="filtros">
-
-
-<button onclick="mostrarArea('todos')">
-🌐 Todos
-</button>
-
-
-<button onclick="mostrarArea('grupos')">
-👥 Grupos
-</button>
-
-
-<button onclick="mostrarArea('canais')">
-📢 Canais
-</button>
-
-
-<button onclick="mostrarArea('vip')">
-⭐ VIP
-</button>
-
-
-<button onclick="mostrarArea('parceiros')">
-🤝 Parceiros
-</button>
-
-
-</div>
-
-
-
 </section>
 
 
@@ -231,7 +147,11 @@ placeholder="Pesquisar comunidades..."
 
 
 
-<section class="area">
+
+<!-- GRUPOS -->
+
+
+<section class="catalog">
 
 
 <h2>
@@ -239,9 +159,14 @@ placeholder="Pesquisar comunidades..."
 </h2>
 
 
-<div id="grupos" class="cards">
+
+<div 
+id="grupos"
+class="cards"
+>
 
 </div>
+
 
 
 </section>
@@ -254,7 +179,10 @@ placeholder="Pesquisar comunidades..."
 
 
 
-<section class="area">
+<!-- CANAIS -->
+
+
+<section class="catalog">
 
 
 <h2>
@@ -262,9 +190,14 @@ placeholder="Pesquisar comunidades..."
 </h2>
 
 
-<div id="canais" class="cards">
+
+<div 
+id="canais"
+class="cards"
+>
 
 </div>
+
 
 
 </section>
@@ -277,7 +210,10 @@ placeholder="Pesquisar comunidades..."
 
 
 
-<section class="area">
+<!-- VIP -->
+
+
+<section class="catalog">
 
 
 <h2>
@@ -285,9 +221,14 @@ placeholder="Pesquisar comunidades..."
 </h2>
 
 
-<div id="vip" class="cards">
+
+<div 
+id="vip"
+class="cards"
+>
 
 </div>
+
 
 
 </section>
@@ -300,7 +241,10 @@ placeholder="Pesquisar comunidades..."
 
 
 
-<section class="area">
+<!-- PARCEIROS -->
+
+
+<section class="catalog">
 
 
 <h2>
@@ -308,12 +252,18 @@ placeholder="Pesquisar comunidades..."
 </h2>
 
 
-<div id="parceiros" class="cards">
+
+<div 
+id="parceiros"
+class="cards"
+>
 
 </div>
 
 
+
 </section>
+
 
 
 
@@ -330,7 +280,6 @@ R.H.S © 2026
 
 
 
-
 </main>
 
 
@@ -343,4 +292,4 @@ R.H.S © 2026
 
 </body>
 
-  </html>
+</html>
