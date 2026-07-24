@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 
 <meta charset="UTF-8">
@@ -11,56 +12,79 @@
 
 </head>
 
+
 <body>
 
 
-<!-- FUNDO MATRIX -->
+<!-- FUNDO -->
+
 <canvas id="matrix"></canvas>
 
 
-<!-- TELA DE ENTRADA -->
-
-<div id="welcome">
-
-    <div class="welcome-box">
-
-        <img src="img/logo.png" class="logo">
-
-        <h1>R.H.S</h1>
-
-        <p>
-        Bem-vindo ao centro oficial da R.H.S
-        </p>
+<div class="blur-bg b1"></div>
+<div class="blur-bg b2"></div>
+<div class="blur-bg b3"></div>
 
 
-        <button id="entrar">
-            ENTRAR
-        </button>
+
+<!-- ENTRADA -->
 
 
-    </div>
+<section id="welcome">
+
+
+<div class="welcome-card">
+
+
+<img src="img/logo.png" class="logo">
+
+
+<h1>
+R.H.S
+</h1>
+
+
+<p class="typing">
+Sistema oficial de grupos, canais e parceiros
+</p>
+
+
+<button id="entrar">
+ENTRAR
+</button>
+
 
 </div>
 
 
+</section>
 
-<!-- ÁUDIO -->
+
+
+
 
 <audio id="music" loop>
 
-<source src="audio.mp3" type="audio/mpeg">
+<source src="audio.mp3">
 
 </audio>
 
 
 
-<!-- SITE PRINCIPAL -->
 
-<main id="site" style="display:none;">
+
+
+<!-- SITE -->
+
+
+<div id="site">
+
+
 
 
 
 <header>
+
 
 <img src="img/logo.png" class="logo">
 
@@ -71,15 +95,13 @@ R.H.S
 
 
 <p>
-Grupos • Canais • Aliados • Parcerias
+Conectando comunidades e parceiros
 </p>
 
 
 
-<a class="top-btn" href="#" target="_blank">
-
+<a href="#" class="main-button">
 Canal Oficial
-
 </a>
 
 
@@ -89,10 +111,71 @@ Canal Oficial
 
 
 
-<!-- CATÁLOGO -->
+
+<!-- NUMEROS -->
 
 
-<section class="catalogo">
+<section class="stats">
+
+
+<div class="stat">
+
+<h2 id="totalGrupos">
+0
+</h2>
+
+<p>
+Grupos
+</p>
+
+</div>
+
+
+
+
+<div class="stat">
+
+<h2 id="totalCanais">
+0
+</h2>
+
+<p>
+Canais
+</p>
+
+</div>
+
+
+
+
+
+<div class="stat premium">
+
+<h2 id="totalAliados">
+0
+</h2>
+
+<p>
+Aliados
+</p>
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+<!-- GRUPOS -->
+
+
+<section class="area">
 
 
 <h2>
@@ -102,13 +185,22 @@ Canal Oficial
 
 <div id="grupos" class="cards">
 
-<!-- grupos aparecem aqui -->
-
 </div>
 
 
+</section>
 
 
+
+
+
+
+
+
+<!-- CANAIS -->
+
+
+<section class="area">
 
 
 <h2>
@@ -118,36 +210,34 @@ Canal Oficial
 
 <div id="canais" class="cards">
 
-<!-- canais aparecem aqui -->
-
 </div>
 
 
+</section>
 
 
 
 
 
-<!-- ÁREA ALIADOS -->
+
+
+<!-- ALIADOS -->
 
 
 <section class="aliados">
 
 
 <h2>
-🤝 Aliados Premium
+⭐ Aliados Premium
 </h2>
 
 
 <p>
-Parceiros oficiais da R.H.S
+Parceiros oficiais R.H.S
 </p>
 
 
-
-<div id="aliados" class="cards aliados-box">
-
-<!-- aliados aparecem aqui -->
+<div id="aliados" class="cards">
 
 </div>
 
@@ -156,10 +246,6 @@ Parceiros oficiais da R.H.S
 </section>
 
 
-
-
-
-</section>
 
 
 
@@ -177,53 +263,36 @@ Parceiros oficiais da R.H.S
 </h2>
 
 
-<p>
-Entre em contato com nossa equipe
-</p>
 
+<div class="partner-box">
 
-
-
-<div class="parceria-box">
-
-
-
-<label>
-Escolha um ADM:
-</label>
 
 
 <select id="admSelect">
-
-<!-- ADM carregado pelo JS -->
 
 </select>
 
 
 
 
-
 <textarea id="mensagemParceria">
 
-Olá, vim pela R.H.S.
-Quero fazer parceria.
+Olá, vim pela R.H.S e quero fazer parceria.
 
 </textarea>
 
 
 
 
-
 <button id="whatsapp">
 
-Enviar mensagem
+Enviar WhatsApp
 
 </button>
 
 
 
 </div>
-
 
 
 </section>
@@ -237,16 +306,17 @@ Enviar mensagem
 <footer>
 
 <p>
-© 2026 R.H.S - Todos os direitos reservados
+© 2026 R.H.S
 </p>
-
 
 </footer>
 
 
 
 
-</main>
+</div>
+
+
 
 
 
