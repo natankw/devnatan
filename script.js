@@ -1,16 +1,9 @@
 /* ==========================
-        R.H.S V5 SCRIPT
+        R.H.S V6 SCRIPT
 ========================== */
 
 
-let dados = {
-
-grupos:[],
-canais:[],
-vip:[],
-parceiros:[]
-
-};
+let dados = {};
 
 
 
@@ -21,20 +14,14 @@ parceiros:[]
 
 
 const entrar = document.getElementById("entrar");
-
-const music = document.getElementById("music");
-
 const welcome = document.getElementById("welcome");
-
 const site = document.getElementById("site");
-
+const music = document.getElementById("music");
 
 
 if(entrar){
 
-
 entrar.onclick = ()=>{
-
 
 if(music){
 
@@ -42,23 +29,11 @@ music.play().catch(()=>{});
 
 }
 
-
-if(welcome){
-
 welcome.style.display="none";
-
-}
-
-
-if(site){
 
 site.style.display="block";
 
-}
-
-
 };
-
 
 }
 
@@ -83,8 +58,7 @@ if(canvas){
 const ctx = canvas.getContext("2d");
 
 
-
-function tamanho(){
+function resize(){
 
 canvas.width = innerWidth;
 
@@ -93,35 +67,30 @@ canvas.height = innerHeight;
 }
 
 
+resize();
 
-tamanho();
 
-
-window.addEventListener("resize",tamanho);
+window.onresize = resize;
 
 
 
 let textos=[
 
 "R.H.S",
-
 "0101",
-
-"ONLINE",
-
 "SYSTEM",
-
+"ONLINE",
 "COMMUNITY",
-
 "VIP"
 
 ];
 
 
 
-let colunas=Math.floor(canvas.width/120);
-
 let gotas=[];
+
+
+let colunas=Math.floor(canvas.width/120);
 
 
 
@@ -178,12 +147,12 @@ gotas[i]=0;
 }
 
 
-
 gotas[i]+=1.5;
 
 
 
 });
+
 
 
 }
@@ -208,31 +177,32 @@ setInterval(chuva,60);
 // ==========================
 
 
-async function carregarBanco(){
+async function iniciar(){
 
 
 try{
 
 
-let resposta = await fetch("banco.json");
+let res = await fetch("banco.json");
 
 
-dados = await resposta.json();
+dados = await res.json();
 
 
 
-renderizar();
+carregarPrincipal();
+
+
+carregarCards();
+
 
 
 }
 
-catch(e){
+catch(err){
 
 
-console.log(
-"Erro ao carregar banco:",
-e
-);
+console.log(err);
 
 
 }
@@ -250,46 +220,121 @@ e
 
 
 // ==========================
-// RENDER
+// CANAL PRINCIPAL
 // ==========================
 
 
-function renderizar(){
+function carregarPrincipal(){
+
+
+
+if(!dados.principal)return;
+
+
+
+let img =
+document.getElementById("logoPrincipal");
+
+
+let nome =
+document.getElementById("nomePrincipal");
+
+
+let link =
+document.getElementById("linkPrincipal");
+
+
+
+if(img)
+
+img.src =
+dados.principal.imagem;
+
+
+
+if(nome)
+
+nome.innerText =
+dados.principal.nome;
+
+
+
+if(link){
+
+
+link.href =
+dados.principal.link;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================
+// CARDS
+// ==========================
+
+
+function carregarCards(){
 
 
 mostrarLista(
+
 "grupos",
+
 dados.grupos,
+
 "👥"
+
 );
 
 
 
 mostrarLista(
+
 "canais",
+
 dados.canais,
+
 "📢"
+
 );
 
 
 
 mostrarLista(
+
 "vip",
+
 dados.vip,
+
 "⭐"
+
 );
 
 
 
 mostrarLista(
+
 "parceiros",
+
 dados.parceiros,
+
 "🤝"
+
 );
 
-
-
-contadores();
 
 
 }
@@ -305,12 +350,14 @@ contadores();
 function mostrarLista(id,lista,icone){
 
 
+
 let area =
 document.getElementById(id);
 
 
 
-if(!area) return;
+if(!area)return;
+
 
 
 area.innerHTML="";
@@ -340,11 +387,6 @@ icone
 
 
 
-// ==========================
-// CARD
-// ==========================
-
-
 function criarCard(item,icone){
 
 
@@ -355,10 +397,9 @@ return `
 <div class="community-card">
 
 
-
 <img
 
-src="${item.imagem || "img/default.png"}"
+src="${item.imagem || 'img/default.png'}"
 
 class="community-img"
 
@@ -370,6 +411,7 @@ onerror="this.src='img/default.png'"
 
 
 <div class="community-info">
+
 
 
 <span>
@@ -390,7 +432,7 @@ ${item.nome}
 
 <p>
 
-${item.desc || "Comunidade R.H.S"}
+${item.descricao || "Comunidade R.H.S"}
 
 </p>
 
@@ -423,7 +465,6 @@ Entrar →
 </div>
 
 
-
 </div>
 
 
@@ -446,18 +487,19 @@ Entrar →
 // ==========================
 
 
-const pesquisa = document.getElementById("pesquisa");
+const pesquisa =
+document.getElementById("pesquisa");
 
 
 
 if(pesquisa){
 
 
-
 pesquisa.addEventListener("input",()=>{
 
 
-let valor = pesquisa.value.toLowerCase();
+let busca =
+pesquisa.value.toLowerCase();
 
 
 
@@ -466,12 +508,14 @@ let valor = pesquisa.value.toLowerCase();
 .forEach(tipo=>{
 
 
-let filtrado = dados[tipo].filter(item=>
+
+let filtrados =
+dados[tipo].filter(item=>
 
 
 item.nome
 .toLowerCase()
-.includes(valor)
+.includes(busca)
 
 
 );
@@ -482,25 +526,13 @@ mostrarLista(
 
 tipo,
 
-filtrado,
+filtrados,
 
-tipo==="grupos" ?
+tipo=="grupos" ? "👥" :
 
-"👥"
+tipo=="canais" ? "📢" :
 
-:
-
-tipo==="canais" ?
-
-"📢"
-
-:
-
-tipo==="vip" ?
-
-"⭐"
-
-:
+tipo=="vip" ? "⭐" :
 
 "🤝"
 
@@ -515,7 +547,6 @@ tipo==="vip" ?
 });
 
 
-
 }
 
 
@@ -526,144 +557,4 @@ tipo==="vip" ?
 
 
 
-// ==========================
-// FILTROS
-// ==========================
-
-
-function mostrarArea(tipo){
-
-
-
-let areas=[
-
-"grupos",
-
-"canais",
-
-"vip",
-
-"parceiros"
-
-];
-
-
-
-areas.forEach(area=>{
-
-
-let elemento =
-document.getElementById(area);
-
-
-
-if(!elemento) return;
-
-
-
-elemento.parentElement.style.display="block";
-
-
-
-});
-
-
-
-
-
-if(tipo!=="todos"){
-
-
-
-areas.forEach(area=>{
-
-
-if(area!==tipo){
-
-
-document
-.getElementById(area)
-.parentElement.style.display="none";
-
-
-}
-
-
-
-});
-
-
-}
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// ==========================
-// CONTADORES
-// ==========================
-
-
-function contadores(){
-
-
-let grupos =
-document.getElementById("totalGrupos");
-
-
-let canais =
-document.getElementById("totalCanais");
-
-
-let vip =
-document.getElementById("totalVip");
-
-
-let parceiros =
-document.getElementById("totalParceiros");
-
-
-
-
-if(grupos)
-
-grupos.innerText=dados.grupos.length;
-
-
-
-if(canais)
-
-canais.innerText=dados.canais.length;
-
-
-
-if(vip)
-
-vip.innerText=dados.vip.length;
-
-
-
-if(parceiros)
-
-parceiros.innerText=dados.parceiros.length;
-
-
-
-}
-
-
-
-
-
-
-
-
-carregarBanco();
+iniciar();
