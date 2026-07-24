@@ -16,10 +16,9 @@
 <body>
 
 
-<!-- FUNDO -->
+<!-- FUNDO MATRIX -->
 
 <canvas id="matrix"></canvas>
-
 
 <div class="blur-bg b1"></div>
 <div class="blur-bg b2"></div>
@@ -27,7 +26,7 @@
 
 
 
-<!-- ENTRADA -->
+<!-- TELA DE ENTRADA -->
 
 
 <section id="welcome">
@@ -36,7 +35,7 @@
 <div class="welcome-card">
 
 
-<img src="IMG-20260724-WA0028.jpg" class="logo">
+<img src="img/logo.png" class="logo">
 
 
 <h1>
@@ -44,9 +43,10 @@ R.H.S
 </h1>
 
 
-<p class="typing">
-Sistema oficial de grupos, canais e parceiros
+<p>
+Conectando comunidades, canais e parceiros
 </p>
+
 
 
 <button id="entrar">
@@ -63,9 +63,12 @@ ENTRAR
 
 
 
+<!-- MUSICA -->
+
+
 <audio id="music" loop>
 
-<source src="https://files.catbox.moe/c2czru.mp3" type="audio/mp3">
+<source src="audio/music.mp3" type="audio/mp3">
 
 </audio>
 
@@ -74,19 +77,18 @@ ENTRAR
 
 
 
-<!-- SITE -->
+
+<!-- SITE PRINCIPAL -->
 
 
 <div id="site">
 
 
 
+<header class="top">
 
 
-<header>
-
-
-<img src="IMG-20260724-WA0028.jpg" class="logo">
+<img src="img/logo.png" class="logo">
 
 
 <h1>
@@ -95,13 +97,15 @@ R.H.S
 
 
 <p>
-Conectando comunidades e parceiros
+Sistema de comunidades premium
 </p>
 
 
 
-<a href="https://whatsapp.com/channel/0029VbD5fHG1dAw02pNMXQ3X" class="main-button">
+<a href="#" class="main-button">
+
 Canal Oficial
+
 </a>
 
 
@@ -112,7 +116,10 @@ Canal Oficial
 
 
 
-<!-- NUMEROS -->
+
+
+
+<!-- ESTATISTICAS -->
 
 
 <section class="stats">
@@ -120,12 +127,12 @@ Canal Oficial
 
 <div class="stat">
 
-<h2 id="totalGrupos">
+<h2 id="totalComunidades">
 0
 </h2>
 
 <p>
-Grupos
+Comunidades
 </p>
 
 </div>
@@ -133,21 +140,6 @@ Grupos
 
 
 <div class="stat">
-
-<h2 id="totalCanais">
-0
-</h2>
-
-<p>
-Canais
-</p>
-
-</div>
-
-
-
-
-<div class="stat premium">
 
 <h2 id="totalAliados">
 0
@@ -160,6 +152,21 @@ Aliados
 </div>
 
 
+
+<div class="stat">
+
+<h2 id="totalParceiros">
+0
+</h2>
+
+<p>
+Parceiros
+</p>
+
+</div>
+
+
+
 </section>
 
 
@@ -168,22 +175,26 @@ Aliados
 
 
 
-<!-- PESQUISA + FILTRO -->
 
 
-<section class="area">
+<!-- EXPLORAR -->
+
+
+<section class="explorar">
+
 
 
 <h2>
-🔎 Explorar R.H.S
+Explorar R.H.S
 </h2>
+
 
 
 <input 
 id="pesquisa"
-class="search"
 placeholder="Pesquisar comunidades..."
 >
+
 
 
 
@@ -195,42 +206,36 @@ placeholder="Pesquisar comunidades..."
 </button>
 
 
-<button onclick="filtrar('grupos')">
+<button onclick="filtrar('grupo')">
 👥 Grupos
 </button>
 
 
-<button onclick="filtrar('canais')">
+<button onclick="filtrar('canal')">
 📢 Canais
 </button>
 
 
-<button onclick="filtrar('aliados')">
+<button onclick="filtrar('aliado')">
 ⭐ Aliados
 </button>
 
 
+
 </div>
 
 
-</section>
-<!-- GRUPOS -->
 
 
-<section class="area" id="areaGrupos">
 
-
-<h2>
-👥 Grupos
-</h2>
 
 
 <div id="comunidades" class="cards">
-</div>
 
-<!-- grupos carregados pelo JS -->
 
 </div>
+
+
 
 
 </section>
@@ -241,71 +246,33 @@ placeholder="Pesquisar comunidades..."
 
 
 
-<!-- CANAIS -->
 
 
-<section class="area" id="areaCanais">
+<!-- PARCEIROS -->
 
 
-<h2>
-📢 Canais
-</h2>
-
-
-<div id="canais" class="cards">
-
-<!-- canais carregados pelo JS -->
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-
-<!-- ALIADOS PREMIUM -->
-
-
-<section class="aliados" id="areaAliados">
-
-
-<div class="aliados-header">
-
-
-<span>
-⭐
-</span>
+<section class="parceiros">
 
 
 <h2>
-Aliados Premium
+⭐ Parceiros R.H.S
 </h2>
 
 
 <p>
-Parceiros oficiais
+Parceiros oficiais da plataforma
 </p>
 
 
-</div>
 
+<div id="parceiros" class="cards">
 
-
-
-
-<div id="aliados" class="cards aliados-cards">
-
-<!-- aliados carregados pelo JS -->
 
 </div>
-
 
 
 </section>
+
 
 
 
@@ -320,6 +287,7 @@ Parceiros oficiais
 <section class="parceria">
 
 
+
 <h2>
 🤝 Fazer Parceria
 </h2>
@@ -330,18 +298,9 @@ Parceiros oficiais
 
 
 
-<label>
-Escolha um ADM:
-</label>
-
-
-
 <select id="admSelect">
 
-<!-- ADM carregado pelo JS -->
-
 </select>
-
 
 
 
@@ -357,12 +316,12 @@ Olá, vim pela R.H.S e quero fazer parceria.
 
 
 
-
 <button id="whatsapp">
 
 Enviar WhatsApp
 
 </button>
+
 
 
 
@@ -377,7 +336,6 @@ Enviar WhatsApp
 
 
 
-<!-- FOOTER -->
 
 
 <footer>
@@ -388,18 +346,14 @@ Enviar WhatsApp
 </p>
 
 
-<p>
-Sistema oficial de grupos, canais e parceiros
-</p>
-
-
 </footer>
 
 
 
 
-
 </div>
+
+
 
 
 
