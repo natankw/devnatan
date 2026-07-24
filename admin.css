@@ -1,72 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+/* ==========================
+        R.H.S ADM V4
+========================== */
 
 
 *{
+
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Inter,sans-serif;
+font-family:Arial,sans-serif;
+
 }
 
 
 body{
 
-min-height:100vh;
-
-background:#030303;
+background:#050505;
 
 color:white;
 
-padding:30px;
-
-overflow-x:hidden;
-
-}
-
-
-
-
-body::before{
-
-content:"";
-
-position:fixed;
-
-width:400px;
-height:400px;
-
-background:#ff0000;
-
-filter:blur(150px);
-
-opacity:.15;
-
-top:-100px;
-right:-100px;
-
-z-index:-1;
-
-}
-
-
-
-
-
-header{
-
-text-align:center;
-
-margin-bottom:40px;
-
-}
-
-
-
-header h1{
-
-font-size:45px;
-
-letter-spacing:5px;
+padding:20px;
 
 }
 
@@ -76,7 +29,7 @@ letter-spacing:5px;
 
 .box{
 
-max-width:500px;
+max-width:600px;
 
 margin:25px auto;
 
@@ -85,47 +38,43 @@ padding:30px;
 
 background:
 
-rgba(255,255,255,.05);
+rgba(255,255,255,.06);
 
 
 border:
 
-1px solid rgba(255,255,255,.12);
+1px solid rgba(255,255,255,.15);
 
 
 border-radius:25px;
 
 
-backdrop-filter:blur(15px);
-
-
-box-shadow:
-
-0 0 30px #000;
+backdrop-filter:blur(20px);
 
 
 }
 
 
 
-.box h1,
-.box h2{
+h1,h2{
 
-margin-bottom:15px;
+text-align:center;
 
-}
-
-
-
-
-
-.box p{
-
-color:#888;
+margin-bottom:20px;
 
 }
 
 
+
+p{
+
+color:#aaa;
+
+text-align:center;
+
+margin-bottom:20px;
+
+}
 
 
 
@@ -136,49 +85,37 @@ select{
 
 width:100%;
 
-
 padding:15px;
 
-
-margin:10px 0;
-
-
-background:#080808;
+margin:8px 0;
 
 
-border:
+border:none;
 
-1px solid #333;
+outline:none;
 
 
 border-radius:15px;
 
 
+background:#111;
+
 color:white;
 
 
-outline:none;
-
-
 }
 
 
 
 
 
-input:focus{
+textarea{
 
+height:120px;
 
-border-color:white;
-
-
-box-shadow:
-
-0 0 15px #ffffff33;
-
+resize:none;
 
 }
-
 
 
 
@@ -187,52 +124,57 @@ button{
 
 width:100%;
 
-
 padding:15px;
-
 
 margin-top:15px;
 
 
 border:none;
 
-
 border-radius:30px;
 
 
 background:white;
 
+color:black;
 
-color:#000;
 
-
-font-weight:700;
-
+font-weight:bold;
 
 cursor:pointer;
 
 
-transition:.3s;
-
-
 }
-
 
 
 
 button:hover{
 
-
-transform:translateY(-3px);
-
-
-box-shadow:
-
-0 10px 30px #fff4;
-
+transform:scale(1.03);
 
 }
 
+
+
+#listaAdmin .item{
+
+
+margin-top:15px;
+
+
+padding:20px;
+
+
+background:#111;
+
+
+border-radius:20px;
+
+
+border:1px solid #333;
+
+
+}
 
 
 
@@ -240,7 +182,7 @@ box-shadow:
 .exit{
 
 
-background:#ff0000;
+background:#333;
 
 color:white;
 
@@ -249,65 +191,6 @@ color:white;
 
 
 
-#painel{
-
-
-animation:
-
-entrada .6s ease;
-
-
-}
-
-
-
-
-@keyframes entrada{
-
-
-from{
-
-opacity:0;
-
-transform:translateY(30px);
-
-}
-
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-
-}
-
-
-
-
-.blur{
-
-position:fixed;
-
-width:300px;
-
-height:300px;
-
-background:#fff;
-
-filter:blur(150px);
-
-opacity:.05;
-
-bottom:-100px;
-
-left:-100px;
-
-}
-
 
 
 @media(max-width:600px){
@@ -315,9 +198,10 @@ left:-100px;
 
 body{
 
-padding:15px;
+padding:10px;
 
 }
+
 
 
 .box{
@@ -326,12 +210,6 @@ padding:20px;
 
 }
 
-
-header h1{
-
-font-size:35px;
-
-}
 
 
 }
