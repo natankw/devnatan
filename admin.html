@@ -4,9 +4,12 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <title>R.H.S ADM</title>
+
 
 <link rel="stylesheet" href="admin.css">
 
@@ -30,19 +33,30 @@ Painel Administrativo
 </p>
 
 
-<input 
+
+<input
+
 id="senha"
+
 type="password"
+
 placeholder="Senha"
+
 >
 
 
+
 <button onclick="entrarADM()">
+
 Entrar
+
 </button>
 
 
+
 </div>
+
+
 
 
 
@@ -54,17 +68,23 @@ Entrar
 
 
 
+
+
 <header>
+
 
 <h1>
 R.H.S ADM
 </h1>
 
+
 <p>
-Gerencie o catálogo
+Gerenciar plataforma
 </p>
 
+
 </header>
+
 
 
 
@@ -77,7 +97,7 @@ Gerencie o catálogo
 
 
 <h2>
-➕ Adicionar Item
+➕ Nova Comunidade
 </h2>
 
 
@@ -85,18 +105,17 @@ Gerencie o catálogo
 <select id="tipo">
 
 
-<option value="grupos">
+<option value="grupo">
+
 👥 Grupo
+
 </option>
 
 
-<option value="canais">
+<option value="canal">
+
 📢 Canal
-</option>
 
-
-<option value="aliados">
-⭐ Aliado
 </option>
 
 
@@ -108,10 +127,47 @@ Gerencie o catálogo
 
 
 
-<input 
+
+<input
+
 id="nome"
-placeholder="Nome"
+
+placeholder="Nome da comunidade"
+
 >
+
+
+
+
+
+
+
+
+<input
+
+id="imagem"
+
+placeholder="URL da foto"
+
+>
+
+
+
+
+
+
+
+
+<input
+
+id="link"
+
+placeholder="Link da comunidade"
+
+>
+
+
+
 
 
 
@@ -119,43 +175,68 @@ placeholder="Nome"
 
 <select id="categoria">
 
+
 <option value="amizade">
+
 🤝 Amizade
+
 </option>
+
 
 <option value="jogos">
+
 🎮 Jogos
+
 </option>
+
 
 <option value="programacao">
+
 💻 Programação
+
 </option>
+
 
 <option value="divulgacao">
+
 📢 Divulgação
+
 </option>
 
+
 <option value="outros">
+
 🌐 Outros
+
 </option>
+
+
 
 </select>
 
 
-<input 
-id="link"
-placeholder="Link WhatsApp/Site"
->
 
 
-<textarea 
+
+
+
+
+<textarea
+
 id="descricao"
+
 placeholder="Descrição"
+
 ></textarea>
 
 
 
-<button onclick="salvarItem()">
+
+
+
+
+
+<button onclick="salvarComunidade()">
 
 Publicar
 
@@ -164,6 +245,75 @@ Publicar
 
 
 </section>
+
+
+
+
+
+
+
+
+
+<section class="box">
+
+
+<h2>
+⭐ Novo Aliado
+</h2>
+
+
+
+<input
+
+id="aliadoNome"
+
+placeholder="Nome"
+
+>
+
+
+
+<input
+
+id="aliadoImagem"
+
+placeholder="URL da foto"
+
+>
+
+
+
+<input
+
+id="aliadoLink"
+
+placeholder="Link"
+
+>
+
+
+
+<textarea
+
+id="aliadoDesc"
+
+placeholder="Descrição"
+
+></textarea>
+
+
+
+
+<button onclick="salvarAliado()">
+
+Salvar Aliado
+
+</button>
+
+
+
+</section>
+
 
 
 
@@ -181,16 +331,24 @@ Publicar
 
 
 
-<input 
+
+<input
+
 id="admNome"
-placeholder="Nick do ADM"
+
+placeholder="Nome do ADM"
+
 >
 
 
 
-<input 
+
+<input
+
 id="admNumero"
-placeholder="WhatsApp"
+
+placeholder="WhatsApp com DDI"
+
 >
 
 
@@ -203,7 +361,9 @@ Salvar ADM
 </button>
 
 
+
 </section>
+
 
 
 
@@ -216,16 +376,13 @@ Salvar ADM
 
 
 <h2>
-📦 Itens publicados
+📦 Publicados
 </h2>
-
 
 
 <div id="listaAdmin">
 
-
 </div>
-
 
 
 </section>
@@ -236,7 +393,9 @@ Salvar ADM
 
 
 
-<button onclick="sair()" class="exit">
+
+
+<button class="exit" onclick="sair()">
 
 Sair
 
@@ -245,7 +404,11 @@ Sair
 
 
 
+
 </div>
+
+
+
 
 
 
