@@ -1451,3 +1451,179 @@ min-width:85%;
 }
 
 }
+
+/* ==========================
+      R.H.S MOBILE APP
+========================== */
+
+@media(max-width:600px){
+
+
+body{
+overflow-x:hidden;
+}
+
+
+/* entrada */
+
+.welcome-card{
+
+width:90%;
+padding:25px;
+border-radius:25px;
+
+}
+
+
+.welcome-card h1{
+
+font-size:35px;
+
+}
+
+
+.logo{
+
+width:80px;
+
+}
+
+
+
+/* topo */
+
+header{
+
+padding:25px 15px;
+
+}
+
+
+header h1{
+
+font-size:32px;
+
+}
+
+
+header p{
+
+font-size:14px;
+
+}
+
+
+
+/* números */
+
+.stats{
+
+display:flex;
+gap:10px;
+overflow-x:auto;
+
+}
+
+
+.stat{
+
+min-width:120px;
+padding:15px;
+
+}
+
+
+.stat h2{
+
+font-size:30px;
+
+}
+
+
+
+/* áreas */
+
+.area,
+.aliados,
+.parceria{
+
+margin:15px;
+padding:18px;
+
+border-radius:20px;
+
+}
+
+
+
+/* cards */
+
+.cards{
+
+display:flex;
+overflow-x:auto;
+gap:15px;
+
+}
+
+
+.card{
+
+min-width:85%;
+border-radius:22px;
+
+}
+
+
+
+.card-img{
+
+height:140px;
+
+}
+
+
+.card-content{
+
+padding:15px;
+
+}
+
+
+.card-content h3{
+
+font-size:18px;
+
+}
+
+
+.card-content p{
+
+font-size:14px;
+
+}
+
+
+/* botões */
+
+.card-button{
+
+width:100%;
+text-align:center;
+
+}
+
+
+
+/* pesquisa */
+
+input,
+textarea,
+select{
+
+width:100%;
+font-size:15px;
+
+}
+
+}
