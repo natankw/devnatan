@@ -750,3 +750,229 @@ footer {
 }
 
 /* Fim do CSS */
+
+/* ===================================
+   TELA DE ENTRADA
+=================================== */
+
+#welcomeScreen{
+position:fixed;
+inset:0;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#000;
+z-index:999999;
+overflow:hidden;
+transition:1s;
+}
+
+#welcomeScreen.hide{
+opacity:0;
+visibility:hidden;
+pointer-events:none;
+}
+
+.welcomeBlur{
+position:absolute;
+inset:0;
+background:
+radial-gradient(circle at center,
+rgba(255,0,0,.18),
+transparent 70%);
+animation:welcomePulse 3s infinite;
+}
+
+.welcomeBox{
+position:relative;
+z-index:2;
+width:90%;
+max-width:430px;
+padding:45px;
+border-radius:25px;
+text-align:center;
+background:rgba(15,15,15,.75);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,0,0,.35);
+box-shadow:
+0 0 45px rgba(255,0,0,.25),
+0 0 120px rgba(255,0,0,.08);
+}
+
+#welcomeLogo{
+width:140px;
+height:140px;
+margin:auto;
+border-radius:50%;
+border:4px solid var(--red);
+object-fit:cover;
+box-shadow:0 0 35px var(--red);
+margin-bottom:25px;
+animation:float 4s infinite;
+}
+
+#welcomeTitle{
+font-size:38px;
+font-weight:800;
+margin-bottom:12px;
+text-shadow:0 0 25px red;
+}
+
+#welcomeText{
+font-size:16px;
+line-height:1.8;
+color:#bdbdbd;
+margin-bottom:35px;
+}
+
+#enterSite{
+width:100%;
+padding:17px;
+border:none;
+border-radius:50px;
+font-size:18px;
+font-weight:700;
+cursor:pointer;
+background:
+linear-gradient(45deg,
+var(--red),
+var(--red2));
+color:#fff;
+transition:.35s;
+box-shadow:0 0 25px rgba(255,0,0,.45);
+}
+
+#enterSite:hover{
+transform:translateY(-4px);
+box-shadow:0 0 40px red;
+}
+
+/* ===================================
+   ALIADOS
+=================================== */
+
+#aliados{
+padding:90px 8%;
+}
+
+#aliados h2{
+font-size:38px;
+text-align:center;
+margin-bottom:35px;
+color:var(--gold);
+text-shadow:0 0 25px rgba(255,212,71,.45);
+}
+
+#aliadosRow .card{
+border:1px solid rgba(255,212,71,.45);
+box-shadow:0 0 25px rgba(255,212,71,.15);
+}
+
+#aliadosRow .card:hover{
+border-color:var(--gold);
+box-shadow:0 0 35px rgba(255,212,71,.35);
+}
+
+#aliadosRow .badge.tipo{
+background:linear-gradient(
+45deg,
+#ffd447,
+#b8860b);
+color:#000;
+font-weight:700;
+}
+
+/* ===================================
+   PARCERIA
+=================================== */
+
+#parceria{
+padding:90px 8%;
+}
+
+#parceria h2{
+text-align:center;
+margin-bottom:35px;
+font-size:34px;
+}
+
+.parceriaBox{
+max-width:500px;
+margin:auto;
+padding:35px;
+background:rgba(20,20,20,.65);
+border-radius:22px;
+border:1px solid rgba(255,0,0,.25);
+backdrop-filter:blur(15px);
+}
+
+.parceriaBox select{
+width:100%;
+padding:16px;
+margin-bottom:18px;
+border-radius:15px;
+background:#101010;
+color:#fff;
+border:1px solid rgba(255,0,0,.35);
+outline:none;
+}
+
+#btnParceria{
+width:100%;
+padding:16px;
+border:none;
+border-radius:15px;
+background:linear-gradient(
+45deg,
+var(--red),
+var(--red2));
+color:#fff;
+font-size:17px;
+font-weight:700;
+cursor:pointer;
+transition:.3s;
+}
+
+#btnParceria:hover{
+transform:translateY(-3px);
+box-shadow:0 0 30px var(--red);
+}
+
+/* ===================================
+   MATRIX
+=================================== */
+
+#matrix{
+position:fixed;
+left:0;
+top:0;
+width:100vw;
+height:100vh;
+display:block;
+pointer-events:none;
+z-index:-5;
+opacity:.65;
+}
+
+/* ===================================
+   ANIMAÇÕES
+=================================== */
+
+@keyframes welcomePulse{
+
+0%{
+transform:scale(1);
+opacity:.4;
+}
+
+50%{
+transform:scale(1.12);
+opacity:.8;
+}
+
+100%{
+transform:scale(1);
+opacity:.4;
+}
+
+   }
