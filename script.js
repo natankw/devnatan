@@ -179,23 +179,37 @@ setInterval(chuva,60);
 
 async function iniciar(){
 
-
 try{
+
+let salvo = localStorage.getItem("rhs");
+
+
+if(salvo){
+
+dados = JSON.parse(salvo);
+
+}else{
 
 
 let res = await fetch("banco.json");
 
-
 dados = await res.json();
 
+
+}
 
 
 carregarPrincipal();
 
-
 carregarCards();
 
 
+}
+catch(err){
+
+console.log(err);
+
+}
 
 }
 
