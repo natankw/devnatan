@@ -1,8 +1,11 @@
 "use strict";
 
-/* ==============================
-   ELEMENTOS
-============================== */
+/* ===================================================
+   KNOWS.exe
+   PARTE 1
+=================================================== */
+
+/* ========= ELEMENTOS ========= */
 
 const loader = document.getElementById("loader");
 
@@ -25,6 +28,8 @@ const footerText = document.getElementById("footerText");
 
 const canaisRow = document.getElementById("canaisRow");
 const gruposRow = document.getElementById("gruposRow");
+const aliadosRow = document.getElementById("aliadosRow");
+
 const filtrosEl = document.getElementById("filtros");
 const searchEl = document.getElementById("search");
 
@@ -35,14 +40,10 @@ const musicButton = document.getElementById("musicButton");
 
 const bgVideo = document.getElementById("bgVideo");
 const videoOverlay = document.getElementById("videoOverlay");
+
 const canvas = document.getElementById("matrix");
 
-let categoriaAtiva = "todas";
-let config = null;
-
-/* ==============================
-   TELA DE BOAS-VINDAS
-============================== */
+/* ========= BEM VINDO ========= */
 
 const welcomeScreen = document.getElementById("welcomeScreen");
 const welcomeLogo = document.getElementById("welcomeLogo");
@@ -50,446 +51,771 @@ const welcomeTitle = document.getElementById("welcomeTitle");
 const welcomeText = document.getElementById("welcomeText");
 const enterSite = document.getElementById("enterSite");
 
-const aliadosRow = document.getElementById("aliadosRow");
+/* ========= PARCERIA ========= */
 
 const admSelect = document.getElementById("admSelect");
 const btnParceria = document.getElementById("btnParceria");
 
-let musicaIniciada = false;
+/* ========= VARIÁVEIS ========= */
 
-/* ==============================
+let config = null;
+let categoriaAtiva = "todas";
+
+/* ===================================================
    LOADER
-============================== */
+=================================================== */
 
 window.addEventListener("load", () => {
-  setTimeout(() => {
-    loader.style.opacity = "0";
-    loader.style.pointerEvents = "none";
-    setTimeout(() => loader.remove(), 700);
-  }, 1200);
+
+    setTimeout(() => {
+
+        loader.style.opacity = "0";
+        loader.style.pointerEvents = "none";
+
+        setTimeout(() => {
+
+            loader.remove();
+
+        },700);
+
+    },1200);
+
 });
 
-/* ==============================
-   CARREGAR CONFIG
-============================== */
+/* ===================================================
+   CONFIG
+=================================================== */
 
-function carregarConfig() {
-  document.title = config.site.nome;
+function carregarConfig(){
 
-  navLogo.src = config.site.logo;
-  loaderLogo.src = config.site.logo;
-  footerLogo.src = config.site.logo;
+    document.title = config.site.nome;
 
-  avatar.src = config.site.avatar;
+    navLogo.src=config.site.logo;
+    loaderLogo.src=config.site.logo;
+    footerLogo.src=config.site.logo;
 
-  navNome.textContent = config.site.nome;
-  loaderNome.textContent = config.site.nome;
-  siteNome.textContent = config.site.nome;
-  footerNome.textContent = config.site.nome;
+    avatar.src=config.site.avatar;
 
-  bio.textContent = config.site.descricao;
-  footerText.textContent = config.footer.texto;
+    navNome.textContent=config.site.nome;
+    loaderNome.textContent=config.site.nome;
+    siteNome.textContent=config.site.nome;
+    footerNome.textContent=config.site.nome;
 
-  btnWhatsapp.href = config.site.whatsapp;
+    bio.textContent=config.site.descricao;
+    footerText.textContent=config.footer.texto;
 
-  btnWhatsapp.addEventListener("click", (e) => {
-    e.preventDefault();
-    window.open(config.site.whatsapp, "_blank");
-  });
+    btnWhatsapp.href=config.site.whatsapp;
 
-  copyButton.addEventListener("click", () => {
-    navigator.clipboard.writeText(config.site.whatsapp);
-    copyButton.textContent = "Copiado!";
-    setTimeout(() => (copyButton.textContent = "Copiar Link"), 1500);
-  });
+    if(welcomeLogo){
 
-  /* Tela de boas-vindas */
-
-  if (welcomeLogo)
-    welcomeLogo.src = config.site.logo;
-
-  if (welcomeTitle)
-    welcomeTitle.textContent = "Bem-vindo à " + config.site.nome;
-
-  if (welcomeText)
-    welcomeText.textContent = config.site.descricao;
-
-}
-   
-/* ==============================
-   MÚSICA DE FUNDO
-============================== */
-
-function configurarMusica() {
-
-  if (!config.site.musica) {
-    musicButton.style.display = "none";
-    return;
-  }
-
-  bgAudio.src = config.site.musica;
-  bgAudio.loop = true;
-  bgAudio.volume = config.site.volume || 0.5;
-
-  musicButton.style.display = "flex";
-
-  musicButton.textContent = "🔇";
-
-  musicButton.addEventListener("click", () => {
-
-    if (bgAudio.paused) {
-
-      bgAudio.play();
-
-      musicButton.textContent = "🎵";
-
-    } else {
-
-      bgAudio.pause();
-
-      musicButton.textContent = "🔇";
+        welcomeLogo.src=config.site.logo;
+        welcomeTitle.textContent="Bem-vindo";
+        welcomeText.textContent=config.site.descricao;
 
     }
 
-  });
+    copyButton.onclick=()=>{
 
-  if (enterSite) {
+        navigator.clipboard.writeText(config.site.whatsapp);
 
-    enterSite.addEventListener("click", async () => {
+        copyButton.innerText="Copiado!";
 
-      welcomeScreen.classList.add("hide");
+        setTimeout(()=>{
 
-      try {
+            copyButton.innerText="Copiar Link";
 
-        await bgAudio.play();
+        },1500);
 
-        musicButton.textContent = "🎵";
-
-      } catch (e) {
-        console.log("Não foi possível iniciar a música:", e);
-      }
-
-    }, { once: true });
-
-  }
+    };
 
 }
 
-/* ==============================
-   FUNDO (matrix / vídeo / imagem)
-============================== */
+/* ===================================================
+   MÚSICA
+=================================================== */
 
-function configurarFundo() {
-  const tipo = config.site.fundoTipo || "matrix";
+function configurarMusica(){
 
-  bgVideo.style.display = "none";
-  videoOverlay.style.display = "none";
+    if(!config.site.musica){
 
-  if (canvas) canvas.style.display = "block";
+        musicButton.style.display="none";
+        return;
 
-  if (tipo === "video" && config.site.videoFundo) {
-    bgVideo.src = config.site.videoFundo;
-    bgVideo.style.display = "block";
-    videoOverlay.style.display = "block";
-    if (canvas) canvas.style.display = "none";
-  }
+    }
 
-  if (tipo === "imagem") {
-    if (canvas) canvas.style.display = "none";
-  }
+    bgAudio.src=config.site.musica;
+    bgAudio.loop=true;
+    bgAudio.volume=config.site.volume || 0.5;
+
+    musicButton.style.display="flex";
+
+    musicButton.innerHTML="🔇";
+
+    if(enterSite){
+
+        enterSite.onclick=async()=>{
+
+            welcomeScreen.classList.add("hide");
+
+            try{
+
+                await bgAudio.play();
+
+                musicButton.innerHTML="🎵";
+
+            }catch(e){
+
+                console.log(e);
+
+            }
+
+        };
+
+    }
+
+    musicButton.onclick=()=>{
+
+        if(bgAudio.paused){
+
+            bgAudio.play();
+            musicButton.innerHTML="🎵";
+
+        }else{
+
+            bgAudio.pause();
+            musicButton.innerHTML="🔇";
+
+        }
+
+    };
+
 }
 
-/* ==============================
-   BOTÃO TOPO
-============================== */
-
-window.addEventListener("scroll", () => {
-  topButton.style.display = window.scrollY > 250 ? "flex" : "none";
-});
-
-topButton.addEventListener("click", () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-});
-
-/* ==============================
+/* ===================================================
    FILTROS
-============================== */
+=================================================== */
 
-function criarBotaoFiltro(nome, valor) {
-  const botao = document.createElement("button");
-  botao.className = "filtro";
-  botao.textContent = nome;
-  if (valor === "todas") botao.classList.add("ativo");
+function criarBotaoFiltro(nome, valor){
 
-  botao.addEventListener("click", () => {
-    document.querySelectorAll(".filtro").forEach((btn) => btn.classList.remove("ativo"));
-    botao.classList.add("ativo");
-    categoriaAtiva = valor;
-    aplicarFiltros();
-  });
+    const botao=document.createElement("button");
 
-  filtrosEl.appendChild(botao);
+    botao.className="filtro";
+    botao.innerText=nome;
+
+    if(valor==="todas")
+        botao.classList.add("ativo");
+
+    botao.onclick=()=>{
+
+        document
+        .querySelectorAll(".filtro")
+        .forEach(btn=>btn.classList.remove("ativo"));
+
+        botao.classList.add("ativo");
+
+        categoriaAtiva=valor;
+
+        aplicarFiltros();
+
+    };
+
+    filtrosEl.appendChild(botao);
+
 }
 
-function obterCategoriasUsadas() {
-  const todosItens = [...(config.canais || []), ...(config.grupos || [])];
-  const categorias = todosItens.map((item) => item.categoria).filter(Boolean);
-  return [...new Set(categorias)];
+function obterCategoriasUsadas(){
+
+    const lista=[
+
+        ...(config.canais||[]),
+        ...(config.grupos||[]),
+        ...(config.aliados||[])
+
+    ];
+
+    return [...new Set(
+
+        lista
+        .map(x=>x.categoria)
+        .filter(Boolean)
+
+    )];
+
 }
 
-/* ==============================
+/* ===================================================
    PESQUISA
-============================== */
+=================================================== */
 
 searchEl.addEventListener("input", aplicarFiltros);
 
-function aplicarFiltros() {
-  const texto = searchEl.value.trim().toLowerCase();
+function aplicarFiltros(){
 
-  document.querySelectorAll("#canaisRow .card, #gruposRow .card").forEach((card) => {
-    const conteudo = card.innerText.toLowerCase();
-    const categoriaCard = card.dataset.categoria || "";
+    const texto=searchEl.value.toLowerCase().trim();
 
-    const passaTexto = conteudo.includes(texto);
-    const passaCategoria = categoriaAtiva === "todas" || categoriaCard === categoriaAtiva;
+    document.querySelectorAll(".card").forEach(card=>{
 
-    card.style.display = passaTexto && passaCategoria ? "flex" : "none";
-  });
+        const nome=card.innerText.toLowerCase();
+
+        const categoria=card.dataset.categoria||"";
+
+        const okTexto=nome.includes(texto);
+
+        const okCategoria=
+
+            categoriaAtiva==="todas" ||
+
+            categoria===categoriaAtiva;
+
+        card.style.display=
+
+            okTexto && okCategoria
+
+            ? "flex"
+
+            : "none";
+
+    });
+
 }
 
-/* ==============================
-   BUSCAR PREVIEW AUTOMÁTICO DO LINK
-   (usa a API gratuita da Microlink pra
-   pegar foto/nome/descrição do link)
-============================== */
+/* ===================================================
+   PREVIEW AUTOMÁTICA
+=================================================== */
 
-function limitarTexto(texto, tamanhoMax) {
-  if (!texto) return "";
-  const limpo = texto.replace(/\s+/g, " ").trim();
-  return limpo.length > tamanhoMax ? limpo.slice(0, tamanhoMax).trim() + "..." : limpo;
+function limitarTexto(txt,max){
+
+    if(!txt) return "";
+
+    txt=txt.replace(/\s+/g," ").trim();
+
+    if(txt.length<=max)
+        return txt;
+
+    return txt.substring(0,max)+"...";
+
 }
 
-async function buscarPreview(link) {
-  try {
-    const resposta = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(link)}`);
-    const json = await resposta.json();
+async function buscarPreview(link){
 
-    if (json.status === "success") {
-      return {
-        titulo: limitarTexto(json.data.title, 60),
-        imagem: (json.data.image && json.data.image.url) || (json.data.logo && json.data.logo.url) || ""
-      };
+    try{
+
+        const req=await fetch(
+
+            "https://api.microlink.io/?url="+
+
+            encodeURIComponent(link)
+
+        );
+
+        const json=await req.json();
+
+        if(json.status==="success"){
+
+            return{
+
+                titulo:limitarTexto(json.data.title,60),
+
+                imagem:
+
+                    json.data.image?.url ||
+
+                    json.data.logo?.url ||
+
+                    ""
+
+            };
+
+        }
+
+    }catch(e){
+
+        console.log(e);
+
     }
-  } catch (erro) {
-    console.warn("Não foi possível buscar preview do link:", link, erro);
-  }
 
-  return null;
+    return null;
+
 }
 
-/* ==============================
+/* ===================================================
    CRIAR CARD
-============================== */
+=================================================== */
 
-function criarCard(item, tipo, container) {
-  const card = document.createElement("div");
-  card.className = "card" + (item.fixado ? " fixado" : "");
-  card.dataset.categoria = item.categoria || "";
+function criarCard(item,tipo,container){
 
-  const precisaBuscarImagem = !item.imagem;
-  const precisaBuscarTitulo = !item.titulo;
-  const precisaBuscar = precisaBuscarImagem || precisaBuscarTitulo;
+    const card=document.createElement("div");
 
-  card.innerHTML = `
+    card.className="card";
+
+    if(item.fixado)
+        card.classList.add("fixado");
+
+    if(tipo==="Aliado")
+        card.classList.add("aliado");
+
+    card.dataset.categoria=item.categoria||"";
+
+    card.innerHTML=`
+
     <div class="cardImgWrap">
-      <img class="cardImg" src="${item.imagem || ""}" alt="${item.titulo || "Carregando..."}">
-      ${precisaBuscarImagem ? '<div class="cardSkeleton"></div>' : ""}
-      <span class="badge tipo">${tipo}</span>
-      <div class="badgesDireita">
-        ${item.vip ? '<span class="badge vip">★ VIP</span>' : ""}
-        ${item.fixado ? '<span class="badge fixado">📌 Fixado</span>' : ""}
-      </div>
+
+        <img class="cardImg"
+             src="${item.imagem||""}"
+             alt="${item.titulo||""}">
+
+        ${!item.imagem
+            ?'<div class="cardSkeleton"></div>'
+            :''}
+
+        <span class="badge tipo">${tipo}</span>
+
+        <div class="badgesDireita">
+
+            ${item.vip
+                ?'<span class="badge vip">★ VIP</span>'
+                :''}
+
+            ${item.fixado
+                ?'<span class="badge fixado">📌</span>'
+                :''}
+
+        </div>
+
     </div>
 
     <div class="cardInfo">
-      <h3 class="cardTitulo">${item.titulo || "Carregando..."}</h3>
 
-      <div class="cardTags">
-        <span class="pill whatsapp">🟢 WhatsApp</span>
-        ${item.categoria ? `<span class="pill categoria">${item.categoria}</span>` : ""}
-      </div>
+        <h3 class="cardTitulo">
 
-      <div class="cardButtons">
-        <a class="btnEntrar" href="${item.link}" target="_blank">↗ Entrar</a>
-        <button class="btnCopiar">⧉ Copiar</button>
-      </div>
+            ${item.titulo||"Carregando..."}
+
+        </h3>
+
+        <div class="cardTags">
+
+            <span class="pill whatsapp">
+                🟢 WhatsApp
+            </span>
+
+            ${
+                item.categoria
+                ?`<span class="pill categoria">${item.categoria}</span>`
+                :""
+            }
+
+        </div>
+
+        <div class="cardButtons">
+
+            <a
+               class="btnEntrar"
+               href="${item.link}"
+               target="_blank">
+
+               Entrar
+
+            </a>
+
+            <button class="btnCopiar">
+
+                Copiar
+
+            </button>
+
+        </div>
+
     </div>
-  `;
+    `;
 
-  card.querySelector(".btnCopiar").addEventListener("click", () => {
-    navigator.clipboard.writeText(item.link);
-    const btn = card.querySelector(".btnCopiar");
-    const textoOriginal = btn.textContent;
-    btn.textContent = "Copiado!";
-    setTimeout(() => (btn.textContent = textoOriginal), 1500);
-  });
+    card.querySelector(".btnCopiar").onclick=()=>{
 
-  container.appendChild(card);
+        navigator.clipboard.writeText(item.link);
 
-  if (precisaBuscar) {
-    buscarPreview(item.link).then((preview) => {
-      const skeleton = card.querySelector(".cardSkeleton");
-      if (skeleton) skeleton.remove();
+        const btn=card.querySelector(".btnCopiar");
 
-      if (!preview) return;
+        btn.innerHTML="Copiado!";
 
-      if (precisaBuscarImagem && preview.imagem) {
-        card.querySelector(".cardImg").src = preview.imagem;
-      }
+        setTimeout(()=>{
 
-      if (!item.titulo && preview.titulo) {
-        card.querySelector(".cardTitulo").textContent = preview.titulo;
-        card.querySelector(".cardImg").alt = preview.titulo;
-      }
-    });
-  }
+            btn.innerHTML="Copiar";
 
-  return card;
+        },1500);
+
+    };
+
+    container.appendChild(card);
+
+    if(!item.imagem||!item.titulo){
+
+        buscarPreview(item.link).then(preview=>{
+
+            if(!preview)
+                return;
+
+            const img=card.querySelector(".cardImg");
+
+            const titulo=card.querySelector(".cardTitulo");
+
+            const skeleton=
+                card.querySelector(".cardSkeleton");
+
+            if(skeleton)
+                skeleton.remove();
+
+            if(!item.imagem && preview.imagem)
+                img.src=preview.imagem;
+
+            if(!item.titulo && preview.titulo)
+                titulo.innerHTML=preview.titulo;
+
+        });
+
+    }
+
 }
 
-/* ==============================
-   CARROSSEL COM ARRASTE (mouse)
-============================== */
+/* ===================================================
+   CARROSSEL
+=================================================== */
 
-function habilitarArrasto(el) {
-  let isDown = false;
-  let startX = 0;
-  let scrollStart = 0;
+function habilitarArrasto(el){
 
-  el.addEventListener("mousedown", (e) => {
-    isDown = true;
-    el.classList.add("arrastando");
-    startX = e.pageX;
-    scrollStart = el.scrollLeft;
-  });
+    if(!el) return;
 
-  window.addEventListener("mouseup", () => {
-    isDown = false;
-    el.classList.remove("arrastando");
-  });
+    let pressionado=false;
+    let inicioX=0;
+    let scrollInicial=0;
 
-  window.addEventListener("mousemove", (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const dx = e.pageX - startX;
-    el.scrollLeft = scrollStart - dx;
-  });
+    el.addEventListener("mousedown",(e)=>{
+
+        pressionado=true;
+
+        el.classList.add("arrastando");
+
+        inicioX=e.pageX;
+
+        scrollInicial=el.scrollLeft;
+
+    });
+
+    window.addEventListener("mouseup",()=>{
+
+        pressionado=false;
+
+        el.classList.remove("arrastando");
+
+    });
+
+    window.addEventListener("mousemove",(e)=>{
+
+        if(!pressionado) return;
+
+        e.preventDefault();
+
+        const distancia=e.pageX-inicioX;
+
+        el.scrollLeft=scrollInicial-distancia;
+
+    });
+
 }
 
 habilitarArrasto(canaisRow);
 habilitarArrasto(gruposRow);
+habilitarArrasto(aliadosRow);
 
-/* ==============================
-   CARREGAR DADOS (fixados primeiro)
-============================== */
+/* ===================================================
+   LISTAS
+=================================================== */
 
-function ordenarComFixados(lista) {
-  return [...lista].sort((a, b) => (b.fixado ? 1 : 0) - (a.fixado ? 1 : 0));
+function ordenarComFixados(lista){
+
+    return [...lista].sort(
+
+        (a,b)=>(b.fixado?1:0)-(a.fixado?1:0)
+
+    );
+
 }
 
-function carregarLista(lista, tipo, container) {
-  if (!Array.isArray(lista) || lista.length === 0) {
-    const aviso = document.createElement("p");
-    aviso.className = "carouselVazio";
-    aviso.textContent = `Nenhum ${tipo.toLowerCase()} cadastrado ainda.`;
-    container.appendChild(aviso);
-    return;
-  }
+function carregarLista(lista,tipo,container){
 
-  ordenarComFixados(lista).forEach((item) => criarCard(item, tipo, container));
+    if(!container) return;
+
+    container.innerHTML="";
+
+    if(!Array.isArray(lista) || lista.length===0){
+
+        container.innerHTML=`
+        <p class="carouselVazio">
+        Nenhum ${tipo.toLowerCase()} cadastrado.
+        </p>`;
+
+        return;
+
+    }
+
+    ordenarComFixados(lista).forEach(item=>{
+
+        criarCard(item,tipo,container);
+
+    });
+
 }
 
-/* ==============================
-   MATRIX (chuva vermelha)
-============================== */
+/* ===================================================
+   PARCERIAS
+=================================================== */
+
+function carregarParcerias(){
+
+    if(!admSelect) return;
+
+    admSelect.innerHTML="";
+
+    if(!config.adms) return;
+
+    config.adms.forEach(adm=>{
+
+        const option=document.createElement("option");
+
+        option.value=adm.link;
+
+        option.textContent=adm.nick;
+
+        admSelect.appendChild(option);
+
+    });
+
+    if(btnParceria){
+
+        btnParceria.onclick=()=>{
+
+            const url=admSelect.value;
+
+            if(url){
+
+                window.open(url,"_blank");
+
+            }
+
+        };
+
+    }
+
+                }
+
+/* ===================================================
+   MATRIX
+=================================================== */
 
 if (canvas) {
-  const ctx = canvas.getContext("2d");
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+    const ctx = canvas.getContext("2d");
 
-  const letras = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const tamanho = 16;
+    function resizeMatrix() {
 
-  let colunas = Math.floor(canvas.width / tamanho);
-  let gotas = Array(colunas).fill(1);
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-  function matrix() {
-    ctx.fillStyle = "rgba(0,0,0,.08)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
 
-    ctx.font = tamanho + "px monospace";
+    resizeMatrix();
 
-    gotas.forEach((y, i) => {
-      const txt = letras[Math.floor(Math.random() * letras.length)];
-      const brilho = Math.random();
+    const letras =
+        "01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@<>[]{}";
 
-      if (brilho > 0.975) {
-        ctx.fillStyle = "#ffffff";
-      } else if (brilho > 0.5) {
-        ctx.fillStyle = "#ff2020";
-      } else {
-        ctx.fillStyle = "#7a0000";
-      }
+    const tamanho = 16;
 
-      ctx.fillText(txt, i * tamanho, y * tamanho);
+    let colunas = Math.floor(canvas.width / tamanho);
 
-      if (y * tamanho > canvas.height && Math.random() > 0.975) {
-        gotas[i] = 0;
-      }
+    let gotas = Array(colunas).fill(1);
 
-      gotas[i]++;
+    function desenharMatrix() {
+
+        ctx.fillStyle = "rgba(0,0,0,.05)";
+        ctx.fillRect(0,0,canvas.width,canvas.height);
+
+        ctx.font = tamanho + "px monospace";
+
+        for(let i=0;i<gotas.length;i++){
+
+            const letra =
+                letras[
+                    Math.floor(
+                        Math.random()*letras.length
+                    )
+                ];
+
+            const brilho=Math.random();
+
+            if(brilho>.96){
+
+                ctx.fillStyle="#ffffff";
+
+            }else if(brilho>.55){
+
+                ctx.fillStyle="#ff2b2b";
+
+            }else{
+
+                ctx.fillStyle="#8b0000";
+
+            }
+
+            ctx.fillText(
+
+                letra,
+
+                i*tamanho,
+
+                gotas[i]*tamanho
+
+            );
+
+            if(
+
+                gotas[i]*tamanho >
+
+                canvas.height &&
+
+                Math.random()>0.98
+
+            ){
+
+                gotas[i]=0;
+
+            }
+
+            gotas[i]++;
+
+        }
+
+    }
+
+    setInterval(desenharMatrix,30);
+
+    window.addEventListener("resize",()=>{
+
+        resizeMatrix();
+
+        colunas=Math.floor(canvas.width/tamanho);
+
+        gotas=Array(colunas).fill(1);
+
     });
-  }
 
-  setInterval(matrix, 35);
-
-  window.addEventListener("resize", () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    colunas = Math.floor(canvas.width / tamanho);
-    gotas = Array(colunas).fill(1);
-  });
 }
 
-/* ==============================
-   INICIAR SITE (busca o config.json)
-============================== */
+/* ===================================================
+   TOPO
+=================================================== */
 
-async function iniciarSite() {
-  try {
-    const resposta = await fetch(`config.json?v=${Date.now()}`, { cache: "no-store" });
-    config = await resposta.json();
-  } catch (erro) {
-    console.error("Não foi possível carregar config.json:", erro);
-    return;
-  }
+window.addEventListener("scroll",()=>{
 
-  carregarConfig();
-  configurarMusica();
-  configurarFundo();
+    topButton.style.display=
 
-  criarBotaoFiltro("Todas", "todas");
-  obterCategoriasUsadas().forEach((categoria) => criarBotaoFiltro(categoria, categoria));
+        window.scrollY>250
 
-  carregarLista(config.canais, "Canal", canaisRow);
-  carregarLista(config.grupos, "Grupo", gruposRow);
+        ? "flex"
+
+        : "none";
+
+});
+
+topButton.onclick=()=>{
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+};
+
+/* ===================================================
+   INICIAR
+=================================================== */
+
+async function iniciarSite(){
+
+    try{
+
+        const req=await fetch(
+
+            "config.json?v="+Date.now(),
+
+            {
+
+                cache:"no-store"
+
+            }
+
+        );
+
+        config=await req.json();
+
+    }catch(e){
+
+        console.error(e);
+
+        return;
+
+    }
+
+    carregarConfig();
+
+    configurarMusica();
+
+    configurarFundo();
+
+    criarBotaoFiltro("Todas","todas");
+
+    obterCategoriasUsadas()
+
+    .forEach(cat=>{
+
+        criarBotaoFiltro(cat,cat);
+
+    });
+
+    carregarLista(
+
+        config.canais,
+
+        "Canal",
+
+        canaisRow
+
+    );
+
+    carregarLista(
+
+        config.grupos,
+
+        "Grupo",
+
+        gruposRow
+
+    );
+
+    carregarLista(
+
+        config.aliados || [],
+
+        "Aliado",
+
+        aliadosRow
+
+    );
+
+    carregarParcerias();
+
 }
-
-console.log("Canvas:", canvas);
-console.log("Contexto:", canvas ? canvas.getContext("2d") : null);
 
 iniciarSite();
 
-console.log("✅ KnowS.exe carregado com sucesso");
+console.log("✅ KNOWS.exe iniciado.");
