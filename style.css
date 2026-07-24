@@ -1,9 +1,6 @@
 /* ==========================
-        R.H.S PREMIUM v2
+        R.H.S V4 STYLE
 ========================== */
-
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
 
 *{
@@ -11,7 +8,7 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Inter',sans-serif;
+font-family:Arial, sans-serif;
 
 }
 
@@ -19,9 +16,11 @@ font-family:'Inter',sans-serif;
 
 body{
 
-background:#030303;
+background:#050505;
 
-color:#fff;
+color:white;
+
+min-height:100vh;
 
 overflow-x:hidden;
 
@@ -30,7 +29,10 @@ overflow-x:hidden;
 
 
 
-/* MATRIX */
+/* ==========================
+        MATRIX
+========================== */
+
 
 #matrix{
 
@@ -44,24 +46,18 @@ height:100%;
 
 z-index:-3;
 
-opacity:.35;
-
 }
 
 
-
-
-
-/* BOLHAS BLUR */
 
 
 .blur-bg{
 
 position:fixed;
 
-width:350px;
+width:300px;
 
-height:350px;
+height:300px;
 
 border-radius:50%;
 
@@ -71,40 +67,37 @@ opacity:.15;
 
 z-index:-2;
 
-animation:float 12s infinite alternate;
-
 }
 
 
 
 .b1{
 
-background:#fff;
+background:white;
 
 top:10%;
 
-left:-100px;
+left:10%;
 
 }
 
 
 .b2{
 
-background:#ff0000;
+background:#aaa;
 
-right:-100px;
+right:10%;
 
 top:40%;
 
 }
 
 
-
 .b3{
 
-background:#777;
+background:white;
 
-bottom:-100px;
+bottom:5%;
 
 left:40%;
 
@@ -112,38 +105,16 @@ left:40%;
 
 
 
-@keyframes float{
-
-from{
-
-transform:translateY(0);
-
-}
 
 
-to{
-
-transform:translateY(80px);
-
-}
-
-
-}
-
-
-
-
-
-
-
-/* WELCOME */
+/* ==========================
+        ENTRADA
+========================== */
 
 
 #welcome{
 
-position:fixed;
-
-inset:0;
+height:100vh;
 
 display:flex;
 
@@ -151,35 +122,24 @@ align-items:center;
 
 justify-content:center;
 
-background:#0008;
-
-backdrop-filter:blur(10px);
-
-z-index:99;
-
 }
-
-
 
 
 
 .welcome-card{
 
-
 width:90%;
 
 max-width:420px;
 
-
-padding:40px 30px;
-
+padding:40px;
 
 text-align:center;
 
 
 background:
 
-rgba(255,255,255,.04);
+rgba(255,255,255,.06);
 
 
 border:
@@ -187,70 +147,47 @@ border:
 1px solid rgba(255,255,255,.15);
 
 
-border-radius:25px;
+border-radius:35px;
 
 
-box-shadow:
-
-0 0 50px #000;
+backdrop-filter:blur(20px);
 
 
 }
-
-
 
 
 
 .logo{
 
-width:120px;
+width:110px;
 
-height:120px;
-
-border-radius:50%;
+height:110px;
 
 object-fit:cover;
 
+border-radius:50%;
 
-border:2px solid #fff;
-
-
-box-shadow:
-
-0 0 30px #fff5;
-
+margin-bottom:20px;
 
 }
 
 
 
+.welcome-card h1{
 
-
-h1{
-
-font-size:50px;
-
-font-weight:800;
-
-letter-spacing:5px;
+font-size:55px;
 
 }
 
 
 
-
-.typing{
+.welcome-card p{
 
 color:#aaa;
 
-margin-top:15px;
-
-font-size:14px;
+margin:20px 0;
 
 }
-
-
-
 
 
 
@@ -258,36 +195,23 @@ font-size:14px;
 button,
 .main-button{
 
-
-margin-top:25px;
-
+border:none;
 
 padding:14px 35px;
 
-
 border-radius:30px;
 
+background:white;
 
-background:#fff;
+color:black;
 
-
-color:#000;
-
-
-font-weight:700;
-
-
-border:none;
-
+font-weight:bold;
 
 cursor:pointer;
 
-
-text-decoration:none;
-
-
 transition:.3s;
 
+text-decoration:none;
 
 }
 
@@ -296,14 +220,7 @@ transition:.3s;
 button:hover,
 .main-button:hover{
 
-
-transform:translateY(-5px);
-
-
-box-shadow:
-
-0 10px 30px #fff5;
-
+transform:scale(1.05);
 
 }
 
@@ -311,28 +228,42 @@ box-shadow:
 
 
 
+/* ==========================
+        SITE
+========================== */
+
+
+#site{
+
+display:none;
+
+}
 
 
 
 
-/* HEADER */
 
-
-header{
+.top{
 
 text-align:center;
 
-padding:60px 20px 30px;
+padding:50px 20px;
 
 }
 
 
 
+.top h1{
+
+font-size:45px;
+
+}
 
 
-header p{
 
-color:#888;
+.top p{
+
+color:#aaa;
 
 margin:15px;
 
@@ -342,97 +273,57 @@ margin:15px;
 
 
 
-
-
-
-
-/* STATS */
+/* ==========================
+        NUMEROS
+========================== */
 
 
 .stats{
 
+display:flex;
 
-width:90%;
-
-max-width:1000px;
-
-
-margin:30px auto;
-
-
-display:grid;
-
-
-grid-template-columns:
-
-repeat(auto-fit,minmax(180px,1fr));
-
+justify-content:center;
 
 gap:20px;
 
+padding:20px;
+
+flex-wrap:wrap;
 
 }
-
 
 
 
 .stat{
 
+width:170px;
 
 padding:25px;
-
-
-background:
-
-rgba(255,255,255,.05);
-
-
-border:
-
-1px solid rgba(255,255,255,.1);
-
-
-border-radius:20px;
-
 
 text-align:center;
 
 
+background:
+
+rgba(255,255,255,.08);
+
+
+border:
+
+1px solid rgba(255,255,255,.15);
+
+
+border-radius:25px;
+
 backdrop-filter:blur(15px);
 
-
 }
-
 
 
 
 .stat h2{
 
-
-font-size:45px;
-
-margin:0;
-
-
-}
-
-
-
-.stat p{
-
-color:#888;
-
-}
-
-
-
-.premium{
-
-border-color:gold;
-
-box-shadow:
-
-0 0 25px #ffd70033;
+font-size:40px;
 
 }
 
@@ -440,564 +331,32 @@ box-shadow:
 
 
 
-/* AREAS */
 
 
-.area,
-.parceria{
 
-
-width:90%;
-
-max-width:1100px;
-
-margin:60px auto;
-
-
-}
-
-
-
-
-
-.area h2,
-.aliados h2,
-.parceria h2{
-
-
-font-size:28px;
-
-
-}
-
-
-
-
-
-.cards{
-
-
-display:grid;
-
-
-grid-template-columns:
-
-repeat(auto-fit,minmax(250px,1fr));
-
-
-gap:20px;
-
-
-}
-
-
-
-
-
-.card{
-
-
-padding:25px;
-
-
-background:
-
-rgba(255,255,255,.05);
-
-
-border:
-
-1px solid rgba(255,255,255,.12);
-
-
-border-radius:20px;
-
-
-backdrop-filter:blur(15px);
-
-
-transition:.3s;
-
-
-}
-
-
-
-.card:hover{
-
-
-transform:translateY(-8px);
-
-
-border-color:white;
-
-
-}
-
-
-
-
-
-
-.card a{
-
-
-display:inline-block;
-
-
-margin-top:15px;
-
-
-color:white;
-
-
-text-decoration:none;
-
-
-}
-
-
-
-
-
-
-
-
-
-/* ALIADOS */
-
-
-.aliados{
-
-
-width:90%;
-
-max-width:1100px;
-
-margin:60px auto;
-
-
-padding:35px;
-
-
-border-radius:30px;
-
-
-background:
-
-linear-gradient(
-
-135deg,
-
-rgba(255,215,0,.12),
-
-rgba(0,0,0,.7)
-
-);
-
-
-border:
-
-1px solid gold;
-
-
-box-shadow:
-
-0 0 40px #ffd70022;
-
-
-}
-
-
-
-
-.aliados h2{
-
-
-color:#ffd700;
-
-text-shadow:
-
-0 0 20px gold;
-
-
-}
-
-
-
-
-
-
-
-/* PARCERIA */
-
-
-.partner-box{
-
-
-padding:30px;
-
-
-background:
-
-rgba(255,255,255,.05);
-
-
-border-radius:25px;
-
-
-border:
-
-1px solid rgba(255,255,255,.1);
-
-
-}
-
-
-
-
-select,
-textarea{
-
-
-width:100%;
-
-
-margin-top:15px;
-
-
-padding:15px;
-
-
-background:#080808;
-
-
-color:white;
-
-
-border:1px solid #333;
-
-
-border-radius:15px;
-
-
-}
-
-
-
-
-
-textarea{
-
-height:120px;
-
-resize:none;
-
-}
-
-
-
-
-
-
-footer{
-
-
-text-align:center;
-
-padding:40px;
-
-color:#666;
-
-
-}
-
-
-
-
-
-
-
-
-@media(max-width:600px){
-
-
-h1{
-
-font-size:38px;
-
-}
-
-
-.logo{
-
-width:100px;
-
-height:100px;
-
-}
-
-
-}
-
-/* ======================
-   CARDS PREMIUM
-====================== */
-
-
-.premium-card{
-
-overflow:hidden;
-
-padding:0;
-
-
-}
-
-
-
-.card-img{
-
-width:100%;
-
-height:160px;
-
-object-fit:cover;
-
-
-}
-
-
-
-.card-content{
-
-padding:25px;
-
-
-}
-
-
-
-.tag{
-
-font-size:25px;
-
-}
-
-
-
-.card-button{
-
-display:inline-block;
-
-margin-top:15px;
-
-padding:10px 25px;
-
-
-background:white;
-
-color:black !important;
-
-
-border-radius:30px;
-
-
-font-weight:bold;
-
-
-transition:.3s;
-
-
-}
-
-
-
-.card-button:hover{
-
-transform:scale(1.05);
-
-}
-
-
-
-.premium-card:hover{
-
-
-box-shadow:
-
-0 0 30px #ffffff22;
-
-
-}
 
 /* ==========================
-   EXPLORAR R.H.S PLATINUM
+        EXPLORAR
 ========================== */
 
 
-.area:first-of-type{
+.explorar,
+.parceiros,
+.parceria{
 
 
-padding:35px;
+margin:30px auto;
 
+width:90%;
 
-background:
-
-linear-gradient(
-145deg,
-rgba(255,255,255,.10),
-rgba(255,255,255,.02)
-);
-
-
-border:
-
-1px solid rgba(255,255,255,.25);
-
-
-border-radius:30px;
-
-
-backdrop-filter:blur(20px);
-
-
-box-shadow:
-
-0 0 40px rgba(255,255,255,.08);
-
-
-}
-
-
-
-
-
-.area:first-of-type h2{
-
-
-color:#e8e8e8;
-
-
-letter-spacing:2px;
-
-
-text-shadow:
-
-0 0 15px #fff;
-
-
-}
-
-
-
-
-
-.search{
-
-
-background:
-
-linear-gradient(
-145deg,
-#111,
-#050505
-);
-
-
-border:
-
-1px solid #aaa;
-
-
-color:#fff;
-
-
-box-shadow:
-
-inset 0 0 15px #000,
-0 0 15px #ffffff22;
-
-
-}
-
-
-
-
-.search::placeholder{
-
-
-color:#aaa;
-
-
-}
-
-
-
-
-
-.filtros button{
-
-
-background:
-
-linear-gradient(
-145deg,
-#eee,
-#777
-);
-
-
-color:#000;
-
-
-border:
-
-1px solid #fff;
-
-
-box-shadow:
-
-0 0 15px #ffffff44;
-
-
-}
-
-
-
-.filtros button:hover{
-
-
-background:
-
-linear-gradient(
-145deg,
-#fff,
-#aaa
-);
-
-
-transform:
-
-translateY(-4px);
-
-
-}
-
-
-
-
-
-#areaGrupos,
-#areaCanais{
-
+max-width:1100px;
 
 padding:30px;
 
 
 background:
 
-rgba(255,255,255,.035);
+rgba(255,255,255,.05);
 
 
 border:
@@ -1008,396 +367,79 @@ border:
 border-radius:30px;
 
 
+backdrop-filter:blur(20px);
+
+
+}
+
+
+
+
+
+.explorar h2,
+.parceiros h2,
+.parceria h2{
+
+margin-bottom:20px;
+
+}
+
+
+
+
+#pesquisa{
+
+width:100%;
+
+padding:15px;
+
+border-radius:20px;
+
+border:none;
+
+outline:none;
+
+margin-bottom:20px;
+
 }
 
 
 
 
 
-#areaGrupos h2,
-#areaCanais h2{
+/* FILTROS */
 
 
-color:#ddd;
+.filtros{
 
+display:flex;
 
-text-shadow:
+gap:10px;
 
-0 0 12px #fff;
+overflow-x:auto;
 
+margin-bottom:25px;
 
 }
+
+
+
+.filtros button{
+
+white-space:nowrap;
+
+}
+
+
+
+
+
+
 
 /* ==========================
-   CARDS PLATINUM
+        CARDS
 ========================== */
 
-
-.card{
-
-
-background:
-
-linear-gradient(
-145deg,
-rgba(255,255,255,.10),
-rgba(255,255,255,.02)
-);
-
-
-border:
-
-1px solid rgba(255,255,255,.20);
-
-
-box-shadow:
-
-0 15px 40px rgba(0,0,0,.5);
-
-
-overflow:hidden;
-
-
-}
-
-
-
-.card:hover{
-
-
-transform:translateY(-8px);
-
-
-border-color:#fff;
-
-
-box-shadow:
-
-0 0 30px rgba(255,255,255,.25);
-
-
-}
-
-
-
-.card h3{
-
-
-color:#eee;
-
-
-letter-spacing:1px;
-
-
-}
-
-
-
-
-.card p{
-
-
-color:#aaa;
-
-
-}
-
-
-
-
-
-.card-button{
-
-
-background:
-
-linear-gradient(
-145deg,
-#fff,
-#777
-);
-
-
-color:#000 !important;
-
-
-border-radius:25px;
-
-
-padding:12px 28px;
-
-
-font-weight:800;
-
-
-}
-
-
-
-
-
-.card-button:hover{
-
-
-box-shadow:
-
-0 0 20px #fff;
-
-
-}
-
-/* ==========================
-      WELCOME PREMIUM
-========================== */
-
-
-#welcome{
-
-
-transition:
-
-opacity .8s ease,
-visibility .8s;
-
-
-}
-
-
-
-
-.welcome-card{
-
-
-animation:
-
-subir .8s ease;
-
-
-}
-
-
-
-
-
-.welcome-card .logo{
-
-
-animation:
-
-flutuar 3s infinite ease-in-out;
-
-
-}
-
-
-
-@keyframes flutuar{
-
-
-0%{
-
-transform:translateY(0);
-
-}
-
-
-50%{
-
-transform:translateY(-12px);
-
-}
-
-
-100%{
-
-transform:translateY(0);
-
-}
-
-
-}
-
-
-
-
-
-
-.welcome-card h1{
-
-
-font-size:60px;
-
-
-letter-spacing:8px;
-
-
-background:
-
-linear-gradient(
-90deg,
-#fff,
-#999,
-#fff
-);
-
-
--webkit-background-clip:text;
-
-
-color:transparent;
-
-
-animation:
-
-brilhoTexto 3s infinite;
-
-
-}
-
-
-
-@keyframes brilhoTexto{
-
-
-0%{
-
-filter:brightness(.7);
-
-}
-
-
-50%{
-
-filter:brightness(1.5);
-
-}
-
-
-100%{
-
-filter:brightness(.7);
-
-}
-
-
-}
-
-
-
-
-
-.typing{
-
-
-animation:
-
-aparecerTexto 2s ease;
-
-
-}
-
-
-
-@keyframes aparecerTexto{
-
-
-from{
-
-opacity:0;
-
-transform:translateY(20px);
-
-}
-
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-
-}
-
-
-
-
-
-#welcome button{
-
-
-background:
-
-linear-gradient(
-145deg,
-#fff,
-#777
-);
-
-
-color:#000;
-
-
-box-shadow:
-
-0 0 25px #fff6;
-
-
-}
-
-
-
-#welcome button:hover{
-
-
-transform:
-
-scale(1.08);
-
-
-box-shadow:
-
-0 0 40px white;
-
-
-}
-
-
-
-
-@keyframes subir{
-
-
-from{
-
-opacity:0;
-
-transform:translateY(40px);
-
-}
-
-
-to{
-
-opacity:1;
-
-transform:translateY(0);
-
-}
-
-
-}
-
-/* ======================
-   FIM DO CSS
-====================== */
-
-
-/* ======================
-   CARROSSEL COMUNIDADES
-====================== */
 
 .cards{
 
@@ -1409,9 +451,8 @@ overflow-x:auto;
 
 scroll-behavior:smooth;
 
-padding:10px;
-
 }
+
 
 
 .cards::-webkit-scrollbar{
@@ -1421,241 +462,31 @@ height:5px;
 }
 
 
-.card{
-
-min-width:260px;
-
-flex-shrink:0;
-
-}
-
-/* ======================
-   MOBILE CARROSSEL
-====================== */
-
-@media(max-width:600px){
-
-.cards{
-
-display:flex;
-
-overflow-x:auto;
-
-}
-
-
-.card{
-
-min-width:85%;
-
-}
-
-}
-
-/* ==========================
-      R.H.S MOBILE APP
-========================== */
-
-@media(max-width:600px){
-
-
-body{
-overflow-x:hidden;
-}
-
-
-/* entrada */
-
-.welcome-card{
-
-width:90%;
-padding:25px;
-border-radius:25px;
-
-}
-
-
-.welcome-card h1{
-
-font-size:35px;
-
-}
-
-
-.logo{
-
-width:80px;
-
-}
-
-
-
-/* topo */
-
-header{
-
-padding:25px 15px;
-
-}
-
-
-header h1{
-
-font-size:32px;
-
-}
-
-
-header p{
-
-font-size:14px;
-
-}
-
-
-
-/* números */
-
-.stats{
-
-display:flex;
-gap:10px;
-overflow-x:auto;
-
-}
-
-
-.stat{
-
-min-width:120px;
-padding:15px;
-
-}
-
-
-.stat h2{
-
-font-size:30px;
-
-}
-
-
-
-/* áreas */
-
-.area,
-.aliados,
-.parceria{
-
-margin:15px;
-padding:18px;
-
-border-radius:20px;
-
-}
-
-
-
-/* cards */
-
-.cards{
-
-display:flex;
-overflow-x:auto;
-gap:15px;
-
-}
-
-
-.card{
-
-min-width:85%;
-border-radius:22px;
-
-}
-
-
-
-.card-img{
-
-height:140px;
-
-}
-
-
-.card-content{
-
-padding:15px;
-
-}
-
-
-.card-content h3{
-
-font-size:18px;
-
-}
-
-
-.card-content p{
-
-font-size:14px;
-
-}
-
-
-/* botões */
-
-.card-button{
-
-width:100%;
-text-align:center;
-
-}
-
-
-
-/* pesquisa */
-
-input,
-textarea,
-select{
-
-width:100%;
-font-size:15px;
-
-}
-
-}
-
-/* ==========================
-   R.H.S COMMUNITY CARDS
-========================== */
-
 
 .community-card{
 
-min-width:260px;
 
-overflow:hidden;
+min-width:280px;
+
 
 background:
 
-linear-gradient(
-145deg,
-rgba(255,255,255,.12),
-rgba(255,255,255,.03)
-);
+rgba(255,255,255,.08);
+
 
 border:
 
-1px solid rgba(255,255,255,.2);
+1px solid rgba(255,255,255,.15);
+
 
 border-radius:25px;
 
-backdrop-filter:blur(15px);
+
+overflow:hidden;
+
 
 transition:.3s;
+
 
 }
 
@@ -1665,11 +496,9 @@ transition:.3s;
 
 transform:translateY(-8px);
 
-box-shadow:
-
-0 0 35px rgba(255,255,255,.15);
-
 }
+
+
 
 
 
@@ -1677,7 +506,7 @@ box-shadow:
 
 width:100%;
 
-height:160px;
+height:170px;
 
 object-fit:cover;
 
@@ -1695,46 +524,151 @@ padding:20px;
 
 .community-info h3{
 
-margin:10px 0;
-
-color:white;
+margin-bottom:10px;
 
 }
-
 
 
 .community-info p{
 
-color:#bbb;
+color:#aaa;
 
 }
 
 
 
-.community-info small{
-
-display:inline-block;
-
-margin-top:10px;
-
-padding:6px 12px;
-
-border-radius:20px;
-
-background:#ffffff22;
-
-color:white;
-
-}
 
 
-
-.community-card .card-button{
+.card-button{
 
 display:block;
 
 text-align:center;
 
-margin-top:20px;
+margin-top:15px;
+
+}
+
+
+
+
+
+
+/* ==========================
+        PARCERIA
+========================== */
+
+
+.partner-box{
+
+display:flex;
+
+flex-direction:column;
+
+gap:15px;
+
+}
+
+
+
+textarea,
+select{
+
+padding:15px;
+
+border-radius:15px;
+
+border:none;
+
+}
+
+
+
+
+
+footer{
+
+text-align:center;
+
+padding:40px;
+
+color:#777;
+
+}
+
+
+
+
+
+/* ==========================
+        MOBILE
+========================== */
+
+
+@media(max-width:600px){
+
+
+.top h1{
+
+font-size:35px;
+
+}
+
+
+
+.stats{
+
+justify-content:flex-start;
+
+overflow-x:auto;
+
+}
+
+
+
+.stat{
+
+min-width:140px;
+
+}
+
+
+
+.explorar,
+.parceiros,
+.parceria{
+
+width:95%;
+
+padding:20px;
+
+}
+
+
+
+.community-card{
+
+min-width:85%;
+
+}
+
+
+
+.welcome-card h1{
+
+font-size:40px;
+
+}
+
+
+
+.logo{
+
+width:90px;
+
+height:90px;
+
+}
+
 
 }
