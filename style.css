@@ -830,3 +830,200 @@ box-shadow:
 
 
 }
+
+/* ==========================
+   EXPLORAR R.H.S PLATINUM
+========================== */
+
+
+.area:first-of-type{
+
+
+padding:35px;
+
+
+background:
+
+linear-gradient(
+145deg,
+rgba(255,255,255,.10),
+rgba(255,255,255,.02)
+);
+
+
+border:
+
+1px solid rgba(255,255,255,.25);
+
+
+border-radius:30px;
+
+
+backdrop-filter:blur(20px);
+
+
+box-shadow:
+
+0 0 40px rgba(255,255,255,.08);
+
+
+}
+
+
+
+
+
+.area:first-of-type h2{
+
+
+color:#e8e8e8;
+
+
+letter-spacing:2px;
+
+
+text-shadow:
+
+0 0 15px #fff;
+
+
+}
+
+
+
+
+
+.search{
+
+
+background:
+
+linear-gradient(
+145deg,
+#111,
+#050505
+);
+
+
+border:
+
+1px solid #aaa;
+
+
+color:#fff;
+
+
+box-shadow:
+
+inset 0 0 15px #000,
+0 0 15px #ffffff22;
+
+
+}
+
+
+
+
+.search::placeholder{
+
+
+color:#aaa;
+
+
+}
+
+
+
+
+
+.filtros button{
+
+
+background:
+
+linear-gradient(
+145deg,
+#eee,
+#777
+);
+
+
+color:#000;
+
+
+border:
+
+1px solid #fff;
+
+
+box-shadow:
+
+0 0 15px #ffffff44;
+
+
+}
+
+
+
+.filtros button:hover{
+
+
+background:
+
+linear-gradient(
+145deg,
+#fff,
+#aaa
+);
+
+
+transform:
+
+translateY(-4px);
+
+
+}
+
+
+
+
+
+#areaGrupos,
+#areaCanais{
+
+
+padding:30px;
+
+
+background:
+
+rgba(255,255,255,.035);
+
+
+border:
+
+1px solid rgba(255,255,255,.15);
+
+
+border-radius:30px;
+
+
+}
+
+
+
+
+
+#areaGrupos h2,
+#areaCanais h2{
+
+
+color:#ddd;
+
+
+text-shadow:
+
+0 0 12px #fff;
+
+
+}
