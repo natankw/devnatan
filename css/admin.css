@@ -39,7 +39,7 @@ textarea{min-height:80px;resize:vertical;}
 .preview-linha input{flex:1;}
 
 .primary-btn{
-  background:var(--signal);color:#04140F;border:none;border-radius:10px;
+  background:var(--signal);color:#FFFFFF;border:none;border-radius:10px;
   padding:13px;font-weight:600;font-size:.9rem;cursor:pointer;width:100%;
 }
 .secondary-btn{
@@ -90,4 +90,4 @@ textarea{min-height:80px;resize:vertical;}
   .grid-2{grid-template-columns:1fr;}
   .linha-com-botao{flex-direction:column;}
   .linha-com-botao .secondary-btn{width:100%;}
-  }
+}
