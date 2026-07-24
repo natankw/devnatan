@@ -1,70 +1,261 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>𝙺ñø𝚆𝚂.exe</title>
+<title>R.H.S</title>
 
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-<div class="loader">
-    <h1>𝙺ñø𝚆𝚂.exe</h1>
+
+<!-- FUNDO MATRIX -->
+<canvas id="matrix"></canvas>
+
+
+<!-- TELA DE ENTRADA -->
+
+<div id="welcome">
+
+    <div class="welcome-box">
+
+        <img src="img/logo.png" class="logo">
+
+        <h1>R.H.S</h1>
+
+        <p>
+        Bem-vindo ao centro oficial da R.H.S
+        </p>
+
+
+        <button id="entrar">
+            ENTRAR
+        </button>
+
+
+    </div>
+
 </div>
+
+
+
+<!-- ÁUDIO -->
+
+<audio id="music" loop>
+
+<source src="audio.mp3" type="audio/mpeg">
+
+</audio>
+
+
+
+<!-- SITE PRINCIPAL -->
+
+<main id="site" style="display:none;">
+
+
 
 <header>
 
 <img src="img/logo.png" class="logo">
 
-<h1>𝙺ñø𝚆𝚂.exe</h1>
+
+<h1>
+R.H.S
+</h1>
+
 
 <p>
-Encontre grupos, canais e comunidades do WhatsApp.
+Grupos • Canais • Aliados • Parcerias
 </p>
 
-<a href="#" class="btn">
-Entrar no Canal
+
+
+<a class="top-btn" href="#" target="_blank">
+
+Canal Oficial
+
 </a>
+
 
 </header>
 
 
-<section class="container">
 
-<h2>🔥 Canais</h2>
 
-<div id="canais">
 
-<!-- Canais carregados pelo JS -->
+<!-- CATÁLOGO -->
+
+
+<section class="catalogo">
+
+
+<h2>
+👥 Grupos
+</h2>
+
+
+<div id="grupos" class="cards">
+
+<!-- grupos aparecem aqui -->
 
 </div>
 
 
-<h2>👥 Grupos</h2>
 
-<div id="grupos">
 
-<!-- Grupos carregados pelo JS -->
+
+
+<h2>
+📢 Canais
+</h2>
+
+
+<div id="canais" class="cards">
+
+<!-- canais aparecem aqui -->
 
 </div>
+
+
+
+
+
+
+
+<!-- ÁREA ALIADOS -->
+
+
+<section class="aliados">
+
+
+<h2>
+🤝 Aliados Premium
+</h2>
+
+
+<p>
+Parceiros oficiais da R.H.S
+</p>
+
+
+
+<div id="aliados" class="cards aliados-box">
+
+<!-- aliados aparecem aqui -->
+
+</div>
+
+
 
 </section>
+
+
+
+
+
+</section>
+
+
+
+
+
+
+<!-- PARCERIA -->
+
+
+<section class="parceria">
+
+
+<h2>
+🤝 Fazer Parceria
+</h2>
+
+
+<p>
+Entre em contato com nossa equipe
+</p>
+
+
+
+
+<div class="parceria-box">
+
+
+
+<label>
+Escolha um ADM:
+</label>
+
+
+<select id="admSelect">
+
+<!-- ADM carregado pelo JS -->
+
+</select>
+
+
+
+
+
+<textarea id="mensagemParceria">
+
+Olá, vim pela R.H.S.
+Quero fazer parceria.
+
+</textarea>
+
+
+
+
+
+<button id="whatsapp">
+
+Enviar mensagem
+
+</button>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
 
 
 <footer>
 
 <p>
-© 2026 𝙺ñø𝚆𝚂.exe
+© 2026 R.H.S - Todos os direitos reservados
 </p>
+
 
 </footer>
 
 
+
+
+</main>
+
+
+
+
 <script src="config.js"></script>
+
 <script src="script.js"></script>
 
+
 </body>
+
 </html>
