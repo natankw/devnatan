@@ -1389,3 +1389,42 @@ transform:translateY(0);
 
 
 }
+
+/* ======================
+   FIM DO CSS
+====================== */
+
+
+/* ======================
+   CARROSSEL COMUNIDADES
+====================== */
+
+.cards{
+
+display:flex;
+
+gap:20px;
+
+overflow-x:auto;
+
+scroll-behavior:smooth;
+
+padding:10px;
+
+}
+
+
+.cards::-webkit-scrollbar{
+
+height:5px;
+
+}
+
+
+.card{
+
+min-width:260px;
+
+flex-shrink:0;
+
+}
