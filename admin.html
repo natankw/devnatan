@@ -34,6 +34,8 @@
   .btnSecundario:hover { background:#252525; }
   .btnPerigo { background:#2a0000; color:#ff8080; border:1px solid #4d0000; }
   .btnPerigo:hover { background:#3a0000; }
+  .btnSucesso { background:#0a2a1a; color:#17c964; border:1px solid #17c964; }
+  .btnSucesso:hover { background:#0f3a24; }
   .item {
     background:#161616; border:1px solid var(--linha); border-radius:12px; padding:14px; margin-bottom:12px;
     position:relative;
@@ -63,6 +65,8 @@
   .aviso a { color:var(--gold); }
   details { margin-top:10px; }
   summary { cursor:pointer; color:var(--text2); font-size:13px; }
+  .btnPreview { background:rgba(23,201,100,.15); color:var(--green); border:1px solid var(--green); }
+  .btnPreview:hover { background:rgba(23,201,100,.25); }
 </style>
 </head>
 <body>
@@ -286,6 +290,11 @@ async function carregarDados() {
     return;
   }
 
+  if (!token.startsWith("github_pat_")) {
+    setStatus("Token inválido. Deve começar com 'github_pat_'.", "erro");
+    return;
+  }
+
   setStatus("Carregando...", "carregando");
 
   try {
@@ -357,6 +366,7 @@ function criarLinhaItem(item, container) {
       <div style="flex:1">
         <input type="text" data-campo="imagem" placeholder="Cole o link da imagem, ou escolha um arquivo abaixo" value="${item.imagem || ""}">
         <input type="file" accept="image/*" data-campo="arquivo" style="margin-top:6px">
+        <button class="btnSucesso" style="margin-top:6px; padding:5px 12px; font-size:12px;" data-acao="atualizar-preview">🔄 Atualizar Preview</button>
       </div>
     </div>
 
@@ -373,9 +383,23 @@ function criarLinhaItem(item, container) {
 
   const inputImagemUrl = el.querySelector('[data-campo="imagem"]');
   const preview = el.querySelector("[data-preview]");
-  inputImagemUrl.addEventListener("input", () => {
-    preview.style.opacity = 1;
-    preview.src = inputImagemUrl.value;
+  
+  const atualizarPreview = () => {
+    const url = inputImagemUrl.value.trim();
+    if (url) {
+      preview.style.opacity = 1;
+      preview.src = url;
+    } else {
+      preview.style.opacity = 0.2;
+      preview.src = '';
+    }
+  };
+
+  inputImagemUrl.addEventListener("input", atualizarPreview);
+
+  el.querySelector('[data-acao="atualizar-preview"]').addEventListener("click", () => {
+    atualizarPreview();
+    setStatus("Preview atualizado!", "ok");
   });
 
   const inputArquivo = el.querySelector('[data-campo="arquivo"]');
@@ -466,7 +490,15 @@ async function enviarImagensPendentes() {
     setStatus(`Enviando imagem ${arquivo.name}...`, "carregando");
     await githubPutImagemBase64(caminho, base64SemPrefixo, `Upload de imagem via painel: ${nomeArquivo}`);
 
-    el.querySelector('[data-campo="imagem"]').value = caminho;
+    const caminhoCompleto = `./uploads/${nomeArquivo}`;
+    el.querySelector('[data-campo="imagem"]').value = caminhoCompleto;
+    
+    // Atualizar preview
+    const preview = el.querySelector("[data-preview]");
+    if (preview) {
+      preview.style.opacity = 1;
+      preview.src = caminhoCompleto;
+    }
   }
 
   pendentesImagem.clear();
@@ -487,18 +519,11 @@ async function salvarTudo() {
 
     lerFormularioParaDados();
 
-    setStatus("Salvando config.json...", "carregando");
-    const textoFinal = JSON.stringify(dados, null, 2);
-    const resultado = await githubPutTexto("config.json", textoFinal, shaConfig, "Atualiza dados do site via painel");
-    shaConfig = resultado.content.sha;
-
-    setStatus("✅ Salvo! Pode levar 1-2 minutos pra aparecer no site.", "ok");
-  } catch (erro) {
-    setStatus("Erro: " + erro.message, "erro");
-  } finally {
-    btn.disabled = false;
-  }
-}
-</script>
-</body>
-  </html>
+    // Ordenar fixados automaticamente
+    dados.canais.sort((a, b) => {
+      if (a.fixado && !b.fixado) return -1;
+      if (!a.fixado && b.fixado) return 1;
+      return 0;
+    });
+    dados.grupos.sort((a, b) => {
+      if (a.fixado && !b.fixado) re
