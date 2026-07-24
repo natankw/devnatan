@@ -2,36 +2,50 @@
    R.H.S V5 — LÓGICA DO SITE
    ========================================================== */
 
-/* ---------- fundo: sinal (canvas leve, no lugar da chuva matrix) ---------- */
+/* ---------- fundo: chuva de código estilo matrix (roxo/rosa/azul) ---------- */
 (function sinalFundo(){
   const canvas = document.getElementById("sinal");
   if(!canvas) return;
   const ctx = canvas.getContext("2d");
-  let w, h, pontos = [];
+  let w, h, colunas, tamanhoFonte = 15, gotas = [];
+
+  const CARACTERES = "01アイウエオカキクケコサシスセソ<>{}[]/*;:$%#@!R.H.S";
+  const CORES = ["#8B5CF6", "#EC4899", "#3B82F6", "#A78BFA"];
 
   function resize(){
     w = canvas.width = innerWidth;
     h = canvas.height = innerHeight;
-    const total = Math.floor((w*h)/26000);
-    pontos = Array.from({length: total}, () => ({
-      x: Math.random()*w, y: Math.random()*h,
-      r: Math.random()*1.6+.4,
-      vy: Math.random()*.15+.05
+    colunas = Math.floor(w / tamanhoFonte);
+    gotas = Array.from({length: colunas}, () => ({
+      y: Math.random() * -h,
+      vel: Math.random() * 4 + 3,
+      cor: CORES[Math.floor(Math.random()*CORES.length)]
     }));
   }
   resize();
   addEventListener("resize", resize);
 
   function tick(){
-    ctx.clearRect(0,0,w,h);
-    ctx.fillStyle = "rgba(46,230,166,.55)";
-    pontos.forEach(p=>{
-      ctx.beginPath();
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fill();
-      p.y -= p.vy;
-      if(p.y < 0) p.y = h;
-    });
+    // rastro semitransparente (efeito de trilha, no tom de fundo do site)
+    ctx.fillStyle = "rgba(11,7,16,.14)";
+    ctx.fillRect(0,0,w,h);
+
+    ctx.font = tamanhoFonte + "px monospace";
+    for(let i=0;i<colunas;i++){
+      const g = gotas[i];
+      const char = CARACTERES[Math.floor(Math.random()*CARACTERES.length)];
+      ctx.fillStyle = g.cor;
+      ctx.globalAlpha = 0.75;
+      ctx.fillText(char, i*tamanhoFonte, g.y);
+
+      g.y += g.vel;
+      if(g.y > h && Math.random() > 0.975){
+        g.y = Math.random() * -100;
+        g.vel = Math.random() * 4 + 3;
+        g.cor = CORES[Math.floor(Math.random()*CORES.length)];
+      }
+    }
+    ctx.globalAlpha = 1;
     requestAnimationFrame(tick);
   }
   tick();
@@ -65,6 +79,7 @@ function toast(msg){
 /* ---------- estado ---------- */
 let TODAS = [];      // comunidades (grupos + canais)
 let FILTRO_ATUAL = "todos";
+let CATEGORIA_ATUAL = "todas";
 let TERMO_BUSCA = "";
 
 /* ==========================================================
@@ -115,6 +130,10 @@ function aplicarFiltros(){
     lista = lista.filter(i => i.criadoEm && i.criadoEm.toMillis && i.criadoEm.toMillis() > seteDias);
   }
 
+  if(CATEGORIA_ATUAL !== "todas"){
+    lista = lista.filter(i => (i.categoria||"") === CATEGORIA_ATUAL);
+  }
+
   if(TERMO_BUSCA){
     lista = lista.filter(i => (i.titulo||"").toLowerCase().includes(TERMO_BUSCA));
   }
@@ -123,6 +142,9 @@ function aplicarFiltros(){
   lista.sort((a,b) => (b.fixado?1:0) - (a.fixado?1:0));
 
   renderComunidades(lista);
+
+  document.getElementById("qtdMostrada").textContent = lista.length;
+  document.getElementById("qtdTotal").textContent = TODAS.length;
 }
 
 function renderComunidades(lista){
@@ -149,11 +171,10 @@ async function carregarAliados(){
   try{
     const snap = await db.collection("aliados").orderBy("criadoEm","desc").get();
     const lista = snap.docs.map(d => ({ id:d.id, ...d.data() }));
-    document.getElementById("statAliados").dataset.target = lista.length;
+    document.getElementById("totalAliados").textContent = lista.length;
     area.innerHTML = "";
     document.getElementById("vazioParceiros").hidden = lista.length !== 0;
     lista.forEach(item => { area.innerHTML += criarCard(item, "⭐", "aliados"); });
-    animarContadores();
   }catch(e){
     console.error(e);
   }
@@ -174,7 +195,6 @@ function criarCard(item, icone, colecao){
         ${item.fixado ? '<span class="badge badge-fixado">Fixado</span>' : ''}
       </div>
       <span class="card-type">${icone}</span>
-      <button class="report-btn" title="Denunciar" onclick="abrirDenuncia('${item.id}','${colecao}','${(item.titulo||'').replace(/'/g,"\\'")}')">⚑</button>
     </div>
     <div class="community-info">
       <h3>${item.titulo || "Comunidade"}</h3>
@@ -208,63 +228,24 @@ if(pesquisa){
   });
 }
 
-document.querySelectorAll(".tuner-btn").forEach((btn, idx) => {
+document.querySelectorAll(".filtro-pill.principal").forEach(btn => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".tuner-btn").forEach(b => { b.classList.remove("active"); b.setAttribute("aria-selected","false"); });
+    document.querySelectorAll(".filtro-pill.principal").forEach(b => { b.classList.remove("active"); b.setAttribute("aria-selected","false"); });
     btn.classList.add("active");
     btn.setAttribute("aria-selected","true");
     FILTRO_ATUAL = btn.dataset.f;
-    moverAgulha(btn);
     aplicarFiltros();
   });
 });
 
-function moverAgulha(btn){
-  const needle = document.getElementById("tunerNeedle");
-  if(!needle) return;
-  needle.style.width = btn.offsetWidth + "px";
-  needle.style.transform = `translateX(${btn.offsetLeft - 5}px)`;
-}
-window.addEventListener("load", ()=>{
-  const ativo = document.querySelector(".tuner-btn.active");
-  if(ativo) moverAgulha(ativo);
+document.querySelectorAll(".filtros-cat .filtro-pill").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filtros-cat .filtro-pill").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    CATEGORIA_ATUAL = btn.dataset.cat;
+    aplicarFiltros();
+  });
 });
-window.addEventListener("resize", ()=>{
-  const ativo = document.querySelector(".tuner-btn.active");
-  if(ativo) moverAgulha(ativo);
-});
-
-/* ==========================================================
-   DENÚNCIA
-   ========================================================== */
-let denunciaAtual = null;
-function abrirDenuncia(id, colecao, nome){
-  denunciaAtual = { id, colecao };
-  document.getElementById("denunciaNome").textContent = nome || "esta comunidade";
-  document.getElementById("motivoDenuncia").value = "";
-  document.getElementById("detalhesDenuncia").value = "";
-  document.getElementById("denunciaSucesso").hidden = true;
-  document.getElementById("modalDenuncia").hidden = false;
-}
-document.getElementById("fecharModal").onclick = () => { document.getElementById("modalDenuncia").hidden = true; };
-
-document.getElementById("enviarDenuncia").onclick = async () => {
-  const motivo = document.getElementById("motivoDenuncia").value;
-  if(!motivo){ toast("Selecione um motivo."); return; }
-  try{
-    await db.collection("denuncias").add({
-      itemId: denunciaAtual.id,
-      colecao: denunciaAtual.colecao,
-      motivo,
-      detalhes: document.getElementById("detalhesDenuncia").value,
-      criadoEm: firebase.firestore.FieldValue.serverTimestamp(),
-      resolvida: false
-    });
-    document.getElementById("denunciaSucesso").hidden = false;
-  }catch(e){
-    toast("Não foi possível enviar agora. Tente novamente.");
-  }
-};
 
 /* ==========================================================
    PARCERIA (ADM / WhatsApp)
@@ -295,15 +276,13 @@ if(whatsappBtn){
    ESTATÍSTICAS (contagem animada)
    ========================================================== */
 function atualizarStatsLocais(){
-  const grupos = TODAS.filter(i => i.tipo === "grupo").length;
-  const canais = TODAS.filter(i => i.tipo === "canal").length;
-  document.getElementById("statGrupos").dataset.target = grupos;
-  document.getElementById("statCanais").dataset.target = canais;
+  document.getElementById("statGrupos").dataset.target = TODAS.length;
+  document.getElementById("totalComunidades").textContent = TODAS.length;
   animarContadores();
 }
 
 function animarContadores(){
-  document.querySelectorAll(".signal-value[data-target]").forEach(el => {
+  document.querySelectorAll(".stat-value[data-target]").forEach(el => {
     const alvo = parseInt(el.dataset.target || "0", 10);
     const atual = parseInt(el.textContent || "0", 10);
     if(atual === alvo) return;
@@ -358,6 +337,12 @@ async function atualizarContadoresGlobais(){
     const snapOnline = await db.collection("visitas")
       .where("ultimoAcesso", ">", doisMin).get();
     document.getElementById("statOnline").textContent = snapOnline.size;
+
+    const inicioHoje = new Date();
+    inicioHoje.setHours(0,0,0,0);
+    const snapHoje = await db.collection("visitas")
+      .where("ultimoAcesso", ">", inicioHoje).get();
+    document.getElementById("statHoje").dataset.target = snapHoje.size;
 
     const snapTotal = await db.collection("visitas").get();
     document.getElementById("statVisitantes").dataset.target = snapTotal.size;
