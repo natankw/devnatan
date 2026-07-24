@@ -17,15 +17,31 @@
 <body>
 
 
-<div class="login" id="login">
+
+<div class="blur"></div>
+
+
+
+<div id="login" class="box">
 
 
 <h1>
-R.H.S ADM
+R.H.S
 </h1>
 
 
-<input id="senha" type="password" placeholder="Senha">
+<p>
+Painel Administrativo
+</p>
+
+
+
+<input 
+id="senha"
+type="password"
+placeholder="Senha de acesso"
+>
+
 
 
 <button onclick="entrarADM()">
@@ -33,7 +49,10 @@ Entrar
 </button>
 
 
+
 </div>
+
+
 
 
 
@@ -43,34 +62,49 @@ Entrar
 
 
 
+<header>
+
+
 <h1>
-Painel R.H.S
+R.H.S ADM
 </h1>
 
 
+<p>
+Gerenciamento do sistema
+</p>
+
+
+</header>
 
 
 
-<section>
+
+
+
+
+<section class="box">
 
 
 <h2>
-Adicionar Grupo
+👥 Novo Grupo
 </h2>
 
 
-<input id="gNome" placeholder="Nome">
+<input id="gNome" placeholder="Nome do grupo">
 
 
-<input id="gLink" placeholder="Link">
+<input id="gLink" placeholder="Link WhatsApp">
 
 
 <input id="gDesc" placeholder="Descrição">
 
 
+
 <button onclick="addGrupo()">
-Adicionar
+Salvar Grupo
 </button>
+
 
 
 </section>
@@ -81,26 +115,31 @@ Adicionar
 
 
 
-<section>
+
+
+<section class="box">
 
 
 <h2>
-Adicionar Canal
+📢 Novo Canal
 </h2>
 
 
-<input id="cNome" placeholder="Nome">
+
+<input id="cNome" placeholder="Nome do canal">
 
 
-<input id="cLink" placeholder="Link">
+<input id="cLink" placeholder="Link do canal">
 
 
 <input id="cDesc" placeholder="Descrição">
 
 
+
 <button onclick="addCanal()">
-Adicionar
+Salvar Canal
 </button>
+
 
 
 </section>
@@ -111,15 +150,18 @@ Adicionar
 
 
 
-<section>
+
+
+<section class="box">
 
 
 <h2>
-Adicionar Aliado ⭐
+⭐ Novo Aliado
 </h2>
 
 
-<input id="aNome" placeholder="Nome">
+
+<input id="aNome" placeholder="Nome do aliado">
 
 
 <input id="aLink" placeholder="Link">
@@ -128,9 +170,11 @@ Adicionar Aliado ⭐
 <input id="aDesc" placeholder="Descrição">
 
 
+
 <button onclick="addAliado()">
-Adicionar
+Salvar Aliado
 </button>
+
 
 
 </section>
@@ -141,11 +185,13 @@ Adicionar
 
 
 
-<section>
+
+
+<section class="box">
 
 
 <h2>
-ADM de Parceria
+🤝 ADM Parceria
 </h2>
 
 
@@ -154,6 +200,7 @@ ADM de Parceria
 
 
 <input id="admNumero" placeholder="Número WhatsApp">
+
 
 
 <button onclick="addADM()">
@@ -170,7 +217,7 @@ Salvar ADM
 
 
 
-<button onclick="sair()">
+<button onclick="sair()" class="exit">
 
 Sair
 
