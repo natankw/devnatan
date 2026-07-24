@@ -263,18 +263,58 @@ function criarCard(item, icone){
 
 return `
 
-<div class="card premium-card">
+function criarCard(item, icone){
+
+return `
+
+<div class="community-card">
 
 
-${item.imagem ? 
-`
 <img 
-src="${item.imagem}" 
-class="card-img"
+src="${item.imagem || 'img/default.png'}"
+class="community-img"
 >
-`
-:
-""
+
+
+<div class="community-info">
+
+
+<span class="tag">
+${icone}
+</span>
+
+
+<h3>
+${item.nome}
+</h3>
+
+
+<p>
+${item.desc || "Comunidade R.H.S"}
+</p>
+
+
+<small>
+${item.categoria || "Geral"}
+</small>
+
+
+<a 
+href="${item.link}" 
+target="_blank"
+class="card-button"
+>
+Entrar →
+</a>
+
+
+</div>
+
+
+</div>
+
+`;
+
 }
 
 
