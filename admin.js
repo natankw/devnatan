@@ -7,36 +7,6 @@ const SENHA = "RHS2026";
 
 
 
-function entrarADM(){
-
-
-let senha =
-document.getElementById("senha").value;
-
-
-
-if(senha === SENHA){
-
-
-document.getElementById("login").style.display="none";
-
-
-document.getElementById("painel").style.display="block";
-
-
-}else{
-
-
-alert("Senha incorreta");
-
-
-}
-
-
-}
-
-
-
 
 
 function banco(){
@@ -48,17 +18,21 @@ localStorage.getItem("rhs")
 ||
 {
 
+
 grupos:[],
+
 canais:[],
+
 aliados:[],
+
+
 admins:[]
+
 
 };
 
 
 }
-
-
 
 
 
@@ -80,10 +54,48 @@ JSON.stringify(dados)
 
 
 
-// ==========================
-// GRUPOS
-// ==========================
 
+// LOGIN
+
+
+function entrarADM(){
+
+
+let senha =
+document.getElementById("senha").value;
+
+
+
+if(senha === SENHA){
+
+
+document.getElementById("login").style.display="none";
+
+
+document.getElementById("painel").style.display="block";
+
+
+
+}else{
+
+
+alert("Senha incorreta");
+
+
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+// GRUPO
 
 
 function addGrupo(){
@@ -94,7 +106,6 @@ let dados=banco();
 
 
 dados.grupos.push({
-
 
 nome:
 gNome.value,
@@ -108,7 +119,6 @@ desc:
 gDesc.value
 
 
-
 });
 
 
@@ -117,8 +127,7 @@ salvar(dados);
 
 
 
-alert("Grupo adicionado!");
-
+alert("Grupo salvo ✅");
 
 
 limpar();
@@ -133,10 +142,8 @@ limpar();
 
 
 
-// ==========================
-// CANAIS
-// ==========================
 
+// CANAL
 
 
 function addCanal(){
@@ -147,7 +154,6 @@ let dados=banco();
 
 
 dados.canais.push({
-
 
 nome:
 cNome.value,
@@ -161,7 +167,6 @@ desc:
 cDesc.value
 
 
-
 });
 
 
@@ -170,8 +175,7 @@ salvar(dados);
 
 
 
-alert("Canal adicionado!");
-
+alert("Canal salvo ✅");
 
 
 limpar();
@@ -187,10 +191,7 @@ limpar();
 
 
 
-// ==========================
-// ALIADOS
-// ==========================
-
+// ALIADO
 
 
 function addAliado(){
@@ -201,7 +202,6 @@ let dados=banco();
 
 
 dados.aliados.push({
-
 
 nome:
 aNome.value,
@@ -215,7 +215,6 @@ desc:
 aDesc.value
 
 
-
 });
 
 
@@ -224,8 +223,7 @@ salvar(dados);
 
 
 
-alert("Aliado salvo ⭐");
-
+alert("Aliado premium salvo ⭐");
 
 
 limpar();
@@ -240,10 +238,8 @@ limpar();
 
 
 
-// ==========================
-// ADM PARCERIA
-// ==========================
 
+// ADM PARCERIA
 
 
 function addADM(){
@@ -255,14 +251,12 @@ let dados=banco();
 
 dados.admins.push({
 
-
 nome:
 admNome.value,
 
 
 numero:
 admNumero.value
-
 
 
 });
@@ -273,8 +267,7 @@ salvar(dados);
 
 
 
-alert("ADM salvo!");
-
+alert("ADM salvo 🤝");
 
 
 limpar();
@@ -295,12 +288,12 @@ function limpar(){
 
 document
 .querySelectorAll("input")
-.forEach(i=>{
+.forEach(item=>{
 
 
-if(i.id!="senha"){
+if(item.id !== "senha"){
 
-i.value="";
+item.value="";
 
 }
 
@@ -309,7 +302,6 @@ i.value="";
 
 
 }
-
 
 
 
