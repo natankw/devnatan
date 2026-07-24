@@ -218,6 +218,7 @@ alert("Worker offline");
 
 function salvarItem(){
 
+let tipo = document.getElementById("tipo").value;
 
 
 let item={
@@ -236,16 +237,30 @@ descricao: document.getElementById("descricao").value
 
 
 
-
-
-
 if(!item.nome || !item.link){
-
 
 alert("Preencha nome e link");
 
-
 return;
+
+}
+
+
+
+dados[tipo].push(item);
+
+
+
+listar();
+
+
+publicar();
+
+
+limpar();
+
+
+alert("Publicado ✅");
 
 
 }
