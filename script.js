@@ -1,855 +1,464 @@
-"use strict";
+/* ==========================
+      R.H.S SCRIPT
+   ========================== */
 
-/* ===================================================
-   KNOWS.exe
-   PARTE 1
-=================================================== */
 
-/* ========= ELEMENTOS ========= */
 
-const loader = document.getElementById("loader");
+// ==========================
+// ENTRAR + MÚSICA
+// ==========================
 
-const navLogo = document.getElementById("navLogo");
-const navNome = document.getElementById("navNome");
 
-const loaderLogo = document.getElementById("loaderLogo");
-const loaderNome = document.getElementById("loaderNome");
+const entrar = document.getElementById("entrar");
 
-const avatar = document.getElementById("avatar");
-const siteNome = document.getElementById("siteNome");
-const bio = document.getElementById("bio");
+const welcome = document.getElementById("welcome");
 
-const btnWhatsapp = document.getElementById("btnWhatsapp");
-const copyButton = document.getElementById("copyButton");
+const site = document.getElementById("site");
 
-const footerLogo = document.getElementById("footerLogo");
-const footerNome = document.getElementById("footerNome");
-const footerText = document.getElementById("footerText");
+const music = document.getElementById("music");
 
-const canaisRow = document.getElementById("canaisRow");
-const gruposRow = document.getElementById("gruposRow");
-const aliadosRow = document.getElementById("aliadosRow");
 
-const filtrosEl = document.getElementById("filtros");
-const searchEl = document.getElementById("search");
 
-const topButton = document.getElementById("topButton");
+entrar.addEventListener("click",()=>{
 
-const bgAudio = document.getElementById("bgAudio");
-const musicButton = document.getElementById("musicButton");
 
-const bgVideo = document.getElementById("bgVideo");
-const videoOverlay = document.getElementById("videoOverlay");
+    // libera música após clique
 
-const canvas = document.getElementById("matrix");
+    music.play()
+    .catch(()=>{});
 
-/* ========= BEM VINDO ========= */
 
-const welcomeScreen = document.getElementById("welcomeScreen");
-const welcomeLogo = document.getElementById("welcomeLogo");
-const welcomeTitle = document.getElementById("welcomeTitle");
-const welcomeText = document.getElementById("welcomeText");
-const enterSite = document.getElementById("enterSite");
+    // remove tela inicial
 
-/* ========= PARCERIA ========= */
+    welcome.style.display="none";
 
-const admSelect = document.getElementById("admSelect");
-const btnParceria = document.getElementById("btnParceria");
 
-/* ========= VARIÁVEIS ========= */
+    // mostra site
 
-let config = null;
-let categoriaAtiva = "todas";
+    site.style.display="block";
 
-/* ===================================================
-   LOADER
-=================================================== */
-
-window.addEventListener("load", () => {
-
-    setTimeout(() => {
-
-        loader.style.opacity = "0";
-        loader.style.pointerEvents = "none";
-
-        setTimeout(() => {
-
-            if (loader) loader.remove();
-
-        },700);
-
-    },1200);
 
 });
 
-/* ===================================================
-   CONFIG
-=================================================== */
 
-function carregarConfig(){
 
-    document.title = config.site.nome;
 
-    navLogo.src=config.site.logo;
-    loaderLogo.src=config.site.logo;
-    footerLogo.src=config.site.logo;
 
-    avatar.src=config.site.avatar;
 
-    navNome.textContent=config.site.nome;
-    loaderNome.textContent=config.site.nome;
-    siteNome.textContent=config.site.nome;
-    footerNome.textContent=config.site.nome;
 
-    bio.textContent=config.site.descricao;
-    footerText.textContent=config.footer.texto;
+// ==========================
+// MATRIX
+// ==========================
 
-    btnWhatsapp.href=config.site.whatsapp;
 
-    if(welcomeLogo){
+const canvas = document.getElementById("matrix");
 
-        welcomeLogo.src=config.site.logo;
-        welcomeTitle.textContent="Bem-vindo";
-        welcomeText.textContent=config.site.descricao;
+const ctx = canvas.getContext("2d");
 
-    }
 
-    copyButton.onclick=()=>{
 
-        navigator.clipboard.writeText(config.site.whatsapp);
+canvas.width = window.innerWidth;
 
-        copyButton.innerText="Copiado!";
+canvas.height = window.innerHeight;
 
-        setTimeout(()=>{
 
-            copyButton.innerText="Copiar Link";
 
-        },1500);
+const letras =
+"R.H.S010101010101ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    };
+
+
+const tamanho = 16;
+
+
+let colunas =
+canvas.width / tamanho;
+
+
+
+let gotas = [];
+
+
+
+for(let i=0;i<colunas;i++){
+
+    gotas[i]=1;
 
 }
 
-/* ===================================================
-   CONFIGURAR FUNDO
-=================================================== */
 
-function configurarFundo() {
-    // Verifica se o vídeo existe e tem configuração
-    if (bgVideo && config.site.fundoVideo) {
-        bgVideo.src = config.site.fundoVideo;
-        bgVideo.style.display = "block";
-        
-        if (videoOverlay) {
-            videoOverlay.style.display = "block";
-        }
-    } else if (bgVideo) {
-        // Se não tiver vídeo configurado, esconde o vídeo e overlay
-        bgVideo.style.display = "none";
-        if (videoOverlay) {
-            videoOverlay.style.display = "none";
-        }
-    }
 
-    // Configura o canvas Matrix como fallback
-    if (canvas) {
-        canvas.style.display = "block";
-    }
-}
 
-/* ===================================================
-   MÚSICA
-=================================================== */
 
-function configurarMusica(){
+function matrix(){
 
-    if(!config.site.musica){
 
-        if (musicButton) musicButton.style.display="none";
-        return;
+    ctx.fillStyle="rgba(0,0,0,0.08)";
 
-    }
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
 
-    bgAudio.src=config.site.musica;
-    bgAudio.loop=true;
-    bgAudio.volume=config.site.volume || 0.5;
 
-    if (musicButton) {
-        musicButton.style.display="flex";
-        musicButton.innerHTML="🔇";
-    }
 
-    if(enterSite){
+    ctx.fillStyle="#ff0000";
 
-        enterSite.onclick=async()=>{
+    ctx.font =
+    tamanho+"px monospace";
 
-            welcomeScreen.classList.add("hide");
 
-            try{
 
-                await bgAudio.play();
+    for(let i=0;i<gotas.length;i++){
 
-                if (musicButton) musicButton.innerHTML="🎵";
 
-            }catch(e){
+        let texto =
+        letras[
+        Math.floor(
+        Math.random()*letras.length)
+        ];
 
-                console.log(e);
 
-            }
 
-        };
-
-    }
-
-    if (musicButton) {
-        musicButton.onclick=()=>{
-
-            if(bgAudio.paused){
-
-                bgAudio.play();
-                musicButton.innerHTML="🎵";
-
-            }else{
-
-                bgAudio.pause();
-                musicButton.innerHTML="🔇";
-
-            }
-
-        };
-    }
-
-}
-
-/* ===================================================
-   FILTROS
-=================================================== */
-
-function criarBotaoFiltro(nome, valor){
-
-    const botao=document.createElement("button");
-
-    botao.className="filtro";
-    botao.innerText=nome;
-
-    if(valor==="todas")
-        botao.classList.add("ativo");
-
-    botao.onclick=()=>{
-
-        document
-        .querySelectorAll(".filtro")
-        .forEach(btn=>btn.classList.remove("ativo"));
-
-        botao.classList.add("ativo");
-
-        categoriaAtiva=valor;
-
-        aplicarFiltros();
-
-    };
-
-    if (filtrosEl) filtrosEl.appendChild(botao);
-
-}
-
-function obterCategoriasUsadas(){
-
-    const lista=[
-
-        ...(config.canais||[]),
-        ...(config.grupos||[]),
-        ...(config.aliados||[])
-
-    ];
-
-    return [...new Set(
-
-        lista
-        .map(x=>x.categoria)
-        .filter(Boolean)
-
-    )];
-
-}
-
-/* ===================================================
-   PESQUISA
-=================================================== */
-
-if (searchEl) {
-    searchEl.addEventListener("input", aplicarFiltros);
-}
-
-function aplicarFiltros(){
-
-    const texto = searchEl ? searchEl.value.toLowerCase().trim() : "";
-
-    document.querySelectorAll(".card").forEach(card=>{
-
-        const nome=card.innerText.toLowerCase();
-
-        const categoria=card.dataset.categoria||"";
-
-        const okTexto=nome.includes(texto);
-
-        const okCategoria=
-
-            categoriaAtiva==="todas" ||
-
-            categoria===categoriaAtiva;
-
-        card.style.display=
-
-            okTexto && okCategoria
-
-            ? "flex"
-
-            : "none";
-
-    });
-
-}
-
-/* ===================================================
-   PREVIEW AUTOMÁTICA
-=================================================== */
-
-function limitarTexto(txt,max){
-
-    if(!txt) return "";
-
-    txt=txt.replace(/\s+/g," ").trim();
-
-    if(txt.length<=max)
-        return txt;
-
-    return txt.substring(0,max)+"...";
-
-}
-
-async function buscarPreview(link){
-
-    try{
-
-        const req=await fetch(
-
-            "https://api.microlink.io/?url="+
-
-            encodeURIComponent(link)
-
+        ctx.fillText(
+            texto,
+            i*tamanho,
+            gotas[i]*tamanho
         );
 
-        const json=await req.json();
 
-        if(json.status==="success"){
 
-            return{
+        if(
+        gotas[i]*tamanho >
+        canvas.height
+        &&
+        Math.random()>0.975
+        ){
 
-                titulo:limitarTexto(json.data.title,60),
-
-                imagem:
-
-                    json.data.image?.url ||
-
-                    json.data.logo?.url ||
-
-                    ""
-
-            };
+            gotas[i]=0;
 
         }
 
-    }catch(e){
 
-        console.log(e);
-
-    }
-
-    return null;
-
-}
-
-/* ===================================================
-   CRIAR CARD
-=================================================== */
-
-function criarCard(item,tipo,container){
-
-    const card=document.createElement("div");
-
-    card.className="card";
-
-    if(item.fixado)
-        card.classList.add("fixado");
-
-    if(tipo==="Aliado")
-        card.classList.add("aliado");
-
-    card.dataset.categoria=item.categoria||"";
-
-    card.innerHTML=`
-
-    <div class="cardImgWrap">
-
-        <img class="cardImg"
-             src="${item.imagem||""}"
-             alt="${item.titulo||""}">
-
-        ${!item.imagem
-            ?'<div class="cardSkeleton"></div>'
-            :''}
-
-        <span class="badge tipo">${tipo}</span>
-
-        <div class="badgesDireita">
-
-            ${item.vip
-                ?'<span class="badge vip">★ VIP</span>'
-                :''}
-
-            ${item.fixado
-                ?'<span class="badge fixado">📌</span>'
-                :''}
-
-        </div>
-
-    </div>
-
-    <div class="cardInfo">
-
-        <h3 class="cardTitulo">
-
-            ${item.titulo||"Carregando..."}
-
-        </h3>
-
-        <div class="cardTags">
-
-            <span class="pill whatsapp">
-                🟢 WhatsApp
-            </span>
-
-            ${
-                item.categoria
-                ?`<span class="pill categoria">${item.categoria}</span>`
-                :""
-            }
-
-        </div>
-
-        <div class="cardButtons">
-
-            <a
-               class="btnEntrar"
-               href="${item.link}"
-               target="_blank">
-
-               Entrar
-
-            </a>
-
-            <button class="btnCopiar">
-
-                Copiar
-
-            </button>
-
-        </div>
-
-    </div>
-    `;
-
-    card.querySelector(".btnCopiar").onclick=()=>{
-
-        navigator.clipboard.writeText(item.link);
-
-        const btn=card.querySelector(".btnCopiar");
-
-        btn.innerHTML="Copiado!";
-
-        setTimeout(()=>{
-
-            btn.innerHTML="Copiar";
-
-        },1500);
-
-    };
-
-    if (container) container.appendChild(card);
-
-    if(!item.imagem||!item.titulo){
-
-        buscarPreview(item.link).then(preview=>{
-
-            if(!preview)
-                return;
-
-            const img=card.querySelector(".cardImg");
-
-            const titulo=card.querySelector(".cardTitulo");
-
-            const skeleton=
-                card.querySelector(".cardSkeleton");
-
-            if(skeleton)
-                skeleton.remove();
-
-            if(!item.imagem && preview.imagem)
-                img.src=preview.imagem;
-
-            if(!item.titulo && preview.titulo)
-                titulo.innerHTML=preview.titulo;
-
-        });
+        gotas[i]++;
 
     }
 
-}
-
-/* ===================================================
-   CARROSSEL
-=================================================== */
-
-function habilitarArrasto(el){
-
-    if(!el) return;
-
-    let pressionado=false;
-    let inicioX=0;
-    let scrollInicial=0;
-
-    el.addEventListener("mousedown",(e)=>{
-
-        pressionado=true;
-
-        el.classList.add("arrastando");
-
-        inicioX=e.pageX;
-
-        scrollInicial=el.scrollLeft;
-
-    });
-
-    window.addEventListener("mouseup",()=>{
-
-        pressionado=false;
-
-        el.classList.remove("arrastando");
-
-    });
-
-    window.addEventListener("mousemove",(e)=>{
-
-        if(!pressionado) return;
-
-        e.preventDefault();
-
-        const distancia=e.pageX-inicioX;
-
-        el.scrollLeft=scrollInicial-distancia;
-
-    });
 
 }
 
-habilitarArrasto(canaisRow);
-habilitarArrasto(gruposRow);
-habilitarArrasto(aliadosRow);
 
-/* ===================================================
-   LISTAS
-=================================================== */
 
-function ordenarComFixados(lista){
+setInterval(matrix,50);
 
-    return [...lista].sort(
 
-        (a,b)=>(b.fixado?1:0)-(a.fixado?1:0)
 
-    );
 
-}
 
-function carregarLista(lista,tipo,container){
 
-    if(!container) return;
+window.addEventListener("resize",()=>{
 
-    container.innerHTML="";
 
-    if(!Array.isArray(lista) || lista.length===0){
+canvas.width =
+window.innerWidth;
 
-        container.innerHTML=`
-        <p class="carouselVazio">
-        Nenhum ${tipo.toLowerCase()} cadastrado.
-        </p>`;
 
-        return;
+canvas.height =
+window.innerHeight;
 
-    }
 
-    ordenarComFixados(lista).forEach(item=>{
+});
 
-        criarCard(item,tipo,container);
 
-    });
 
-}
 
-/* ===================================================
-   PARCERIAS
-=================================================== */
 
-function carregarParcerias(){
 
-    if(!admSelect) return;
 
-    admSelect.innerHTML="";
 
-    if(!config.adms) return;
+// ==========================
+// BANCO LOCAL
+// ==========================
 
-    config.adms.forEach(adm=>{
 
-        const option=document.createElement("option");
+let dados =
+JSON.parse(
+localStorage.getItem("rhs")
+)
+||
+{
 
-        option.value=adm.link;
 
-        option.textContent=adm.nick;
+grupos:[],
 
-        admSelect.appendChild(option);
+canais:[],
 
-    });
+aliados:[],
 
-    if(btnParceria){
+admins:[
 
-        btnParceria.onclick=()=>{
+{
 
-            const url=admSelect.value;
+nome:"ADM R.H.S",
 
-            if(url){
-
-                window.open(url,"_blank");
-
-            }
-
-        };
-
-    }
+numero:"5591981520185"
 
 }
 
-/* ===================================================
-   MATRIX
-=================================================== */
+]
 
-if (canvas) {
 
-    const ctx = canvas.getContext("2d");
+};
 
-    function resizeMatrix() {
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
 
-    }
 
-    resizeMatrix();
 
-    const letras =
-        "01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@<>[]{}";
 
-    const tamanho = 16;
 
-    let colunas = Math.floor(canvas.width / tamanho);
+// ==========================
+// CRIAR CARDS
+// ==========================
 
-    let gotas = Array(colunas).fill(1);
 
-    function desenharMatrix() {
 
-        ctx.fillStyle = "rgba(0,0,0,.05)";
-        ctx.fillRect(0,0,canvas.width,canvas.height);
+function carregar(){
 
-        ctx.font = tamanho + "px monospace";
 
-        for(let i=0;i<gotas.length;i++){
+const grupos =
+document.getElementById("grupos");
 
-            const letra =
-                letras[
-                    Math.floor(
-                        Math.random()*letras.length
-                    )
-                ];
 
-            const brilho=Math.random();
+const canais =
+document.getElementById("canais");
 
-            if(brilho>.96){
 
-                ctx.fillStyle="#ffffff";
+const aliados =
+document.getElementById("aliados");
 
-            }else if(brilho>.55){
 
-                ctx.fillStyle="#ff2b2b";
 
-            }else{
 
-                ctx.fillStyle="#8b0000";
 
-            }
+grupos.innerHTML="";
 
-            ctx.fillText(
 
-                letra,
+canais.innerHTML="";
 
-                i*tamanho,
 
-                gotas[i]*tamanho
+aliados.innerHTML="";
 
-            );
 
-            if(
 
-                gotas[i]*tamanho >
 
-                canvas.height &&
 
-                Math.random()>0.98
+dados.grupos.forEach(item=>{
 
-            ){
 
-                gotas[i]=0;
+grupos.innerHTML +=
+`
 
-            }
+<div class="card">
 
-            gotas[i]++;
+<h3>
+${item.nome}
+</h3>
 
-        }
+<p>
+${item.desc || ""}
+</p>
 
-    }
 
-    setInterval(desenharMatrix,30);
+<a href="${item.link}" target="_blank">
 
-    window.addEventListener("resize",()=>{
+Entrar
 
-        resizeMatrix();
+</a>
 
-        colunas=Math.floor(canvas.width/tamanho);
+</div>
 
-        gotas=Array(colunas).fill(1);
+`;
 
-    });
+
+
+});
+
+
+
+
+
+
+
+dados.canais.forEach(item=>{
+
+
+canais.innerHTML +=
+`
+
+<div class="card">
+
+<h3>
+${item.nome}
+</h3>
+
+<p>
+${item.desc || ""}
+</p>
+
+
+<a href="${item.link}" target="_blank">
+
+Acessar
+
+</a>
+
+</div>
+
+`;
+
+
+
+});
+
+
+
+
+
+
+
+
+dados.aliados.forEach(item=>{
+
+
+aliados.innerHTML +=
+`
+
+<div class="card">
+
+<h3>
+⭐ ${item.nome}
+</h3>
+
+
+<p>
+${item.desc || ""}
+</p>
+
+
+<a href="${item.link}" target="_blank">
+
+Visitar
+
+</a>
+
+
+</div>
+
+`;
+
+
+});
+
+
+
+carregarADM();
+
 
 }
 
-/* ===================================================
-   TOPO
-=================================================== */
 
-if (topButton) {
-    window.addEventListener("scroll",()=>{
 
-        topButton.style.display=
 
-            window.scrollY>250
 
-            ? "flex"
 
-            : "none";
 
-    });
 
-    topButton.onclick=()=>{
+// ==========================
+// PARCERIA WHATSAPP
+// ==========================
 
-        window.scrollTo({
 
-            top:0,
 
-            behavior:"smooth"
+function carregarADM(){
 
-        });
 
-    };
-}
 
-/* ===================================================
-   INICIAR
-=================================================== */
+const select =
+document.getElementById("admSelect");
 
-async function iniciarSite(){
 
-    try{
 
-        const req=await fetch(
+select.innerHTML="";
 
-            "config.json?v="+Date.now(),
 
-            {
 
-                cache:"no-store"
+dados.admins.forEach((adm,index)=>{
 
-            }
 
-        );
+select.innerHTML +=
+`
 
-        config=await req.json();
+<option value="${index}">
 
-    }catch(e){
+${adm.nome}
 
-        console.error(e);
+</option>
 
-        return;
 
-    }
+`;
 
-    carregarConfig();
 
-    configurarMusica();
 
-    configurarFundo();
+});
 
-    criarBotaoFiltro("Todas","todas");
-
-    obterCategoriasUsadas()
-
-    .forEach(cat=>{
-
-        criarBotaoFiltro(cat,cat);
-
-    });
-
-    carregarLista(
-
-        config.canais,
-
-        "Canal",
-
-        canaisRow
-
-    );
-
-    carregarLista(
-
-        config.grupos,
-
-        "Grupo",
-
-        gruposRow
-
-    );
-
-    carregarLista(
-
-        config.aliados || [],
-
-        "Aliado",
-
-        aliadosRow
-
-    );
-
-    carregarParcerias();
 
 }
 
-iniciarSite();
 
-console.log("✅ KNOWS.exe iniciado.");
+
+
+
+
+document
+.getElementById("whatsapp")
+.addEventListener("click",()=>{
+
+
+
+let adm =
+dados.admins[
+document.getElementById("admSelect").value
+];
+
+
+
+let mensagem =
+document.getElementById("mensagemParceria")
+.value;
+
+
+
+let link =
+
+"https://wa.me/"+
+adm.numero+
+"?text="+
+encodeURIComponent(mensagem);
+
+
+
+window.open(link,"_blank");
+
+
+
+});
+
+
+
+
+
+
+
+carregar();
