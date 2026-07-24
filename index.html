@@ -132,7 +132,6 @@ Grupos
 
 
 
-
 <div class="stat">
 
 <h2 id="totalCanais">
@@ -144,7 +143,6 @@ Canais
 </p>
 
 </div>
-
 
 
 
@@ -162,7 +160,6 @@ Aliados
 </div>
 
 
-
 </section>
 
 
@@ -171,19 +168,66 @@ Aliados
 
 
 
-
-<!-- GRUPOS -->
+<!-- PESQUISA + FILTRO -->
 
 
 <section class="area">
 
 
 <h2>
+🔎 Explorar R.H.S
+</h2>
+
+
+<input 
+id="pesquisa"
+class="search"
+placeholder="Pesquisar comunidades..."
+>
+
+
+
+<div class="filtros">
+
+
+<button onclick="filtrar('todos')">
+🌐 Todos
+</button>
+
+
+<button onclick="filtrar('grupos')">
 👥 Grupos
+</button>
+
+
+<button onclick="filtrar('canais')">
+📢 Canais
+</button>
+
+
+<button onclick="filtrar('aliados')">
+⭐ Aliados
+</button>
+
+
+</div>
+
+
+</section>
+<!-- GRUPOS -->
+
+
+<section class="area" id="areaGrupos">
+
+
+<h2>
+👥 Grupos R.H.S
 </h2>
 
 
 <div id="grupos" class="cards">
+
+<!-- grupos carregados pelo JS -->
 
 </div>
 
@@ -196,19 +240,20 @@ Aliados
 
 
 
-
 <!-- CANAIS -->
 
 
-<section class="area">
+<section class="area" id="areaCanais">
 
 
 <h2>
-📢 Canais
+📢 Canais R.H.S
 </h2>
 
 
 <div id="canais" class="cards">
+
+<!-- canais carregados pelo JS -->
 
 </div>
 
@@ -224,7 +269,7 @@ Aliados
 <!-- ALIADOS -->
 
 
-<section class="aliados">
+<section class="aliados" id="areaAliados">
 
 
 <h2>
@@ -233,11 +278,14 @@ Aliados
 
 
 <p>
-Parceiros oficiais R.H.S
+Parceiros oficiais da R.H.S
 </p>
 
 
+
 <div id="aliados" class="cards">
+
+<!-- aliados carregados pelo JS -->
 
 </div>
 
@@ -268,9 +316,19 @@ Parceiros oficiais R.H.S
 
 
 
+<label>
+Escolha um ADM:
+</label>
+
+
+
 <select id="admSelect">
 
+<!-- ADM carregado pelo JS -->
+
 </select>
+
+
 
 
 
@@ -280,6 +338,8 @@ Parceiros oficiais R.H.S
 Olá, vim pela R.H.S e quero fazer parceria.
 
 </textarea>
+
+
 
 
 
@@ -303,18 +363,30 @@ Enviar WhatsApp
 
 
 
+<!-- FOOTER -->
+
+
 <footer>
+
 
 <p>
 © 2026 R.H.S
 </p>
+
+
+<p>
+Sistema oficial de grupos, canais e parceiros
+</p>
+
 
 </footer>
 
 
 
 
+
 </div>
+
 
 
 
