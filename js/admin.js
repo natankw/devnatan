@@ -68,7 +68,6 @@ function carregarTudo(){
   listarComunidades();
   listarAliados();
   listarAdms();
-  listarDenuncias();
   carregarConfigForm();
 }
 
@@ -262,52 +261,6 @@ async function listarAdms(){
 }
 
 /* ==========================================================
-   DENÚNCIAS
-   ========================================================== */
-async function listarDenuncias(){
-  const area = document.getElementById("listaDenuncias");
-  const badge = document.getElementById("badgeDenuncias");
-  const vazio = document.getElementById("vazioDenuncias");
-  const snap = await db.collection("denuncias").where("resolvida","==",false).orderBy("criadoEm","desc").get();
-
-  badge.hidden = snap.size === 0;
-  badge.textContent = snap.size;
-  vazio.hidden = snap.size !== 0;
-  area.innerHTML = "";
-
-  snap.docs.forEach(doc => {
-    const d = doc.data();
-    area.innerHTML += `
-      <div class="item-admin">
-        <div class="info">
-          <h3>${d.motivo}</h3>
-          <p>${d.colecao} · ${d.detalhes || "sem detalhes"}</p>
-        </div>
-        <div class="acoes">
-          <button class="icon-btn" onclick="resolverDenuncia('${doc.id}')" title="Marcar como resolvida">✔</button>
-          <button class="icon-btn danger" onclick="excluirDenunciaEComunidade('${doc.id}','${d.colecao}','${d.itemId}')" title="Excluir comunidade denunciada">🗑</button>
-        </div>
-      </div>`;
-  });
-}
-
-async function resolverDenuncia(id){
-  await db.collection("denuncias").doc(id).update({ resolvida: true });
-  toast("Denúncia marcada como resolvida.");
-  listarDenuncias();
-}
-
-async function excluirDenunciaEComunidade(denunciaId, colecao, itemId){
-  if(!confirm("Isso vai excluir a comunidade denunciada. Continuar?")) return;
-  await db.collection(colecao).doc(itemId).delete().catch(()=>{});
-  await db.collection("denuncias").doc(denunciaId).update({ resolvida: true });
-  toast("Comunidade removida e denúncia resolvida.");
-  listarDenuncias();
-  listarComunidades();
-  listarAliados();
-}
-
-/* ==========================================================
    CONFIGURAÇÕES DO SITE
    ========================================================== */
 async function carregarConfigForm(){
@@ -385,4 +338,4 @@ async function importarConfigAntigo(){
   status.textContent = `Importação concluída: ${importados} comunidades (${comFotoAutomatica} com foto/nome buscados automaticamente).`;
   document.getElementById("jsonAntigo").value = "";
   listarComunidades();
-      }
+       }
