@@ -1,5 +1,5 @@
 /* ==========================================================
-   R.H.S V5 — LÓGICA DO PAINEL ADMIN
+   R.H.S V5 — LÓGICA DO PAINEL ADMIN (via token do GitHub)
    ========================================================== */
 
 function toast(msg){
@@ -11,53 +11,81 @@ function toast(msg){
   el._t = setTimeout(()=>{ el.hidden = true; }, 3200);
 }
 
+let BANCO = null; // fica em memória enquanto o painel está aberto
+
 /* ==========================================================
-   AUTENTICAÇÃO
+   LOGIN (token do GitHub, guardado só na sessão do navegador)
    ========================================================== */
-function entrarADM(){
+async function entrarADM(){
+  const tokenInput = document.getElementById("token").value.trim();
   const erro = document.getElementById("loginErro");
   erro.hidden = true;
 
-  if(typeof auth === "undefined" || !auth){
-    erro.textContent = "O Firebase não carregou corretamente. Confira js/firebase-config.js.";
+  if(!tokenInput){
+    erro.textContent = "Cole o token antes de entrar.";
     erro.hidden = false;
     return;
   }
 
-  const email = document.getElementById("email").value.trim();
-  const senha = document.getElementById("senha").value;
+  ghSalvarToken(tokenInput);
 
-  auth.signInWithEmailAndPassword(email, senha)
-    .catch((e) => {
-      erro.textContent = traduzirErroAuth(e.code);
-      erro.hidden = false;
-    });
+  const teste = await ghTestarToken();
+  if(!teste.ok){
+    ghLimparToken();
+    erro.textContent = teste.motivo;
+    erro.hidden = false;
+    return;
+  }
+
+  try{
+    const resultado = await ghCarregar();
+    BANCO = resultado.data;
+  }catch(e){
+    erro.textContent = "Token válido, mas não consegui carregar os dados: " + e.message;
+    erro.hidden = false;
+    return;
+  }
+
+  document.getElementById("login").hidden = true;
+  document.getElementById("painel").hidden = false;
+  document.getElementById("usuarioLogado").textContent = "Conectado via token do GitHub";
+  carregarTudo();
 }
 
-function traduzirErroAuth(codigo){
-  const mapa = {
-    "auth/invalid-email": "E-mail inválido.",
-    "auth/user-not-found": "Usuário não encontrado.",
-    "auth/wrong-password": "Senha incorreta.",
-    "auth/invalid-credential": "E-mail ou senha incorretos.",
-    "auth/too-many-requests": "Muitas tentativas. Aguarde um pouco."
-  };
-  return mapa[codigo] || "Não foi possível entrar. Verifique os dados.";
+function sair(){
+  ghLimparToken();
+  document.getElementById("login").hidden = false;
+  document.getElementById("painel").hidden = true;
+  document.getElementById("token").value = "";
 }
 
-function sair(){ auth.signOut(); }
-
-auth.onAuthStateChanged((user) => {
-  if(user){
+// Se já tinha um token válido nessa sessão (ex: recarregou a página), tenta continuar logado
+(async function tentarSessaoAtiva(){
+  if(!ghToken()) return;
+  const teste = await ghTestarToken();
+  if(!teste.ok) return;
+  try{
+    const resultado = await ghCarregar();
+    BANCO = resultado.data;
     document.getElementById("login").hidden = true;
     document.getElementById("painel").hidden = false;
-    document.getElementById("usuarioLogado").textContent = user.email;
+    document.getElementById("usuarioLogado").textContent = "Conectado via token do GitHub";
     carregarTudo();
-  }else{
-    document.getElementById("login").hidden = false;
-    document.getElementById("painel").hidden = true;
+  }catch(e){ /* fica na tela de login se der erro */ }
+})();
+
+/* ==========================================================
+   SALVAR (grava tudo de volta no GitHub)
+   ========================================================== */
+async function salvarBanco(mensagem){
+  try{
+    await ghSalvar(BANCO, mensagem);
+    return true;
+  }catch(e){
+    toast("Erro ao salvar no GitHub: " + e.message);
+    return false;
   }
-});
+}
 
 /* ==========================================================
    ABAS
@@ -79,7 +107,7 @@ function carregarTudo(){
 }
 
 /* ==========================================================
-   BUSCA AUTOMÁTICA (usa js/whatsapp-meta.js)
+   BUSCA AUTOMÁTICA (usa js/whatsapp-meta.js — não muda com o token)
    ========================================================== */
 async function buscarAutomatico(){
   const link = document.getElementById("link").value.trim();
@@ -116,11 +144,9 @@ async function executarBusca(link, campoNomeId, campoImgId, previewId, statusId,
 }
 
 function limparTituloWpp(titulo){
-  // remove sufixos comuns tipo "| WhatsApp Group" etc.
   return titulo.replace(/\s*[-|]\s*WhatsApp.*$/i, "").trim();
 }
 
-// atualiza preview ao colar uma URL de imagem manualmente
 ["imagem","aliadoImagem"].forEach(id => {
   const el = document.getElementById(id);
   if(!el) return;
@@ -139,6 +165,7 @@ async function salvarComunidade(){
   if(!nome || !link){ toast("Preencha ao menos o nome e o link."); return; }
 
   const item = {
+    id: novoId("com"),
     titulo: nome,
     imagem: document.getElementById("imagem").value.trim() || "",
     link,
@@ -148,39 +175,38 @@ async function salvarComunidade(){
     vip: document.getElementById("vip").checked,
     fixado: document.getElementById("fixado").checked,
     cliques: 0,
-    criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+    criadoEm: Date.now()
   };
 
-  try{
-    await db.collection("comunidades").add(item);
-    toast("Comunidade publicada ✅");
-    ["nome","link","imagem","descricao"].forEach(id => document.getElementById(id).value = "");
-    document.getElementById("vip").checked = false;
-    document.getElementById("fixado").checked = false;
-    document.getElementById("previewImg").src = "img/default-avatar.svg";
-    document.getElementById("statusBusca").textContent = "";
-    listarComunidades();
-  }catch(e){
-    toast("Erro ao publicar: " + e.message);
-  }
+  BANCO.comunidades.push(item);
+  toast("Salvando no GitHub...");
+  const ok = await salvarBanco(`Adiciona comunidade: ${nome}`);
+  if(!ok){ BANCO.comunidades.pop(); return; }
+
+  toast("Comunidade publicada ✅ (pode levar 1-2 min pra aparecer no site)");
+  ["nome","link","imagem","descricao"].forEach(id => document.getElementById(id).value = "");
+  document.getElementById("vip").checked = false;
+  document.getElementById("fixado").checked = false;
+  document.getElementById("previewImg").src = "img/default-avatar.svg";
+  document.getElementById("statusBusca").textContent = "";
+  listarComunidades();
 }
 
-async function listarComunidades(){
+function listarComunidades(){
   const area = document.getElementById("listaComunidades");
-  const snap = await db.collection("comunidades").orderBy("criadoEm","desc").get();
-  document.getElementById("contComunidades").textContent = `(${snap.size})`;
+  const lista = BANCO.comunidades || [];
+  document.getElementById("contComunidades").textContent = `(${lista.length})`;
   area.innerHTML = "";
-  snap.docs.forEach(doc => {
-    const item = doc.data();
+  lista.slice().reverse().forEach(item => {
     area.innerHTML += `
       <div class="item-admin">
         <img src="${item.imagem || 'img/default-avatar.svg'}" onerror="this.src='img/default-avatar.svg'">
         <div class="info">
           <h3>${item.titulo} ${item.vip ? '⭐' : ''} ${item.fixado ? '📌' : ''}</h3>
-          <p>${item.tipo} · ${item.categoria} · ${item.cliques || 0} entradas</p>
+          <p>${item.tipo} · ${item.categoria}</p>
         </div>
         <div class="acoes">
-          <button class="icon-btn danger" onclick="excluirItem('comunidades','${doc.id}')" title="Excluir">🗑</button>
+          <button class="icon-btn danger" onclick="excluirItem('comunidades','${item.id}')" title="Excluir">🗑</button>
         </div>
       </div>`;
   });
@@ -188,7 +214,14 @@ async function listarComunidades(){
 
 async function excluirItem(colecao, id){
   if(!confirm("Tem certeza que quer excluir?")) return;
-  await db.collection(colecao).doc(id).delete();
+  const lista = BANCO[colecao] || [];
+  const indice = lista.findIndex(i => i.id === id);
+  if(indice === -1) return;
+  const removido = lista.splice(indice, 1)[0];
+
+  const ok = await salvarBanco(`Remove item de ${colecao}: ${removido.titulo || removido.nome || id}`);
+  if(!ok){ lista.splice(indice, 0, removido); return; }
+
   toast("Excluído.");
   if(colecao === "comunidades") listarComunidades();
   if(colecao === "aliados") listarAliados();
@@ -204,37 +237,35 @@ async function salvarAliado(){
   if(!nome || !link){ toast("Preencha ao menos o nome e o link."); return; }
 
   const item = {
+    id: novoId("ali"),
     titulo: nome,
     imagem: document.getElementById("aliadoImagem").value.trim() || "",
     link,
     categoria: "Aliado",
     desc: document.getElementById("aliadoDesc").value.trim(),
-    cliques: 0,
-    criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+    criadoEm: Date.now()
   };
 
-  try{
-    await db.collection("aliados").add(item);
-    toast("Aliado salvo ⭐");
-    ["aliadoNome","aliadoLink","aliadoImagem","aliadoDesc"].forEach(id => document.getElementById(id).value = "");
-    document.getElementById("previewImgAliado").src = "img/default-avatar.svg";
-    listarAliados();
-  }catch(e){
-    toast("Erro ao salvar: " + e.message);
-  }
+  BANCO.aliados.push(item);
+  const ok = await salvarBanco(`Adiciona aliado: ${nome}`);
+  if(!ok){ BANCO.aliados.pop(); return; }
+
+  toast("Aliado salvo ⭐");
+  ["aliadoNome","aliadoLink","aliadoImagem","aliadoDesc"].forEach(id => document.getElementById(id).value = "");
+  document.getElementById("previewImgAliado").src = "img/default-avatar.svg";
+  listarAliados();
 }
 
-async function listarAliados(){
+function listarAliados(){
   const area = document.getElementById("listaAliados");
-  const snap = await db.collection("aliados").orderBy("criadoEm","desc").get();
+  const lista = BANCO.aliados || [];
   area.innerHTML = "";
-  snap.docs.forEach(doc => {
-    const item = doc.data();
+  lista.slice().reverse().forEach(item => {
     area.innerHTML += `
       <div class="item-admin">
         <img src="${item.imagem || 'img/default-avatar.svg'}" onerror="this.src='img/default-avatar.svg'">
-        <div class="info"><h3>${item.titulo}</h3><p>${item.cliques || 0} entradas</p></div>
-        <div class="acoes"><button class="icon-btn danger" onclick="excluirItem('aliados','${doc.id}')">🗑</button></div>
+        <div class="info"><h3>${item.titulo}</h3></div>
+        <div class="acoes"><button class="icon-btn danger" onclick="excluirItem('aliados','${item.id}')">🗑</button></div>
       </div>`;
   });
 }
@@ -246,23 +277,27 @@ async function addADM(){
   const nome = document.getElementById("admNome").value.trim();
   const numero = document.getElementById("admNumero").value.trim();
   if(!nome || !numero){ toast("Preencha nome e número."); return; }
-  await db.collection("admins").add({ nome, numero });
+
+  const item = { id: novoId("adm"), nome, numero };
+  BANCO.admins.push(item);
+  const ok = await salvarBanco(`Adiciona ADM: ${nome}`);
+  if(!ok){ BANCO.admins.pop(); return; }
+
   toast("ADM salvo 🤝");
   document.getElementById("admNome").value = "";
   document.getElementById("admNumero").value = "";
   listarAdms();
 }
 
-async function listarAdms(){
+function listarAdms(){
   const area = document.getElementById("listaAdms");
-  const snap = await db.collection("admins").get();
+  const lista = BANCO.admins || [];
   area.innerHTML = "";
-  snap.docs.forEach(doc => {
-    const item = doc.data();
+  lista.forEach(item => {
     area.innerHTML += `
       <div class="item-admin">
         <div class="info"><h3>${item.nome}</h3><p>${item.numero}</p></div>
-        <div class="acoes"><button class="icon-btn danger" onclick="excluirItem('admins','${doc.id}')">🗑</button></div>
+        <div class="acoes"><button class="icon-btn danger" onclick="excluirItem('admins','${item.id}')">🗑</button></div>
       </div>`;
   });
 }
@@ -270,26 +305,32 @@ async function listarAdms(){
 /* ==========================================================
    CONFIGURAÇÕES DO SITE
    ========================================================== */
-async function carregarConfigForm(){
-  const doc = await db.collection("config").doc("site").get();
-  if(!doc.exists) return;
-  const c = doc.data();
+function carregarConfigForm(){
+  const c = BANCO.config || {};
   document.getElementById("cfgNome").value = c.nome || "";
+  document.getElementById("cfgLogo").value = c.logo || "";
+  if(c.logo) document.getElementById("previewLogo").src = c.logo;
   document.getElementById("cfgDescricao").value = c.descricao || "";
   document.getElementById("cfgWhatsapp").value = c.whatsapp || "";
   document.getElementById("cfgMusica").value = c.musica || "";
   document.getElementById("cfgFooter").value = c.footer || "";
 }
 
+document.getElementById("cfgLogo").addEventListener("input", (e)=>{
+  document.getElementById("previewLogo").src = e.target.value || "img/default-avatar.svg";
+});
+
 async function salvarConfig(){
-  await db.collection("config").doc("site").set({
+  BANCO.config = {
     nome: document.getElementById("cfgNome").value.trim(),
+    logo: document.getElementById("cfgLogo").value.trim(),
     descricao: document.getElementById("cfgDescricao").value.trim(),
     whatsapp: document.getElementById("cfgWhatsapp").value.trim(),
     musica: document.getElementById("cfgMusica").value.trim(),
     footer: document.getElementById("cfgFooter").value.trim()
-  }, { merge: true });
-  toast("Configurações salvas ✅");
+  };
+  const ok = await salvarBanco("Atualiza configurações do site");
+  if(ok) toast("Configurações salvas ✅");
 }
 
 /* ==========================================================
@@ -313,7 +354,7 @@ async function importarConfigAntigo(){
   let importados = 0, comFotoAutomatica = 0;
   for(const item of todos){
     status.className = "status-busca";
-    status.textContent = `Importando ${importados+1}/${todos.length}...`;
+    status.textContent = `Buscando ${importados+1}/${todos.length}...`;
 
     let titulo = item.titulo || "";
     let imagem = item.imagem || "";
@@ -326,9 +367,10 @@ async function importarConfigAntigo(){
       }
     }
 
-    await db.collection("comunidades").add({
+    BANCO.comunidades.push({
+      id: novoId("com"),
       titulo: titulo || (item.tipo === "canal" ? "Canal R.H.S" : "Grupo R.H.S"),
-      imagem: imagem.startsWith("uploads/") ? imagem : imagem,
+      imagem: imagem || "",
       link: item.link || "",
       tipo: item.tipo,
       categoria: item.categoria || "Geral",
@@ -336,13 +378,22 @@ async function importarConfigAntigo(){
       vip: !!item.vip,
       fixado: !!item.fixado,
       cliques: 0,
-      criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+      criadoEm: Date.now()
     });
     importados++;
   }
 
-  status.className = "status-busca ok";
-  status.textContent = `Importação concluída: ${importados} comunidades (${comFotoAutomatica} com foto/nome buscados automaticamente).`;
-  document.getElementById("jsonAntigo").value = "";
-  listarComunidades();
+  status.className = "status-busca";
+  status.textContent = "Salvando tudo no GitHub...";
+  const ok = await salvarBanco(`Importa ${importados} comunidades do config.json antigo`);
+
+  if(ok){
+    status.className = "status-busca ok";
+    status.textContent = `Importação concluída: ${importados} comunidades (${comFotoAutomatica} com foto/nome buscados automaticamente).`;
+    document.getElementById("jsonAntigo").value = "";
+    listarComunidades();
+  }else{
+    status.className = "status-busca erro";
+    status.textContent = "Busquei os dados, mas não consegui salvar no GitHub. Tenta de novo.";
+  }
        }
