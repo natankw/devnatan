@@ -36,11 +36,11 @@
     }
   ],
   "config": {
-    "nome": "",
+    "nome": "R.H.S",
     "logo": "https://i.ibb.co/Zz9dW15c/IMG-20260722-WA0205.jpg",
-    "descricao": "",
+    "descricao": "Sistema de comunidades premium",
     "whatsapp": "https://whatsapp.com/channel/0029VbD5fHG1dAw02pNMXQ3X",
-    "musica": "Me Gustas Tu - Manu Chao _ Tradução_Legendado em PT-BR(M4A_128K) (online-audio-converter.com).mp3",
-    "footer": ""
+    "musica": "audio/musica.mp3",
+    "footer": "© 2026 R.H.S — Todos os direitos reservados."
   }
-}
+    }
