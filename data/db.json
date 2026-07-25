@@ -1,19 +1,5 @@
 {
-  "comunidades": [
-    {
-      "id": "com_1785000620802_9uu7n",
-      "titulo": "#6/6/6xk 🇬🇪",
-      "imagem": "https://mmg.whatsapp.net/m1/v/t24/An8e_NeUagb9HwMwo4P9ImklT56zOwmGLtlgM-3JLXcXkh1MxlzCUVOzsaiWkUGP00ZvdB0n4965bUpQgmcfDRYpk8YbWo9NaeEmlXl-mBbnnxpplTIaXAMaH8zWfg3uY-iQCEehRtnrkk2mYsE_?_nc_gid=pIW5wcLtNn4pzn4-_eA-Dw&_nc_oc=AdrByWUqiM9yICOv5hFQpDwGKSniB8QRHd8YOnpt0gCy-OCO_JhbxC_gVV7d1D-8os0&ccb=10-5&oh=01_Q5Aa5AH0WZWFPN5oKByRjb5uN1rwTwe3MhztfBNpSBDNJcAE_A&oe=6A8C79C1&_nc_sid=471a72",
-      "link": "https://whatsapp.com/channel/0029Vb8XsOg7dmeZYaHEhg3p",
-      "tipo": "canal",
-      "categoria": "Programação",
-      "desc": "",
-      "vip": true,
-      "fixado": true,
-      "cliques": 0,
-      "criadoEm": 1785000620821
-    }
-  ],
+  "comunidades": [],
   "aliados": [],
   "admins": [],
   "config": {}
