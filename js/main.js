@@ -1,8 +1,8 @@
 /* ==========================================================
-   R.H.S V5 — LÓGICA DO SITE
+   R.H.S V5 — LÓGICA DO SITE (dados via GitHub, sem Firebase)
    ========================================================== */
 
-/* ---------- fundo: chuva de código estilo matrix (tons neutros) ---------- */
+/* ---------- fundo: chuva de código estilo matrix (cinza) ---------- */
 (function sinalFundo(){
   const canvas = document.getElementById("sinal");
   if(!canvas) return;
@@ -26,8 +26,7 @@
   addEventListener("resize", resize);
 
   function tick(){
-    // rastro semitransparente (efeito de trilha, no tom de fundo do site)
-    ctx.fillStyle = "rgba(10,10,10,.16)";
+    ctx.fillStyle = "rgba(6,5,7,.16)";
     ctx.fillRect(0,0,w,h);
 
     ctx.font = tamanhoFonte + "px monospace";
@@ -51,21 +50,6 @@
   tick();
 })();
 
-/* ---------- entrada + música ---------- */
-const entrar = document.getElementById("entrar");
-const welcome = document.getElementById("welcome");
-const site = document.getElementById("site");
-const music = document.getElementById("music");
-
-if(entrar){
-  entrar.onclick = () => {
-    if(music && music.getAttribute("src")) music.play().catch(()=>{});
-    if(welcome) welcome.style.display = "none";
-    if(site) site.style.display = "block";
-    registrarVisita();
-  };
-}
-
 /* ---------- ícones (substituem os emojis) ---------- */
 const ICONE_GRUPO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9" cy="7" r="3"/><path d="M22.5 20v-1a3.5 3.5 0 0 0-2.5-3.36"/><path d="M16 3.5a3.5 3.5 0 0 1 0 6.8"/></svg>';
 const ICONE_CANAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4a1 1 0 0 0 1 1h2l4 5V4L6 9H4a1 1 0 0 0-1 1Z"/><path d="M14.5 8a4 4 0 0 1 0 8"/><path d="M18 5a8 8 0 0 1 0 14"/></svg>';
@@ -81,51 +65,59 @@ function toast(msg){
   el._t = setTimeout(()=>{ el.hidden = true; }, 3200);
 }
 
+/* ---------- entrada + música ---------- */
+const entrar = document.getElementById("entrar");
+const welcome = document.getElementById("welcome");
+const site = document.getElementById("site");
+const music = document.getElementById("music");
+
+if(entrar){
+  entrar.onclick = () => {
+    if(music && music.getAttribute("src")) music.play().catch(()=>{});
+    if(welcome) welcome.style.display = "none";
+    if(site) site.style.display = "block";
+  };
+}
+
 /* ---------- estado ---------- */
-let TODAS = [];      // comunidades (grupos + canais)
+let TODAS = [];
 let FILTRO_ATUAL = "todos";
 let CATEGORIA_ATUAL = "todas";
 let TERMO_BUSCA = "";
+let BANCO = null;
 
 /* ==========================================================
-   CARREGAR CONFIGURAÇÃO DO SITE
+   CARREGAMENTO ÚNICO (lê data/db.json direto, sem token)
    ========================================================== */
-async function carregarConfigSite(){
-  try{
-    const doc = await db.collection("config").doc("site").get();
-    if(!doc.exists) return;
-    const c = doc.data();
-    if(c.nome) document.title = `${c.nome} — Central de Comunidades`;
-    if(c.logo){
-      document.getElementById("logoCanal").src = c.logo;
-      document.getElementById("logoEntrada").src = c.logo;
-    }
-    if(c.descricao) document.getElementById("siteDescricao").textContent = c.descricao;
-    if(c.whatsapp) document.getElementById("canalOficial").href = c.whatsapp;
-    if(c.musica) document.getElementById("music").setAttribute("src", c.musica);
-    if(c.footer) document.getElementById("footerTexto").textContent = c.footer;
-  }catch(e){
-    console.warn("Config do site indisponível ainda:", e.message);
+async function iniciar(){
+  BANCO = await ghCarregarPublico();
+  aplicarConfigSite(BANCO.config || {});
+  carregarComunidades();
+  carregarAliados();
+  carregarAdmins();
+}
+
+function aplicarConfigSite(c){
+  if(c.nome) document.title = `${c.nome} — Central de Comunidades`;
+  if(c.logo){
+    const logoCanal = document.getElementById("logoCanal");
+    const logoEntrada = document.getElementById("logoEntrada");
+    if(logoCanal) logoCanal.src = c.logo;
+    if(logoEntrada) logoEntrada.src = c.logo;
   }
+  if(c.descricao) document.getElementById("siteDescricao").textContent = c.descricao;
+  if(c.whatsapp) document.getElementById("canalOficial").href = c.whatsapp;
+  if(c.musica) document.getElementById("music").setAttribute("src", c.musica);
+  if(c.footer) document.getElementById("footerTexto").textContent = c.footer;
 }
 
 /* ==========================================================
    COMUNIDADES (grupos + canais)
    ========================================================== */
-async function carregarComunidades(){
-  const area = document.getElementById("comunidades");
-  area.innerHTML = `<div class="skeleton" style="height:220px;border-radius:16px;"></div>
-                     <div class="skeleton" style="height:220px;border-radius:16px;"></div>
-                     <div class="skeleton" style="height:220px;border-radius:16px;"></div>`;
-  try{
-    const snap = await db.collection("comunidades").orderBy("criadoEm","desc").get();
-    TODAS = snap.docs.map(d => ({ id:d.id, ...d.data() }));
-  }catch(e){
-    console.error(e);
-    TODAS = [];
-  }
+function carregarComunidades(){
+  TODAS = (BANCO.comunidades || []).slice().sort((a,b) => (b.criadoEm||0) - (a.criadoEm||0));
   aplicarFiltros();
-  atualizarStatsLocais();
+  document.getElementById("totalComunidades").textContent = TODAS.length;
 }
 
 function aplicarFiltros(){
@@ -136,7 +128,7 @@ function aplicarFiltros(){
   else if(FILTRO_ATUAL === "vip") lista = lista.filter(i => i.vip);
   else if(FILTRO_ATUAL === "recentes"){
     const seteDias = Date.now() - 7*24*60*60*1000;
-    lista = lista.filter(i => i.criadoEm && i.criadoEm.toMillis && i.criadoEm.toMillis() > seteDias);
+    lista = lista.filter(i => i.criadoEm && i.criadoEm > seteDias);
   }
 
   if(CATEGORIA_ATUAL !== "todas"){
@@ -147,7 +139,6 @@ function aplicarFiltros(){
     lista = lista.filter(i => (i.titulo||"").toLowerCase().includes(TERMO_BUSCA));
   }
 
-  // fixados primeiro
   lista.sort((a,b) => (b.fixado?1:0) - (a.fixado?1:0));
 
   renderComunidades(lista);
@@ -168,31 +159,26 @@ function renderComunidades(lista){
   vazio.hidden = true;
 
   lista.forEach(item => {
-    area.innerHTML += criarCard(item, item.tipo === "canal" ? ICONE_CANAL : ICONE_GRUPO, "comunidades");
+    area.innerHTML += criarCard(item, item.tipo === "canal" ? ICONE_CANAL : ICONE_GRUPO);
   });
 }
 
 /* ==========================================================
    ALIADOS / PARCEIROS
    ========================================================== */
-async function carregarAliados(){
+function carregarAliados(){
   const area = document.getElementById("parceiros");
-  try{
-    const snap = await db.collection("aliados").orderBy("criadoEm","desc").get();
-    const lista = snap.docs.map(d => ({ id:d.id, ...d.data() }));
-    document.getElementById("totalAliados").textContent = lista.length;
-    area.innerHTML = "";
-    document.getElementById("vazioParceiros").hidden = lista.length !== 0;
-    lista.forEach(item => { area.innerHTML += criarCard(item, ICONE_ALIADO, "aliados"); });
-  }catch(e){
-    console.error(e);
-  }
+  const lista = (BANCO.aliados || []).slice().sort((a,b) => (b.criadoEm||0) - (a.criadoEm||0));
+  document.getElementById("totalAliados").textContent = lista.length;
+  area.innerHTML = "";
+  document.getElementById("vazioParceiros").hidden = lista.length !== 0;
+  lista.forEach(item => { area.innerHTML += criarCard(item, ICONE_ALIADO); });
 }
 
 /* ==========================================================
    CARD (usado por comunidades e aliados)
    ========================================================== */
-function criarCard(item, icone, colecao){
+function criarCard(item, icone){
   const imagem = item.imagem || "img/default-avatar.svg";
   return `
   <div class="community-card">
@@ -210,24 +196,14 @@ function criarCard(item, icone, colecao){
       <p>${item.desc || "Comunidade R.H.S"}</p>
       <div class="community-meta">
         <span>${item.categoria || "Geral"}</span>
-        <span>${item.cliques || 0} entradas</span>
       </div>
-      <a href="${item.link || '#'}" target="_blank" rel="noopener" class="card-button"
-         onclick="registrarClique('${item.id}','${colecao}')">Entrar →</a>
+      <a href="${item.link || '#'}" target="_blank" rel="noopener" class="card-button">Entrar →</a>
     </div>
   </div>`;
 }
 
-async function registrarClique(id, colecao){
-  try{
-    await db.collection(colecao).doc(id).update({
-      cliques: firebase.firestore.FieldValue.increment(1)
-    });
-  }catch(e){ /* silencioso: não deve travar a navegação do usuário */ }
-}
-
 /* ==========================================================
-   BUSCA + SINTONIZADOR (tuner)
+   BUSCA + FILTROS
    ========================================================== */
 const pesquisa = document.getElementById("pesquisa");
 if(pesquisa){
@@ -259,16 +235,12 @@ document.querySelectorAll(".filtros-cat .filtro-pill").forEach(btn => {
 /* ==========================================================
    PARCERIA (ADM / WhatsApp)
    ========================================================== */
-async function carregarAdmins(){
-  try{
-    const snap = await db.collection("admins").get();
-    const select = document.getElementById("admSelect");
-    select.innerHTML = "";
-    snap.docs.forEach(d => {
-      const a = d.data();
-      select.innerHTML += `<option value="${a.numero}">${a.nome}</option>`;
-    });
-  }catch(e){ console.error(e); }
+function carregarAdmins(){
+  const select = document.getElementById("admSelect");
+  select.innerHTML = "";
+  (BANCO.admins || []).forEach(a => {
+    select.innerHTML += `<option value="${a.numero}">${a.nome}</option>`;
+  });
 }
 
 const whatsappBtn = document.getElementById("whatsapp");
@@ -282,50 +254,6 @@ if(whatsappBtn){
 }
 
 /* ==========================================================
-   ESTATÍSTICAS (contagem animada)
-   ========================================================== */
-function atualizarStatsLocais(){
-  const totalEl = document.getElementById("totalComunidades");
-  if(totalEl) totalEl.textContent = TODAS.length;
-}
-
-/* ==========================================================
-   VISITANTES + ONLINE AGORA (presença simples via Firestore)
-   ========================================================== */
-function idDeSessao(){
-  let id = sessionStorage.getItem("rhs_sid");
-  if(!id){
-    id = "s_" + Math.random().toString(36).slice(2) + Date.now();
-    sessionStorage.setItem("rhs_sid", id);
-  }
-  return id;
-}
-
-async function registrarVisita(){
-  try{
-    await db.collection("visitas").doc(idDeSessao()).set({
-      ultimoAcesso: firebase.firestore.FieldValue.serverTimestamp()
-    });
-  }catch(e){ /* não bloqueia a experiência */ }
-  manterPresenca();
-}
-
-function manterPresenca(){
-  registrarPresencaAgora();
-  setInterval(registrarPresencaAgora, 60000); // renova a cada 60s
-}
-async function registrarPresencaAgora(){
-  try{
-    await db.collection("visitas").doc(idDeSessao()).set({
-      ultimoAcesso: firebase.firestore.FieldValue.serverTimestamp()
-    });
-  }catch(e){}
-}
-
-/* ==========================================================
    INICIALIZAÇÃO
    ========================================================== */
-(async function iniciar(){
-  await carregarConfigSite();
-  await Promise.all([carregarComunidades(), carregarAliados(), carregarAdmins()]);
-})();
+iniciar();
