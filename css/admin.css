@@ -90,4 +90,4 @@ textarea{min-height:80px;resize:vertical;}
   .grid-2{grid-template-columns:1fr;}
   .linha-com-botao{flex-direction:column;}
   .linha-com-botao .secondary-btn{width:100%;}
-}
+  }
