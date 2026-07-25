@@ -10,7 +10,7 @@
   let w, h, colunas, tamanhoFonte = 15, gotas = [];
 
   const CARACTERES = "01アイウエオカキクケコサシスセソ<>{}[]/*;:$%#@!R.H.S";
-  const CORES = ["#8B5CF6", "#EC4899", "#3B82F6", "#A78BFA"];
+  const CORES = ["#6B7280", "#4B5563", "#9CA3AF", "#374151"];
 
   function resize(){
     w = canvas.width = innerWidth;
@@ -27,7 +27,7 @@
 
   function tick(){
     // rastro semitransparente (efeito de trilha, no tom de fundo do site)
-    ctx.fillStyle = "rgba(11,7,16,.14)";
+    ctx.fillStyle = "rgba(6,5,7,.16)";
     ctx.fillRect(0,0,w,h);
 
     ctx.font = tamanhoFonte + "px monospace";
@@ -35,7 +35,7 @@
       const g = gotas[i];
       const char = CARACTERES[Math.floor(Math.random()*CARACTERES.length)];
       ctx.fillStyle = g.cor;
-      ctx.globalAlpha = 0.75;
+      ctx.globalAlpha = 0.55;
       ctx.fillText(char, i*tamanhoFonte, g.y);
 
       g.y += g.vel;
@@ -276,25 +276,8 @@ if(whatsappBtn){
    ESTATÍSTICAS (contagem animada)
    ========================================================== */
 function atualizarStatsLocais(){
-  document.getElementById("statGrupos").dataset.target = TODAS.length;
-  document.getElementById("totalComunidades").textContent = TODAS.length;
-  animarContadores();
-}
-
-function animarContadores(){
-  document.querySelectorAll(".stat-value[data-target]").forEach(el => {
-    const alvo = parseInt(el.dataset.target || "0", 10);
-    const atual = parseInt(el.textContent || "0", 10);
-    if(atual === alvo) return;
-    let n = atual;
-    const passo = () => {
-      n += Math.max(1, Math.ceil((alvo-n)/8));
-      if(n >= alvo){ el.textContent = alvo; return; }
-      el.textContent = n;
-      requestAnimationFrame(passo);
-    };
-    passo();
-  });
+  const totalEl = document.getElementById("totalComunidades");
+  if(totalEl) totalEl.textContent = TODAS.length;
 }
 
 /* ==========================================================
@@ -316,7 +299,6 @@ async function registrarVisita(){
     });
   }catch(e){ /* não bloqueia a experiência */ }
   manterPresenca();
-  atualizarContadoresGlobais();
 }
 
 function manterPresenca(){
@@ -329,25 +311,6 @@ async function registrarPresencaAgora(){
       ultimoAcesso: firebase.firestore.FieldValue.serverTimestamp()
     });
   }catch(e){}
-}
-
-async function atualizarContadoresGlobais(){
-  try{
-    const doisMin = new Date(Date.now() - 2*60000);
-    const snapOnline = await db.collection("visitas")
-      .where("ultimoAcesso", ">", doisMin).get();
-    document.getElementById("statOnline").textContent = snapOnline.size;
-
-    const inicioHoje = new Date();
-    inicioHoje.setHours(0,0,0,0);
-    const snapHoje = await db.collection("visitas")
-      .where("ultimoAcesso", ">", inicioHoje).get();
-    document.getElementById("statHoje").dataset.target = snapHoje.size;
-
-    const snapTotal = await db.collection("visitas").get();
-    document.getElementById("statVisitantes").dataset.target = snapTotal.size;
-    animarContadores();
-  }catch(e){ console.warn("Contadores de visitantes indisponíveis:", e.message); }
 }
 
 /* ==========================================================
