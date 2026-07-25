@@ -16,11 +16,16 @@
 <div id="login" class="box login-box">
   <h1>R.H.S</h1>
   <p>Painel administrativo</p>
-  <input id="email" type="email" placeholder="E-mail do administrador" autocomplete="username">
-  <input id="senha" type="password" placeholder="Senha" autocomplete="current-password">
+
+  <input id="token" type="password" placeholder="Token de acesso" autocomplete="off">
+
   <button onclick="entrarADM()">Entrar</button>
+
   <p id="loginErro" class="erro-msg" hidden></p>
-  <p class="login-hint">Acesso protegido pelo Firebase Authentication. Crie o usuário admin no console do Firebase — veja o README.</p>
+
+  <p class="login-hint">
+    Acesso protegido por token.
+  </p>
 </div>
 
 <!-- PAINEL -->
