@@ -1,4 +1,7 @@
-// Configuração do Firebase
+/* ==========================================================
+   R.H.S — CONFIGURAÇÃO DO FIREBASE
+   ========================================================== */
+
 const firebaseConfig = {
   apiKey: "AIzaSyD8O6S_ss0Jhgpcivns6auPwG30dj5jBq0",
   authDomain: "kh-ws-a4dce.firebaseapp.com",
@@ -9,7 +12,18 @@ const firebaseConfig = {
   measurementId: "G-VLL6D51VS0"
 };
 
-// Inicializa o Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const auth = firebase.auth();
+let db, auth;
+
+try{
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+  auth = firebase.auth();
+}catch(erroFirebase){
+  document.addEventListener("DOMContentLoaded", () => {
+    const aviso = document.createElement("div");
+    aviso.style = "position:fixed;top:0;left:0;right:0;background:#B0555E;color:#fff;padding:14px;font-family:sans-serif;font-size:14px;z-index:99999;text-align:center;";
+    aviso.textContent = "Erro ao carregar o Firebase: " + erroFirebase.message;
+    document.body.prepend(aviso);
+  });
+  console.error("Erro ao inicializar o Firebase:", erroFirebase);
+}
