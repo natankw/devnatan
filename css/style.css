@@ -104,14 +104,21 @@ h1,h2,h3{font-family:var(--font-display);letter-spacing:-.01em;}
 }
 .welcome-card{text-align:center;max-width:380px;}
 .pulse-mark{position:relative;width:100px;height:100px;margin:0 auto 32px;display:flex;align-items:center;justify-content:center;}
+
+/* ========== CORREÇÃO DA LOGO ========== */
 .pulse-mark .logo{
-  width:48px;
-  height:48px;
+  width:64px;           /* tamanho maior */
+  height:64px;          /* igual à largura pra ficar redondo */
+  border-radius:50%;    /* transforma em círculo */
+  object-fit:cover;     /* corta a imagem pra caber no círculo */
   position:relative;
   z-index:2;
   opacity:.9;
   filter:drop-shadow(0 0 30px var(--red));
+  border:2px solid var(--red); /* borda vermelha combinando */
 }
+/* ===================================== */
+
 .ring{
   position:absolute;
   border-radius:50%;
@@ -195,7 +202,8 @@ header.top{
   gap:6px;padding:36px 0 32px;
 }
 .logo-top{
-  width:76px;height:76px;border-radius:20px;object-fit:cover;
+  width:76px;height:76px;border-radius:50%;
+  object-fit:cover;
   background:var(--surface);padding:10px;
   border:2px solid var(--red);
   margin-bottom:10px;
@@ -506,4 +514,4 @@ footer{text-align:center;color:#444;font-size:.82rem;padding-top:30px;border-top
 @media (max-width:640px){
   .welcome-card h1{font-size:2rem;}
   header.top{flex-direction:column;align-items:flex-start;}
-     }
+   }
