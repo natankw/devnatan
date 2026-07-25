@@ -6,16 +6,16 @@
    ========================================================== */
 
 :root{
-  --bg:#060508;
-  --surface:#100C16;
-  --surface-2:#17111F;
-  --border:#241C30;
-  --text:#E4E1E8;
-  --muted:#847E8C;
-  --signal:#9C97A6;
-  --signal-dim:#2A2632;
-  --pink:#9C97A6;
-  --blue:#9C97A6;
+  --bg:#0A0A0A;
+  --surface:#141414;
+  --surface-2:#1A1A1A;
+  --border:#2A2A2A;
+  --text:#E8E8E8;
+  --muted:#888888;
+  --signal:#A0A0A0;
+  --signal-dim:#333333;
+  --pink:#A0A0A0;
+  --blue:#A0A0A0;
   --green:#8A9A8F;
   --gold:#A69B7C;
   --danger:#B0555E;
@@ -50,7 +50,7 @@ h1,h2,h3{font-family:var(--font-display);letter-spacing:-.01em;}
 #sinal{position:fixed;inset:0;z-index:-3;opacity:.35;}
 .glow{position:fixed;width:480px;height:480px;border-radius:50%;filter:blur(140px);z-index:-2;pointer-events:none;}
 .g1{background:var(--signal);opacity:.10;top:-10%;left:-8%;}
-.g2{background:var(--pink);opacity:.07;bottom:-12%;right:-10%;}
+.g2{background:var(--signal);opacity:.07;bottom:-12%;right:-10%;}
 
 /* ==========================================================
    TELA DE ENTRADA — sinal pulsante
@@ -58,7 +58,7 @@ h1,h2,h3{font-family:var(--font-display);letter-spacing:-.01em;}
 #welcome{
   position:fixed;inset:0;z-index:20;
   display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(circle at 50% 40%, #120E1A 0%, #050408 75%);
+  background:radial-gradient(circle at 50% 40%, #1A1A1A 0%, #0A0A0A 75%);
   padding:24px;
 }
 .welcome-card{text-align:center;max-width:380px;}
@@ -110,14 +110,14 @@ header.top p{color:var(--muted);font-size:.85rem;}
 /* ---------- cabeçalho de seção ---------- */
 .section-heading{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
 .section-icon{
-  width:34px;height:34px;border-radius:10px;background:rgba(156,151,166,.12);
+  width:34px;height:34px;border-radius:10px;background:rgba(160,160,160,.12);
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
 .section-icon svg{width:17px;height:17px;color:var(--text);}
 .section-heading h2{font-size:1.25rem;flex-shrink:0;}
 .section-heading::after{content:"";flex:1;height:1px;background:var(--border);}
 .count-pill{
-  background:var(--surface-2);border:1px solid var(--border);color:var(--pink);
+  background:var(--surface-2);border:1px solid var(--border);color:var(--signal);
   font-family:var(--font-mono);font-size:.78rem;padding:3px 12px;border-radius:999px;
 }
 .mostrando{color:var(--muted);font-size:.8rem;margin-bottom:14px;}
@@ -149,7 +149,7 @@ header.top p{color:var(--muted);font-size:.85rem;}
 .filtro-pill .icon{display:inline-flex;width:15px;height:15px;flex-shrink:0;}
 .filtro-pill .icon svg{width:100%;height:100%;}
 .filtro-pill:hover{border-color:var(--signal-dim);color:var(--text);}
-.filtro-pill.principal.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+.filtro-pill.principal.active{background:var(--signal);border-color:var(--signal);color:#fff;}
 .filtros-cat .filtro-pill.active{background:transparent;border-color:var(--signal);color:var(--signal);}
 .filtros-cat{margin-bottom:22px;}
 
@@ -165,8 +165,8 @@ header.top p{color:var(--muted);font-size:.85rem;}
 .community-img{width:100%;height:100%;object-fit:cover;display:block;}
 .card-badges{position:absolute;top:10px;left:10px;display:flex;gap:6px;}
 .badge{font-family:var(--font-mono);font-size:.68rem;padding:3px 9px;border-radius:999px;backdrop-filter:blur(6px);}
-.badge-vip{background:linear-gradient(90deg,#C9C4D1,#9C97A6);color:#161119;border:none;font-weight:600;}
-.badge-fixado{background:rgba(156,151,166,.15);color:var(--text);border:1px solid rgba(156,151,166,.4);}
+.badge-vip{background:linear-gradient(90deg,#C9C4D1,#A0A0A0);color:#161119;border:none;font-weight:600;}
+.badge-fixado{background:rgba(160,160,160,.15);color:var(--text);border:1px solid rgba(160,160,160,.4);}
 .card-type{position:absolute;bottom:10px;left:10px;width:22px;height:22px;color:#fff;filter:drop-shadow(0 1px 4px rgba(0,0,0,.6));}
 .card-type svg{width:100%;height:100%;}
 .community-info{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1;}
