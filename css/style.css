@@ -1,8 +1,7 @@
 /* ==========================================================
    R.H.S V5 — DESIGN TOKENS
-   Cor:    bg #0A0F0D · surface #121A17 · surface-2 #182320
-           texto #E9F1EC · muted #8AA098
-           sinal(accent) #2EE6A6 · aliança(gold) #E3B34C · alerta #E5484D
+   Cor:    tema escuro e neutro, com um único acento cinza suave
+           (sem roxo/rosa/azul saturados — visual mais discreto)
    Tipo:   Display  Space Grotesk  ·  Corpo  Inter  ·  Dados  IBM Plex Mono
    ========================================================== */
 
@@ -13,12 +12,12 @@
   --border:#241C30;
   --text:#E4E1E8;
   --muted:#847E8C;
-  --signal:#7C6AA8;
-  --signal-dim:#2E2540;
-  --pink:#B25C82;
-  --blue:#4C6FA5;
-  --green:#3FA684;
-  --gold:#B99A5C;
+  --signal:#9C97A6;
+  --signal-dim:#2A2632;
+  --pink:#9C97A6;
+  --blue:#9C97A6;
+  --green:#8A9A8F;
+  --gold:#A69B7C;
   --danger:#B0555E;
   --radius:16px;
   --font-display:'Space Grotesk', sans-serif;
@@ -91,26 +90,30 @@ h1,h2,h3{font-family:var(--font-display);letter-spacing:-.01em;}
 #site{display:none;max-width:1100px;margin:0 auto;padding:0 20px 80px;}
 
 header.top{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-  padding:28px 0;flex-wrap:wrap;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:6px;padding:36px 0 32px;
 }
-.brand{display:flex;align-items:center;gap:14px;}
-.logo-sm{width:44px;height:44px;border-radius:12px;background:var(--surface);padding:8px;border:1px solid var(--border);}
-.brand h1{font-size:1.3rem;}
-.brand p{color:var(--muted);font-size:.82rem;}
+.logo-top{
+  width:76px;height:76px;border-radius:20px;object-fit:cover;
+  background:var(--surface);padding:10px;border:1px solid var(--border);
+  margin-bottom:10px;
+}
+header.top h1{font-size:1.4rem;}
+header.top p{color:var(--muted);font-size:.85rem;}
 .main-button{
   background:var(--signal);color:#FFFFFF;text-decoration:none;
-  padding:11px 20px;border-radius:999px;font-weight:600;font-size:.88rem;
-  transition:transform .15s ease;white-space:nowrap;
+  padding:11px 22px;border-radius:999px;font-weight:600;font-size:.88rem;
+  transition:transform .15s ease;white-space:nowrap;margin-top:14px;
 }
 .main-button:hover{transform:translateY(-2px);}
 
 /* ---------- cabeçalho de seção ---------- */
 .section-heading{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
 .section-icon{
-  width:34px;height:34px;border-radius:10px;background:rgba(236,72,153,.15);
-  display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+  width:34px;height:34px;border-radius:10px;background:rgba(156,151,166,.12);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
+.section-icon svg{width:17px;height:17px;color:var(--text);}
 .section-heading h2{font-size:1.25rem;flex-shrink:0;}
 .section-heading::after{content:"";flex:1;height:1px;background:var(--border);}
 .count-pill{
@@ -141,8 +144,10 @@ header.top{
   background:var(--surface);border:1px solid var(--border);color:var(--muted);
   font-family:var(--font-body);font-size:.82rem;font-weight:500;
   padding:9px 16px;border-radius:999px;cursor:pointer;white-space:nowrap;
-  transition:all .2s ease;
+  transition:all .2s ease;display:inline-flex;align-items:center;gap:6px;
 }
+.filtro-pill .icon{display:inline-flex;width:15px;height:15px;flex-shrink:0;}
+.filtro-pill .icon svg{width:100%;height:100%;}
 .filtro-pill:hover{border-color:var(--signal-dim);color:var(--text);}
 .filtro-pill.principal.active{background:var(--blue);border-color:var(--blue);color:#fff;}
 .filtros-cat .filtro-pill.active{background:transparent;border-color:var(--signal);color:var(--signal);}
@@ -160,9 +165,10 @@ header.top{
 .community-img{width:100%;height:100%;object-fit:cover;display:block;}
 .card-badges{position:absolute;top:10px;left:10px;display:flex;gap:6px;}
 .badge{font-family:var(--font-mono);font-size:.68rem;padding:3px 9px;border-radius:999px;backdrop-filter:blur(6px);}
-.badge-vip{background:linear-gradient(90deg,var(--pink),var(--signal));color:#fff;border:none;font-weight:600;}
-.badge-fixado{background:rgba(139,92,246,.18);color:var(--signal);border:1px solid rgba(139,92,246,.45);}
-.card-type{position:absolute;bottom:10px;left:10px;font-size:1.1rem;filter:drop-shadow(0 1px 4px rgba(0,0,0,.6));}
+.badge-vip{background:linear-gradient(90deg,#C9C4D1,#9C97A6);color:#161119;border:none;font-weight:600;}
+.badge-fixado{background:rgba(156,151,166,.15);color:var(--text);border:1px solid rgba(156,151,166,.4);}
+.card-type{position:absolute;bottom:10px;left:10px;width:22px;height:22px;color:#fff;filter:drop-shadow(0 1px 4px rgba(0,0,0,.6));}
+.card-type svg{width:100%;height:100%;}
 .community-info{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1;}
 .community-info h3{font-size:1rem;font-weight:600;}
 .community-info p{color:var(--muted);font-size:.82rem;flex:1;}
@@ -214,4 +220,4 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding-top:30px;bo
 @media (max-width:640px){
   .welcome-card h1{font-size:2rem;}
   header.top{flex-direction:column;align-items:flex-start;}
-                }
+}
