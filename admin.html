@@ -152,22 +152,36 @@
   </section>
 
   <!-- CONFIG -->
-  <section class="tab-panel" id="tab-config" hidden>
-    <div class="box">
-      <h2>Configurações do site</h2>
-      <label>Nome do site</label>
-      <input id="cfgNome" placeholder="R.H.S">
-      <label>Descrição / tagline</label>
-      <input id="cfgDescricao" placeholder="Sistema de comunidades premium">
-      <label>Link do canal oficial</label>
-      <input id="cfgWhatsapp" placeholder="https://whatsapp.com/channel/...">
-      <label>Música de fundo (URL .mp3, opcional)</label>
-      <input id="cfgMusica" placeholder="https://.../musica.mp3">
-      <label>Texto do rodapé</label>
-      <input id="cfgFooter" placeholder="© 2026 R.H.S — Todos os direitos reservados.">
-      <button class="primary-btn" onclick="salvarConfig()">Salvar configurações</button>
+<section class="tab-panel" id="tab-config" hidden>
+  <div class="box">
+    <h2>Configurações do site</h2>
+
+    <label>Nome do site</label>
+    <input id="cfgNome" placeholder="R.H.S">
+
+    <label>Logo do site (URL)</label>
+    <div class="preview-linha">
+      <img id="previewLogo" src="img/logo.svg" class="preview-img">
+      <input id="cfgLogo" placeholder="https://.../logo.png">
     </div>
-  </section>
+
+    <label>Descrição / tagline</label>
+    <input id="cfgDescricao" placeholder="Sistema de comunidades premium">
+
+    <label>Link do canal oficial</label>
+    <input id="cfgWhatsapp" placeholder="https://whatsapp.com/channel/...">
+
+    <label>Música de fundo (URL .mp3, opcional)</label>
+    <input id="cfgMusica" placeholder="https://.../musica.mp3">
+
+    <label>Texto do rodapé</label>
+    <input id="cfgFooter" placeholder="© 2026 R.H.S — Todos os direitos reservados.">
+
+    <button class="primary-btn" onclick="salvarConfig()">
+      Salvar configurações
+    </button>
+  </div>
+</section>
 
   <!-- IMPORTAR -->
   <section class="tab-panel" id="tab-importar" hidden>
