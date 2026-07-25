@@ -7,19 +7,19 @@
    ========================================================== */
 
 :root{
-  --bg:#0B0710;
-  --surface:#160F22;
-  --surface-2:#1D1430;
-  --border:#2E1F45;
-  --text:#F1ECFA;
-  --muted:#9C8FB5;
-  --signal:#8B5CF6;
-  --signal-dim:#3B2A5C;
-  --pink:#EC4899;
-  --blue:#3B82F6;
-  --green:#34D399;
-  --gold:#E3B34C;
-  --danger:#E5626A;
+  --bg:#060508;
+  --surface:#100C16;
+  --surface-2:#17111F;
+  --border:#241C30;
+  --text:#E4E1E8;
+  --muted:#847E8C;
+  --signal:#7C6AA8;
+  --signal-dim:#2E2540;
+  --pink:#B25C82;
+  --blue:#4C6FA5;
+  --green:#3FA684;
+  --gold:#B99A5C;
+  --danger:#B0555E;
   --radius:16px;
   --font-display:'Space Grotesk', sans-serif;
   --font-body:'Inter', sans-serif;
@@ -48,10 +48,10 @@ body{
 h1,h2,h3{font-family:var(--font-display);letter-spacing:-.01em;}
 
 /* ---------- fundo ---------- */
-#sinal{position:fixed;inset:0;z-index:-3;opacity:.5;}
-.glow{position:fixed;width:480px;height:480px;border-radius:50%;filter:blur(130px);z-index:-2;pointer-events:none;}
-.g1{background:var(--signal);opacity:.22;top:-10%;left:-8%;}
-.g2{background:var(--pink);opacity:.16;bottom:-12%;right:-10%;}
+#sinal{position:fixed;inset:0;z-index:-3;opacity:.35;}
+.glow{position:fixed;width:480px;height:480px;border-radius:50%;filter:blur(140px);z-index:-2;pointer-events:none;}
+.g1{background:var(--signal);opacity:.10;top:-10%;left:-8%;}
+.g2{background:var(--pink);opacity:.07;bottom:-12%;right:-10%;}
 
 /* ==========================================================
    TELA DE ENTRADA — sinal pulsante
@@ -59,34 +59,31 @@ h1,h2,h3{font-family:var(--font-display);letter-spacing:-.01em;}
 #welcome{
   position:fixed;inset:0;z-index:20;
   display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(circle at 50% 40%, #1E1233 0%, #08050D 75%);
+  background:radial-gradient(circle at 50% 40%, #120E1A 0%, #050408 75%);
   padding:24px;
 }
 .welcome-card{text-align:center;max-width:380px;}
-.pulse-mark{position:relative;width:120px;height:120px;margin:0 auto 28px;display:flex;align-items:center;justify-content:center;}
-.pulse-mark .logo{width:56px;height:56px;position:relative;z-index:2;}
+.pulse-mark{position:relative;width:100px;height:100px;margin:0 auto 32px;display:flex;align-items:center;justify-content:center;}
+.pulse-mark .logo{width:48px;height:48px;position:relative;z-index:2;opacity:.9;}
 .ring{
-  position:absolute;border:1px solid var(--signal);border-radius:50%;
-  opacity:0;animation:pulseRing 3.2s ease-out infinite;
+  position:absolute;border:1px solid var(--border);border-radius:50%;
+  opacity:0;animation:pulseRing 3.6s ease-out infinite;
 }
-.ring.r1{width:60px;height:60px;animation-delay:0s;}
-.ring.r2{width:60px;height:60px;animation-delay:1.05s;}
-.ring.r3{width:60px;height:60px;animation-delay:2.1s;}
+.ring.r1{width:56px;height:56px;animation-delay:0s;}
 @keyframes pulseRing{
-  0%{width:60px;height:60px;opacity:.55;}
-  100%{width:150px;height:150px;opacity:0;}
+  0%{width:56px;height:56px;opacity:.35;}
+  100%{width:130px;height:130px;opacity:0;}
 }
-.welcome-card h1{font-size:2.4rem;font-weight:700;letter-spacing:.02em;}
-.welcome-card .verse{color:var(--gold);font-style:italic;font-size:.95rem;margin-top:10px;}
-.welcome-card .sub{color:var(--muted);margin-top:8px;font-size:.9rem;}
+.welcome-card h1{font-size:2.2rem;font-weight:600;letter-spacing:.02em;color:var(--text);}
+.welcome-card .verse{color:var(--muted);font-style:italic;font-size:.9rem;margin-top:12px;}
+.welcome-card .sub{color:var(--muted);margin-top:8px;font-size:.85rem;opacity:.8;}
 #entrar{
-  margin-top:28px;padding:14px 34px;border:none;border-radius:999px;
-  background:var(--signal);color:#FFFFFF;font-family:var(--font-display);
-  font-weight:600;font-size:.95rem;cursor:pointer;
-  box-shadow:0 0 0 0 rgba(139,92,246,.5);
-  transition:transform .15s ease, box-shadow .3s ease;
+  margin-top:32px;padding:13px 32px;border:1px solid var(--border);border-radius:999px;
+  background:var(--surface);color:var(--text);font-family:var(--font-display);
+  font-weight:500;font-size:.9rem;cursor:pointer;letter-spacing:.02em;
+  transition:border-color .2s ease, background .2s ease;
 }
-#entrar:hover{transform:translateY(-2px);box-shadow:0 8px 30px -6px rgba(139,92,246,.55);}
+#entrar:hover{border-color:var(--signal-dim);background:var(--surface-2);}
 
 /* ==========================================================
    SITE
@@ -107,34 +104,6 @@ header.top{
   transition:transform .15s ease;white-space:nowrap;
 }
 .main-button:hover{transform:translateY(-2px);}
-
-/* ---------- painel de estatísticas (cards neon) ---------- */
-.stats-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:40px;
-}
-.stat-card{
-  background:linear-gradient(160deg,var(--surface) 0%,var(--surface-2) 100%);
-  border:1px solid var(--border);border-radius:var(--radius);
-  padding:18px;position:relative;overflow:hidden;
-}
-.stat-card::after{
-  content:"";position:absolute;inset:0;border-radius:var(--radius);
-  box-shadow:inset 0 0 30px -10px currentColor;opacity:.5;pointer-events:none;
-}
-.stat-pink{border-color:rgba(236,72,153,.5);color:var(--pink);box-shadow:0 0 24px -8px rgba(236,72,153,.45);}
-.stat-blue{border-color:rgba(59,130,246,.5);color:var(--blue);box-shadow:0 0 24px -8px rgba(59,130,246,.45);}
-.stat-green{border-color:rgba(52,211,153,.5);color:var(--green);box-shadow:0 0 24px -8px rgba(52,211,153,.45);}
-.stat-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-.stat-icon{font-size:1.1rem;}
-.stat-trend{width:18px;height:18px;opacity:.7;}
-.stat-value{display:block;font-family:var(--font-display);font-size:1.9rem;font-weight:700;color:var(--text);line-height:1;}
-.stat-green .stat-value{color:var(--green);}
-.stat-label{display:block;font-size:.72rem;color:var(--muted);margin-top:6px;text-transform:uppercase;letter-spacing:.03em;}
-.stat-green .stat-icon{animation:blink 1.6s infinite;}
-@keyframes blink{50%{opacity:.25;}}
-@media (max-width:640px){
-  .stats-grid{grid-template-columns:repeat(2,1fr);}
-}
 
 /* ---------- cabeçalho de seção ---------- */
 .section-heading{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
@@ -245,4 +214,4 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding-top:30px;bo
 @media (max-width:640px){
   .welcome-card h1{font-size:2rem;}
   header.top{flex-direction:column;align-items:flex-start;}
-                                                                      }
+                }
