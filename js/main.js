@@ -2,7 +2,7 @@
    R.H.S V5 — LÓGICA DO SITE
    ========================================================== */
 
-/* ---------- fundo: chuva de código estilo matrix (roxo/rosa/azul) ---------- */
+/* ---------- fundo: chuva de código estilo matrix (tons neutros) ---------- */
 (function sinalFundo(){
   const canvas = document.getElementById("sinal");
   if(!canvas) return;
@@ -27,7 +27,7 @@
 
   function tick(){
     // rastro semitransparente (efeito de trilha, no tom de fundo do site)
-    ctx.fillStyle = "rgba(6,5,7,.16)";
+    ctx.fillStyle = "rgba(10,10,10,.16)";
     ctx.fillRect(0,0,w,h);
 
     ctx.font = tamanhoFonte + "px monospace";
