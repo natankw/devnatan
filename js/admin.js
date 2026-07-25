@@ -15,10 +15,17 @@ function toast(msg){
    AUTENTICAÇÃO
    ========================================================== */
 function entrarADM(){
-  const email = document.getElementById("email").value.trim();
-  const senha = document.getElementById("senha").value;
   const erro = document.getElementById("loginErro");
   erro.hidden = true;
+
+  if(typeof auth === "undefined" || !auth){
+    erro.textContent = "O Firebase não carregou corretamente. Confira js/firebase-config.js.";
+    erro.hidden = false;
+    return;
+  }
+
+  const email = document.getElementById("email").value.trim();
+  const senha = document.getElementById("senha").value;
 
   auth.signInWithEmailAndPassword(email, senha)
     .catch((e) => {
