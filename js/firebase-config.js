@@ -1,11 +1,4 @@
-/* ==========================================================
-   R.H.S — CONFIGURAÇÃO DO FIREBASE
-   ========================================================== */
-
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
-
+// Configuração do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyD8O6S_ss0Jhgpcivns6auPwG30dj5jBq0",
   authDomain: "kh-ws-a4dce.firebaseapp.com",
@@ -16,9 +9,7 @@ const firebaseConfig = {
   measurementId: "G-VLL6D51VS0"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const analytics = getAnalytics(app);
-
-export { db, analytics };
+// Inicializa o Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
