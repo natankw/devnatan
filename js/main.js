@@ -66,6 +66,11 @@ if(entrar){
   };
 }
 
+/* ---------- ícones (substituem os emojis) ---------- */
+const ICONE_GRUPO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9" cy="7" r="3"/><path d="M22.5 20v-1a3.5 3.5 0 0 0-2.5-3.36"/><path d="M16 3.5a3.5 3.5 0 0 1 0 6.8"/></svg>';
+const ICONE_CANAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4a1 1 0 0 0 1 1h2l4 5V4L6 9H4a1 1 0 0 0-1 1Z"/><path d="M14.5 8a4 4 0 0 1 0 8"/><path d="M18 5a8 8 0 0 1 0 14"/></svg>';
+const ICONE_ALIADO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.2-5.4 3.2 1.3-6-4.6-4.1 6.1-.6L12 3.5Z"/></svg>';
+
 /* ---------- toast ---------- */
 function toast(msg){
   const el = document.getElementById("toast");
@@ -91,6 +96,10 @@ async function carregarConfigSite(){
     if(!doc.exists) return;
     const c = doc.data();
     if(c.nome) document.title = `${c.nome} — Central de Comunidades`;
+    if(c.logo){
+      document.getElementById("logoCanal").src = c.logo;
+      document.getElementById("logoEntrada").src = c.logo;
+    }
     if(c.descricao) document.getElementById("siteDescricao").textContent = c.descricao;
     if(c.whatsapp) document.getElementById("canalOficial").href = c.whatsapp;
     if(c.musica) document.getElementById("music").setAttribute("src", c.musica);
@@ -159,7 +168,7 @@ function renderComunidades(lista){
   vazio.hidden = true;
 
   lista.forEach(item => {
-    area.innerHTML += criarCard(item, item.tipo === "canal" ? "📢" : "👥", "comunidades");
+    area.innerHTML += criarCard(item, item.tipo === "canal" ? ICONE_CANAL : ICONE_GRUPO, "comunidades");
   });
 }
 
@@ -174,7 +183,7 @@ async function carregarAliados(){
     document.getElementById("totalAliados").textContent = lista.length;
     area.innerHTML = "";
     document.getElementById("vazioParceiros").hidden = lista.length !== 0;
-    lista.forEach(item => { area.innerHTML += criarCard(item, "⭐", "aliados"); });
+    lista.forEach(item => { area.innerHTML += criarCard(item, ICONE_ALIADO, "aliados"); });
   }catch(e){
     console.error(e);
   }
