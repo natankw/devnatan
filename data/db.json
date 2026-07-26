@@ -51,6 +51,19 @@
       "fixado": false,
       "cliques": 0,
       "criadoEm": 1785107483274
+    },
+    {
+      "id": "com_1785107620012_vhz0im",
+      "titulo": "Shawtt -Chat",
+      "imagem": "https://ibb.co/svP2gxpX",
+      "link": "https://chat.whatsapp.com/CofHubnVTpv6A629clX090?s=cl&p=i&ilr=4",
+      "tipo": "grupo",
+      "categoria": "Amizade",
+      "desc": "",
+      "vip": false,
+      "fixado": true,
+      "cliques": 0,
+      "criadoEm": 1785107620040
     }
   ],
   "aliados": [],
