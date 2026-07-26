@@ -8,20 +8,19 @@
    alguém cola o link numa conversa e vê a pré-visualização.
 
    O navegador não consegue ler essa página direto (o WhatsApp
-   não libera CORS), então usamos um proxy de leitura pública
-   para buscar o HTML e extrair só esses dois metadados.
+   não libera CORS), então usamos proxies de leitura pública
+   pra buscar o HTML e extrair só esses dois metadados.
 
-   Limitações honestas:
-   - Depende de serviços de terceiros (os proxies abaixo) que
-     podem ficar fora do ar ou limitar o número de pedidos.
-   - Se o WhatsApp mudar a página, a extração pode falhar.
-   - Por isso, a busca automática SEMPRE deixa os campos de
-     nome/foto editáveis manualmente como reserva.
+   Agora com MAIS proxies de reserva — se um cair, tenta o
+   próximo automaticamente, então a chance de falhar é bem menor.
    ========================================================== */
 
 const WHATSAPP_META_PROXIES = [
   (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-  (url) => `https://corsproxy.io/?url=${encodeURIComponent(url)}`
+  (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+  (url) => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+  (url) => `https://thingproxy.freeboard.io/fetch/${url}`,
+  (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
 ];
 
 function extrairMetaTags(html) {
@@ -56,10 +55,22 @@ async function buscarMetadadosWhatsApp(link) {
 
   for (const montarProxy of WHATSAPP_META_PROXIES) {
     try {
-      const resposta = await fetch(montarProxy(link), { signal: AbortSignal.timeout(9000) });
+      const proxyUrl = montarProxy(link);
+      const resposta = await fetch(proxyUrl, { signal: AbortSignal.timeout(12000) });
       if (!resposta.ok) continue;
 
-      const html = await resposta.text();
+      // O endpoint "get" do allorigins retorna JSON com o html dentro,
+      // os outros retornam o HTML puro direto.
+      let html;
+      if (proxyUrl.includes("allorigins.win/get")) {
+        const json = await resposta.json();
+        html = json.contents || "";
+      } else {
+        html = await resposta.text();
+      }
+
+      if (!html) continue;
+
       const { titulo, imagem } = extrairMetaTags(html);
 
       if (titulo || imagem) {
