@@ -3,124 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="R.H.S — Central de comunidades. Grupos, canais e parceiros do WhatsApp em um só lugar.">
-<meta name="theme-color" content="#0A0F0D">
-<title>R.H.S — Central de Comunidades</title>
-
-<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<meta name="robots" content="noindex, nofollow">
+<title>R.H.S — Painel Administrativo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/admin.css">
 </head>
+<body class="admin-body">
 
-<body>
+<!-- LOGIN -->
+<div id="login" class="box login-box">
+  <h1>R.H.S</h1>
+  <p>Painel administrativo</p>
+  <input id="token" type="password" placeholder="Cole seu token do GitHub aqui" autocomplete="off">
+  <button onclick="entrarADM()">Entrar</button>
+  <p id="loginErro" class="erro-msg" hidden></p>
+  <p class="login-hint">
+    Gere um token em GitHub → Settings → Developer settings → Personal access tokens
+    → Fine-grained tokens, com acesso restrito só a este repositório e permissão
+    "Contents: Read and write". O token fica só na memória deste navegador —
+    nunca é salvo no código. Veja o passo a passo no README.
+  </p>
+</div>
 
-<canvas id="sinal"></canvas>
-<div class="glow g1"></div>
-<div class="glow g2"></div>
+<!-- PAINEL -->
+<div id="painel" hidden>
 
-<!-- TELA DE ENTRADA -->
-<section id="welcome">
-  <div class="welcome-card">
-    <div class="pulse-mark">
-      <span class="ring r1"></span>
-      <img src="img/logo.svg" class="logo" id="logoEntrada" alt="R.H.S">
+  <header class="admin-header">
+    <div>
+      <h1>R.H.S — Painel</h1>
+      <p id="usuarioLogado"></p>
     </div>
-    <h1>R.H.S</h1>
-    <p class="verse">"Se Deus é por nós, quem será contra nós?"</p>
-    <button id="entrar">
-      <span>Entrar</span>
-    </button>
-  </div>
-</section>
-
-<audio id="music" loop></audio>
-
-<!-- SITE PRINCIPAL -->
-<div id="site">
-
-  <header class="top">
-    <img src="img/logo.svg" class="logo-top" id="logoCanal" alt="R.H.S">
-    <h1>R.H.S</h1>
-    <p id="siteDescricao">Sistema de comunidades premium</p>
-    <a href="#" id="canalOficial" class="main-button" target="_blank" rel="noopener">Canal Oficial</a>
+    <div class="header-actions">
+      <a href="index.html" target="_blank" class="ghost-btn">Ver site</a>
+      <button class="ghost-btn" onclick="sair()">Sair</button>
+    </div>
   </header>
 
-  <!-- EXPLORAR / SINTONIZADOR -->
-  <section class="explorar">
-    <div class="section-heading">
-      <span class="section-icon icon-users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9" cy="7" r="3"/><path d="M22.5 20v-1a3.5 3.5 0 0 0-2.5-3.36"/><path d="M16 3.5a3.5 3.5 0 0 1 0 6.8"/></svg></span>
-      <h2>Grupos &amp; Canais</h2>
-      <span class="count-pill" id="totalComunidades">0</span>
+  <nav class="admin-tabs">
+    <button class="tab-btn active" data-tab="comunidades">Comunidades</button>
+    <button class="tab-btn" data-tab="aliados">Aliados</button>
+    <button class="tab-btn" data-tab="adms">ADM Parceria</button>
+    <button class="tab-btn" data-tab="config">Configurações</button>
+    <button class="tab-btn" data-tab="importar">Importar dados antigos</button>
+  </nav>
+
+  <!-- COMUNIDADES -->
+  <section class="tab-panel" id="tab-comunidades">
+    <div class="box">
+      <h2>Nova comunidade</h2>
+
+      <label>Link do grupo ou canal</label>
+      <div class="linha-com-botao">
+        <input id="link" placeholder="https://chat.whatsapp.com/... ou https://whatsapp.com/channel/...">
+        <button type="button" id="btnBuscarAuto" class="secondary-btn" onclick="buscarAutomatico()">🔎 Buscar automaticamente</button>
+      </div>
+      <p id="statusBusca" class="status-busca"></p>
+
+      <div class="grid-2">
+        <div>
+          <label>Tipo</label>
+          <select id="tipo">
+            <option value="grupo">👥 Grupo</option>
+            <option value="canal">📢 Canal</option>
+          </select>
+        </div>
+        <div>
+          <label>Categoria</label>
+          <select id="categoria">
+            <option>Amizade</option>
+            <option>Jogos</option>
+            <option>Programação</option>
+            <option>Aliança</option>
+            <option>Divulgação</option>
+            <option>Outros</option>
+          </select>
+        </div>
+      </div>
+
+      <label>Nome da comunidade</label>
+      <input id="nome" placeholder="Preenchido automaticamente, ou digite">
+
+      <label>Foto (URL)</label>
+      <div class="preview-linha">
+        <img id="previewImg" src="img/default-avatar.svg" class="preview-img">
+        <input id="imagem" placeholder="Preenchida automaticamente, ou cole uma URL">
+      </div>
+
+      <label>Descrição</label>
+      <textarea id="descricao" placeholder="Descrição curta"></textarea>
+
+      <div class="grid-2">
+        <label class="checkbox-row"><input type="checkbox" id="vip"> Marcar como VIP</label>
+        <label class="checkbox-row"><input type="checkbox" id="fixado"> Fixar no topo</label>
+      </div>
+
+      <button class="primary-btn" onclick="salvarComunidade()">Publicar comunidade</button>
     </div>
 
-    <div class="search-row">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm10 2-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      <input id="pesquisa" placeholder="Buscar grupos e canais...">
+    <div class="box">
+      <h2>Publicadas <span id="contComunidades" class="muted-count"></span></h2>
+      <div id="listaComunidades" class="lista-admin"></div>
     </div>
-
-    <div class="filtros" role="tablist" aria-label="Filtrar">
-      <button class="filtro-pill principal active" data-f="todos" role="tab" aria-selected="true"><span class="icon icon-filter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg></span> Todos</button>
-      <button class="filtro-pill principal" data-f="grupo" role="tab"><span class="icon icon-users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9" cy="7" r="3"/><path d="M22.5 20v-1a3.5 3.5 0 0 0-2.5-3.36"/><path d="M16 3.5a3.5 3.5 0 0 1 0 6.8"/></svg></span> Grupos</button>
-      <button class="filtro-pill principal" data-f="canal" role="tab"><span class="icon icon-megaphone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4a1 1 0 0 0 1 1h2l4 5V4L6 9H4a1 1 0 0 0-1 1Z"/><path d="M14.5 8a4 4 0 0 1 0 8"/><path d="M18 5a8 8 0 0 1 0 14"/></svg></span> Canais</button>
-      <button class="filtro-pill principal" data-f="vip" role="tab"><span class="icon icon-star"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.2-5.4 3.2 1.3-6-4.6-4.1 6.1-.6L12 3.5Z"/></svg></span> VIP</button>
-      <button class="filtro-pill principal" data-f="recentes" role="tab"><span class="icon icon-bolt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg></span> Recentes</button>
-    </div>
-
-    <div class="filtros filtros-cat" role="tablist" aria-label="Categoria">
-      <button class="filtro-pill active" data-cat="todas">Todas</button>
-      <button class="filtro-pill" data-cat="Entretenimento">Entretenimento</button>
-      <button class="filtro-pill" data-cat="Recrutamento">Recrutamento</button>
-      <button class="filtro-pill" data-cat="Amizade">Amizades</button>
-      <button class="filtro-pill" data-cat="Geral">Geral</button>
-      <button class="filtro-pill" data-cat="Amor e Romance">Amor e Romance</button>
-      <button class="filtro-pill" data-cat="Jogos">Jogos</button>
-      <button class="filtro-pill" data-cat="Divulgação">Divulgações</button>
-    </div>
-
-    <p class="mostrando">Mostrando <span id="qtdMostrada">0</span> de <span id="qtdTotal">0</span> comunidades</p>
-
-    <div id="comunidades" class="cards"></div>
-    <p id="vazioComunidades" class="empty-state" hidden>
-      Nenhuma comunidade nessa frequência ainda.<br>
-      <span>Tente outro filtro ou volte mais tarde — a central está sempre recebendo novos sinais.</span>
-    </p>
   </section>
 
-  <!-- PARCEIROS -->
-  <section class="parceiros">
-    <div class="section-heading">
-      <span class="section-icon icon-star"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.2-5.4 3.2 1.3-6-4.6-4.1 6.1-.6L12 3.5Z"/></svg></span>
-      <h2>Parceiros R.H.S</h2>
-      <span class="count-pill" id="totalAliados">0</span>
+  <!-- ALIADOS -->
+  <section class="tab-panel" id="tab-aliados" hidden>
+    <div class="box">
+      <h2>Novo aliado</h2>
+      <label>Link</label>
+      <div class="linha-com-botao">
+        <input id="aliadoLink" placeholder="Link do aliado (WhatsApp)">
+        <button type="button" class="secondary-btn" onclick="buscarAutomaticoAliado()">🔎 Buscar automaticamente</button>
+      </div>
+      <label>Nome</label>
+      <input id="aliadoNome" placeholder="Nome do aliado">
+      <label>Foto (URL)</label>
+      <div class="preview-linha">
+        <img id="previewImgAliado" src="img/default-avatar.svg" class="preview-img">
+        <input id="aliadoImagem" placeholder="URL da foto">
+      </div>
+      <label>Descrição</label>
+      <textarea id="aliadoDesc" placeholder="Descrição"></textarea>
+      <button class="primary-btn" onclick="salvarAliado()">Salvar aliado</button>
     </div>
-    <div id="parceiros" class="cards"></div>
-    <p id="vazioParceiros" class="empty-state" hidden>Nenhum parceiro cadastrado ainda.</p>
+    <div class="box">
+      <h2>Aliados cadastrados</h2>
+      <div id="listaAliados" class="lista-admin"></div>
+    </div>
   </section>
 
-  <!-- PARCERIA -->
-  <section class="parceria">
-    <h2>Fazer parceria</h2>
-    <div class="partner-box">
-      <select id="admSelect"></select>
-      <textarea id="mensagemParceria">Olá, vim pela R.H.S e quero fazer parceria.</textarea>
-      <button id="whatsapp">Enviar no WhatsApp</button>
+  <!-- ADMS -->
+  <section class="tab-panel" id="tab-adms" hidden>
+    <div class="box">
+      <h2>Novo ADM de parceria</h2>
+      <label>Nome</label>
+      <input id="admNome" placeholder="Nome do ADM">
+      <label>WhatsApp (com DDI, só números)</label>
+      <input id="admNumero" placeholder="Ex: 5511999998888">
+      <button class="primary-btn" onclick="addADM()">Salvar ADM</button>
+    </div>
+    <div class="box">
+      <h2>ADMs cadastrados</h2>
+      <div id="listaAdms" class="lista-admin"></div>
     </div>
   </section>
 
-  <footer>
-    <p id="footerTexto">© 2026 R.H.S — Todos os direitos reservados.</p>
-    <a href="admin.html" class="admin-link">Painel administrativo</a>
-  </footer>
+  <!-- CONFIG -->
+  <section class="tab-panel" id="tab-config" hidden>
+    <div class="box">
+      <h2>Configurações do site</h2>
+      <label>Nome do site</label>
+      <input id="cfgNome" placeholder="R.H.S">
+      <label>Foto do canal principal (URL)</label>
+      <div class="preview-linha">
+        <img id="previewLogo" src="img/default-avatar.svg" class="preview-img">
+        <input id="cfgLogo" placeholder="https://.../foto-do-canal.jpg">
+      </div>
+      <label>Descrição / tagline</label>
+      <input id="cfgDescricao" placeholder="Sistema de comunidades premium">
+      <label>Link do canal oficial</label>
+      <input id="cfgWhatsapp" placeholder="https://whatsapp.com/channel/...">
+      <label>Música de fundo (URL .mp3, opcional)</label>
+      <input id="cfgMusica" placeholder="https://.../musica.mp3">
+      <label>Texto do rodapé</label>
+      <input id="cfgFooter" placeholder="© 2026 R.H.S — Todos os direitos reservados.">
+      <button class="primary-btn" onclick="salvarConfig()">Salvar configurações</button>
+    </div>
+  </section>
+
+  <!-- IMPORTAR -->
+  <section class="tab-panel" id="tab-importar" hidden>
+    <div class="box">
+      <h2>Importar dados antigos (config.json)</h2>
+      <p class="modal-sub">
+        Cole aqui o conteúdo do seu <code>config.json</code> antigo. Para cada grupo/canal
+        sem nome ou foto, o sistema vai tentar buscar automaticamente no WhatsApp antes de importar.
+      </p>
+      <textarea id="jsonAntigo" placeholder='{"canais":[...],"grupos":[...]}' style="min-height:160px;"></textarea>
+      <button class="primary-btn" onclick="importarConfigAntigo()">Importar e buscar fotos/nomes</button>
+      <p id="statusImportacao" class="status-busca"></p>
+    </div>
+  </section>
 
 </div>
 
 <div id="toast" class="toast" hidden></div>
 
-<!-- BANCO DE DADOS (GitHub, sem Firebase) -->
 <script src="js/github-db.js"></script>
 <script src="js/whatsapp-meta.js"></script>
-<script src="js/main.js"></script>
+<script src="js/admin.js"></script>
 </body>
-  </html>
+</html>
