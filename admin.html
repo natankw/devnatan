@@ -1,31 +1,52 @@
-<!-- CONFIG -->
-  <section class="tab-panel" id="tab-config" hidden>
-    <div class="box">
-      <h2>Configurações do site</h2>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - RHS</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Firebase (se usar) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+</head>
+<body>
 
-      <label>Nome do site</label>
-      <input id="cfgNome" placeholder="R.H.S">
+    <!-- CONFIG -->
+    <section class="tab-panel" id="tab-config" hidden>
+        <div class="box">
+            <h2>Configurações do site</h2>
 
-      <label>Logo do site (URL)</label>
-      <div class="preview-linha">
-        <img id="previewLogo" src="img/logo.svg" class="preview-img">
-        <input id="cfgLogo" placeholder="https://.../logo.png">
-      </div>
+            <label>Nome do site</label>
+            <input id="cfgNome" placeholder="R.H.S">
 
-      <label>Descrição / tagline</label>
-      <input id="cfgDescricao" placeholder="Sistema de comunidades premium">
+            <label>Logo do site (URL)</label>
+            <div class="preview-linha">
+                <img id="previewLogo" src="img/logo.svg" class="preview-img">
+                <input id="cfgLogo" placeholder="https://.../logo.png">
+            </div>
 
-      <label>Link do canal oficial</label>
-      <input id="cfgWhatsapp" placeholder="https://whatsapp.com/channel/...">
+            <label>Descrição / tagline</label>
+            <input id="cfgDescricao" placeholder="Sistema de comunidades premium">
 
-      <label>Música de fundo (URL .mp3, opcional)</label>
-      <input id="cfgMusica" placeholder="https://.../musica.mp3">
+            <label>Link do canal oficial</label>
+            <input id="cfgWhatsapp" placeholder="https://whatsapp.com/channel/...">
 
-      <label>Texto do rodapé</label>
-      <input id="cfgFooter" placeholder="© 2026 R.H.S — Todos os direitos reservados.">
+            <label>Música de fundo (URL .mp3, opcional)</label>
+            <input id="cfgMusica" placeholder="https://.../musica.mp3">
 
-      <button class="primary-btn" onclick="salvarConfig()">
-        Salvar configurações
-      </button>
-    </div>
-  </section>
+            <label>Texto do rodapé</label>
+            <input id="cfgFooter" placeholder="© 2026 R.H.S — Todos os direitos reservados.">
+
+            <button class="primary-btn" onclick="salvarConfig()">
+                Salvar configurações
+            </button>
+        </div>
+    </section>
+
+    <!-- JavaScript -->
+    <script src="js/admin.js"></script>
+</body>
+</html>
