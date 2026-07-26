@@ -11,10 +11,15 @@ function toast(msg){
   el._t = setTimeout(()=>{ el.hidden = true; }, 3200);
 }
 
-let BANCO = null; // fica em memória enquanto o painel está aberto
+let BANCO = null;
+
+// ========== FUNÇÃO QUE ESTAVA FALTANDO ==========
+function novoId(prefixo){
+  return prefixo + "_" + Date.now() + "_" + Math.random().toString(36).substr(2, 6);
+}
 
 /* ==========================================================
-   LOGIN (token do GitHub, guardado só na sessão do navegador)
+   LOGIN
    ========================================================== */
 async function entrarADM(){
   const tokenInput = document.getElementById("token").value.trim();
@@ -59,7 +64,6 @@ function sair(){
   document.getElementById("token").value = "";
 }
 
-// Se já tinha um token válido nessa sessão (ex: recarregou a página), tenta continuar logado
 (async function tentarSessaoAtiva(){
   if(!ghToken()) return;
   const teste = await ghTestarToken();
@@ -71,12 +75,9 @@ function sair(){
     document.getElementById("painel").hidden = false;
     document.getElementById("usuarioLogado").textContent = "Conectado via token do GitHub";
     carregarTudo();
-  }catch(e){ /* fica na tela de login se der erro */ }
+  }catch(e){}
 })();
 
-/* ==========================================================
-   SALVAR (grava tudo de volta no GitHub)
-   ========================================================== */
 async function salvarBanco(mensagem){
   try{
     await ghSalvar(BANCO, mensagem);
@@ -107,7 +108,7 @@ function carregarTudo(){
 }
 
 /* ==========================================================
-   BUSCA AUTOMÁTICA (usa js/whatsapp-meta.js — não muda com o token)
+   BUSCA AUTOMÁTICA
    ========================================================== */
 async function buscarAutomatico(){
   const link = document.getElementById("link").value.trim();
@@ -157,7 +158,7 @@ function limparTituloWpp(titulo){
 });
 
 /* ==========================================================
-   COMUNIDADES — CRUD
+   COMUNIDADES
    ========================================================== */
 async function salvarComunidade(){
   const nome = document.getElementById("nome").value.trim();
@@ -183,7 +184,7 @@ async function salvarComunidade(){
   const ok = await salvarBanco(`Adiciona comunidade: ${nome}`);
   if(!ok){ BANCO.comunidades.pop(); return; }
 
-  toast("Comunidade publicada ✅ (pode levar 1-2 min pra aparecer no site)");
+  toast("Comunidade publicada ✅");
   ["nome","link","imagem","descricao"].forEach(id => document.getElementById(id).value = "");
   document.getElementById("vip").checked = false;
   document.getElementById("fixado").checked = false;
@@ -206,7 +207,7 @@ function listarComunidades(){
           <p>${item.tipo} · ${item.categoria}</p>
         </div>
         <div class="acoes">
-          <button class="icon-btn danger" onclick="excluirItem('comunidades','${item.id}')" title="Excluir">🗑</button>
+          <button class="icon-btn danger" onclick="excluirItem('comunidades','${item.id}')">🗑</button>
         </div>
       </div>`;
   });
@@ -229,7 +230,7 @@ async function excluirItem(colecao, id){
 }
 
 /* ==========================================================
-   ALIADOS — CRUD
+   ALIADOS
    ========================================================== */
 async function salvarAliado(){
   const nome = document.getElementById("aliadoNome").value.trim();
@@ -271,7 +272,7 @@ function listarAliados(){
 }
 
 /* ==========================================================
-   ADMS DE PARCERIA
+   ADMS
    ========================================================== */
 async function addADM(){
   const nome = document.getElementById("admNome").value.trim();
@@ -303,7 +304,7 @@ function listarAdms(){
 }
 
 /* ==========================================================
-   CONFIGURAÇÕES DO SITE
+   CONFIG
    ========================================================== */
 function carregarConfigForm(){
   const c = BANCO.config || {};
@@ -334,7 +335,7 @@ async function salvarConfig(){
 }
 
 /* ==========================================================
-   IMPORTAR CONFIG.JSON ANTIGO
+   IMPORTAR
    ========================================================== */
 async function importarConfigAntigo(){
   const texto = document.getElementById("jsonAntigo").value.trim();
@@ -396,4 +397,4 @@ async function importarConfigAntigo(){
     status.className = "status-busca erro";
     status.textContent = "Busquei os dados, mas não consegui salvar no GitHub. Tenta de novo.";
   }
-       }
+}
