@@ -1,26 +1,17 @@
 /* ==========================================================
    R.H.S — BUSCA AUTOMÁTICA DE NOME E FOTO (WhatsApp)
    ==========================================================
-   Como funciona:
-   O WhatsApp expõe o nome e a foto de grupos/canais como
-   metadados públicos (og:title / og:image) na própria página
-   do link de convite — é a MESMA informação que aparece quando
-   alguém cola o link numa conversa e vê a pré-visualização.
-
-   O navegador não consegue ler essa página direto (o WhatsApp
-   não libera CORS), então usamos proxies de leitura pública
-   pra buscar o HTML e extrair só esses dois metadados.
-
-   Agora com MAIS proxies de reserva — se um cair, tenta o
-   próximo automaticamente, então a chance de falhar é bem menor.
+   Nota: o corsproxy.io foi removido da lista — ele passou a
+   exigir domínio cadastrado (API key) pra sites em produção
+   fora de localhost/github.io, e nosso domínio (CNAME próprio)
+   não entra nessa lista grátis, então ele sempre falhava.
    ========================================================== */
 
 const WHATSAPP_META_PROXIES = [
   (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
   (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
-  (url) => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
-  (url) => `https://thingproxy.freeboard.io/fetch/${url}`,
-  (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
+  (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+  (url) => `https://thingproxy.freeboard.io/fetch/${url}`
 ];
 
 function extrairMetaTags(html) {
@@ -54,13 +45,14 @@ async function buscarMetadadosWhatsApp(link) {
   }
 
   for (const montarProxy of WHATSAPP_META_PROXIES) {
+    const proxyUrl = montarProxy(link);
     try {
-      const proxyUrl = montarProxy(link);
       const resposta = await fetch(proxyUrl, { signal: AbortSignal.timeout(12000) });
-      if (!resposta.ok) continue;
+      if (!resposta.ok) {
+        console.warn("[whatsapp-meta] proxy falhou:", proxyUrl, "status:", resposta.status);
+        continue;
+      }
 
-      // O endpoint "get" do allorigins retorna JSON com o html dentro,
-      // os outros retornam o HTML puro direto.
       let html;
       if (proxyUrl.includes("allorigins.win/get")) {
         const json = await resposta.json();
@@ -69,7 +61,10 @@ async function buscarMetadadosWhatsApp(link) {
         html = await resposta.text();
       }
 
-      if (!html) continue;
+      if (!html) {
+        console.warn("[whatsapp-meta] proxy retornou vazio:", proxyUrl);
+        continue;
+      }
 
       const { titulo, imagem } = extrairMetaTags(html);
 
@@ -80,8 +75,9 @@ async function buscarMetadadosWhatsApp(link) {
           sucesso: true
         };
       }
+      console.warn("[whatsapp-meta] HTML ok mas sem og:title/og:image:", proxyUrl);
     } catch (e) {
-      // tenta o próximo proxy da lista
+      console.warn("[whatsapp-meta] erro de rede/timeout:", proxyUrl, e.message);
       continue;
     }
   }
