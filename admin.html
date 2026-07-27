@@ -16,14 +16,12 @@
 <div id="login" class="box login-box">
   <h1>R.H.S</h1>
   <p>Painel administrativo</p>
-  <input id="token" type="password" placeholder="Cole seu token do GitHub aqui" autocomplete="off">
+  <input id="token" type="password" placeholder="Digite a senha do painel" autocomplete="off">
   <button onclick="entrarADM()">Entrar</button>
   <p id="loginErro" class="erro-msg" hidden></p>
   <p class="login-hint">
-    Gere um token em GitHub → Settings → Developer settings → Personal access tokens
-    → Fine-grained tokens, com acesso restrito só a este repositório e permissão
-    "Contents: Read and write". O token fica só na memória deste navegador —
-    nunca é salvo no código. Veja o passo a passo no README.
+    A senha é a que está definida como SENHA_ADMIN em js/github-db.js.
+    Ela fica só na memória deste navegador enquanto a aba estiver aberta.
   </p>
 </div>
 
@@ -197,4 +195,4 @@
 <script src="js/whatsapp-meta.js"></script>
 <script src="js/admin.js"></script>
 </body>
-</html>
+  </html>
