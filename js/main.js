@@ -148,19 +148,27 @@ function aplicarFiltros(){
 }
 
 function renderComunidades(lista){
-  const area = document.getElementById("comunidades");
-  const vazio = document.getElementById("vazioComunidades");
-  area.innerHTML = "";
+  const areaCanais = document.getElementById("canais");
+  const areaGrupos = document.getElementById("grupos");
+  const vazioCanais = document.getElementById("vazioCanais");
+  const vazioGrupos = document.getElementById("vazioGrupos");
+  const vazioGeral = document.getElementById("vazioComunidades");
 
-  if(lista.length === 0){
-    vazio.hidden = false;
-    return;
-  }
-  vazio.hidden = true;
+  const canais = lista.filter(i => i.tipo === "canal");
+  const grupos = lista.filter(i => i.tipo !== "canal");
 
-  lista.forEach(item => {
-    area.innerHTML += criarCard(item, item.tipo === "canal" ? ICONE_CANAL : ICONE_GRUPO);
-  });
+  areaCanais.innerHTML = "";
+  areaGrupos.innerHTML = "";
+
+  canais.forEach(item => { areaCanais.innerHTML += criarCard(item, ICONE_CANAL); });
+  grupos.forEach(item => { areaGrupos.innerHTML += criarCard(item, ICONE_GRUPO); });
+
+  vazioCanais.hidden = canais.length !== 0;
+  vazioGrupos.hidden = grupos.length !== 0;
+  vazioGeral.hidden = lista.length !== 0;
+
+  document.getElementById("totalCanais").textContent = canais.length;
+  document.getElementById("totalGrupos").textContent = grupos.length;
 }
 
 /* ==========================================================
