@@ -1,103 +1,12 @@
 /* ==========================================================
    R.H.S — BUSCA AUTOMÁTICA DE NOME E FOTO (WhatsApp) V2
    ==========================================================
-   CORREÇÕES:
-   - Adicionado User-Agent realista
-   - Suporte a redirecionamentos
-   - Múltiplos métodos de extração
-   - Fallback para imagem via CSS
-   - Tratamento de erros melhorado
+   Versão corrigida com múltiplos métodos de busca
    ========================================================== */
 
-const WHATSAPP_META_PROXIES = [
-  // Proxy 1: AllOrigins (mais estável)
-  (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-  
-  // Proxy 2: CodeTabs
-  (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
-  
-  // Proxy 3: ThingProxy
-  (url) => `https://thingproxy.freeboard.io/fetch/${url}`,
-  
-  // Proxy 4: CorsProxy (nova versão)
-  (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`
-];
-
-// User-Agents realistas para evitar bloqueio
-const USER_AGENTS = [
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-  'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-];
-
-function extrairMetaTags(html) {
-  const doc = new DOMParser().parseFromString(html, "text/html");
-  
-  // Função melhorada para buscar múltiplos seletores
-  const pegar = (seletores) => {
-    if (typeof seletores === 'string') seletores = [seletores];
-    
-    for (const seletor of seletores) {
-      try {
-        const el = doc.querySelector(seletor);
-        if (el) {
-          const content = el.getAttribute('content') || el.textContent || el.src;
-          if (content && content.trim()) return content.trim();
-        }
-      } catch (e) { continue; }
-    }
-    return null;
-  };
-
-  // BUSCA TÍTULO - Múltiplas fontes
-  const titulo = pegar([
-    'meta[property="og:title"]',
-    'meta[name="twitter:title"]',
-    'title',
-    'h1[class*="title"]',
-    'h1[class*="name"]',
-    'div[class*="title"]',
-    'span[class*="name"]'
-  ]);
-
-  // BUSCA IMAGEM - Múltiplas fontes
-  let imagem = pegar([
-    'meta[property="og:image"]',
-    'meta[property="og:image:secure_url"]',
-    'meta[name="twitter:image"]',
-    'meta[name="twitter:image:src"]',
-    'link[rel="image_src"]',
-    'img[class*="avatar"]',
-    'img[class*="image"]',
-    'img[class*="photo"]',
-    'img[src*="whatsapp"]'
-  ]);
-
-  // Se encontrou imagem relativa, converte para absoluta
-  if (imagem && !imagem.startsWith('http')) {
-    if (imagem.startsWith('//')) {
-      imagem = 'https:' + imagem;
-    } else if (imagem.startsWith('/')) {
-      imagem = 'https://whatsapp.com' + imagem;
-    }
-  }
-
-  // Tenta extrair imagem do CSS (background-image)
-  if (!imagem) {
-    const styleTags = doc.querySelectorAll('style');
-    for (const style of styleTags) {
-      const content = style.textContent;
-      const match = content.match(/background-image:\s*url\(["']?([^"']*)["']?\)/i);
-      if (match && match[1]) {
-        imagem = match[1];
-        break;
-      }
-    }
-  }
-
-  return { titulo, imagem };
-}
-
+// ==========================================================
+// FUNÇÃO PRINCIPAL - Busca metadados do WhatsApp
+// ==========================================================
 async function buscarMetadadosWhatsApp(link) {
   if (!link || !/whatsapp\.com/i.test(link)) {
     return { 
@@ -108,158 +17,201 @@ async function buscarMetadadosWhatsApp(link) {
     };
   }
 
-  // Limpa e formata o link
+  // Limpa o link
   link = link.trim();
   if (!link.startsWith('http')) {
     link = 'https://' + link;
   }
 
-  const falhas = [];
-  let melhorTitulo = null;
-  let melhorImagem = null;
+  console.log('🔍 Buscando:', link);
 
-  for (const montarProxy of WHATSAPP_META_PROXIES) {
-    const proxyUrl = montarProxy(link);
-    const nomeProxy = new URL(proxyUrl).hostname;
+  // Tenta múltiplos métodos
+  const metodos = [
+    // Método 1: Fetch direto com User-Agent (tenta primeiro)
+    async () => {
+      try {
+        const response = await fetch(link, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Accept-Language': 'pt-BR,pt;q=0.9,en;q=0.8'
+          }
+        });
+        const html = await response.text();
+        return extrairMetadados(html);
+      } catch (e) {
+        console.log('Método 1 falhou:', e.message);
+        return null;
+      }
+    },
     
-    try {
-      console.log(`🔍 Tentando ${nomeProxy}...`);
-
-      // Escolhe um User-Agent aleatório
-      const userAgent = USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)];
-
-      const resposta = await fetch(proxyUrl, { 
-        signal: AbortSignal.timeout(15000),
-        headers: {
-          'User-Agent': userAgent,
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-          'Accept-Language': 'pt-BR,pt;q=0.9,en;q=0.8',
-          'Accept-Encoding': 'gzip, deflate, br',
-          'Connection': 'keep-alive',
-          'Upgrade-Insecure-Requests': '1',
-          'Sec-Fetch-Dest': 'document',
-          'Sec-Fetch-Mode': 'navigate',
-          'Sec-Fetch-Site': 'none',
-          'Sec-Fetch-User': '?1'
-        }
+    // Método 2: AllOrigins (fallback)
+    async () => {
+      try {
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(link)}`;
+        const response = await fetch(proxyUrl, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+          }
+        });
+        const html = await response.text();
+        return extrairMetadados(html);
+      } catch (e) {
+        console.log('Método 2 falhou:', e.message);
+        return null;
+      }
+    },
+    
+    // Método 3: CodeTabs
+    async () => {
+      try {
+        const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(link)}`;
+        const response = await fetch(proxyUrl);
+        const html = await response.text();
+        return extrairMetadados(html);
+      } catch (e) {
+        console.log('Método 3 falhou:', e.message);
+        return null;
+      }
+    },
+    
+    // Método 4: ThingProxy
+    async () => {
+      try {
+        const proxyUrl = `https://thingproxy.freeboard.io/fetch/${link}`;
+        const response = await fetch(proxyUrl);
+        const html = await response.text();
+        return extrairMetadados(html);
+      } catch (e) {
+        console.log('Método 4 falhou:', e.message);
+        return null;
+      }
+    },
+    
+    // Método 5: Iframe (último recurso)
+    async () => {
+      return new Promise((resolve) => {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = link;
+        iframe.setAttribute('sandbox', 'allow-same-origin allow-scripts');
+        
+        const timeout = setTimeout(() => {
+          try { document.body.removeChild(iframe); } catch(e) {}
+          resolve(null);
+        }, 8000);
+        
+        iframe.onload = function() {
+          clearTimeout(timeout);
+          try {
+            const doc = iframe.contentDocument || iframe.contentWindow.document;
+            const titulo = doc.querySelector('meta[property="og:title"]')?.getAttribute('content');
+            const imagem = doc.querySelector('meta[property="og:image"]')?.getAttribute('content');
+            try { document.body.removeChild(iframe); } catch(e) {}
+            resolve({ titulo, imagem });
+          } catch (e) {
+            try { document.body.removeChild(iframe); } catch(e) {}
+            resolve(null);
+          }
+        };
+        
+        iframe.onerror = function() {
+          clearTimeout(timeout);
+          try { document.body.removeChild(iframe); } catch(e) {}
+          resolve(null);
+        };
+        
+        document.body.appendChild(iframe);
       });
+    }
+  ];
 
-      if (!resposta.ok) {
-        falhas.push(`${nomeProxy}: HTTP ${resposta.status}`);
-        continue;
-      }
-
-      let html;
-      const contentType = resposta.headers.get('content-type') || '';
-
-      if (contentType.includes('application/json')) {
-        const json = await resposta.json();
-        html = json.contents || json.data || JSON.stringify(json);
-      } else {
-        html = await resposta.text();
-      }
-
-      if (!html || html.length < 100) {
-        falhas.push(`${nomeProxy}: resposta vazia ou muito curta`);
-        continue;
-      }
-
-      // Extrai metadados
-      const { titulo, imagem } = extrairMetaTags(html);
-
-      // Guarda o melhor resultado encontrado
-      if (titulo && !melhorTitulo) melhorTitulo = titulo;
-      if (imagem && !melhorImagem) melhorImagem = imagem;
-
-      // Se encontrou TÍTULO E IMAGEM, sucesso total!
-      if (titulo && imagem) {
-        console.log(`✅ Sucesso completo com ${nomeProxy}`);
+  // Tenta cada método
+  let ultimoErro = null;
+  for (let i = 0; i < metodos.length; i++) {
+    try {
+      console.log(`🔄 Tentando método ${i + 1}/${metodos.length}...`);
+      const resultado = await metodos[i]();
+      
+      if (resultado && (resultado.titulo || resultado.imagem)) {
+        console.log(`✅ Método ${i + 1} funcionou!`);
         return {
-          titulo: titulo.trim(),
-          imagem: imagem.trim(),
-          sucesso: true,
-          fonte: nomeProxy
+          titulo: resultado.titulo ? resultado.titulo.trim() : null,
+          imagem: resultado.imagem ? resultado.imagem.trim() : null,
+          sucesso: true
         };
       }
-
-      // Se encontrou só título ou só imagem, continua tentando
-      if (titulo || imagem) {
-        falhas.push(`${nomeProxy}: encontrado ${titulo ? 'título' : ''} ${imagem ? 'imagem' : ''}`);
-        continue;
-      }
-
-      falhas.push(`${nomeProxy}: nenhum metadado encontrado`);
-
     } catch (e) {
-      console.warn(`❌ Falha em ${nomeProxy}:`, e.message);
-      falhas.push(`${nomeProxy}: ${e.message}`);
+      ultimoErro = e.message;
+      continue;
     }
-
-    // Delay entre tentativas para não sobrecarregar
-    await new Promise(resolve => setTimeout(resolve, 500));
   }
 
-  // Se encontrou pelo menos título, retorna com o que tem
-  if (melhorTitulo || melhorImagem) {
-    return {
-      titulo: melhorTitulo || 'Grupo WhatsApp',
-      imagem: melhorImagem || null,
-      sucesso: true,
-      parcial: !(melhorTitulo && melhorImagem),
-      erro: melhorImagem ? null : 'Imagem não encontrada'
-    };
-  }
-
-  // Falha total
+  // Se chegou aqui, todos falharam
   return {
     titulo: null,
     imagem: null,
     sucesso: false,
-    erro: `Falhou em todos os proxies: ${falhas.join(' | ')}`
+    erro: `Não foi possível obter os dados. Último erro: ${ultimoErro || 'todos os métodos falharam'}`
   };
 }
 
 // ==========================================================
-// FUNÇÃO DE TESTE COM LOG DETALHADO
+// FUNÇÃO AUXILIAR - Extrai metadados do HTML
 // ==========================================================
-async function testarBusca(link) {
-  console.log('🚀 Iniciando busca por:', link);
-  console.log('⏳ Aguarde...');
+function extrairMetadados(html) {
+  if (!html || html.length < 100) return null;
   
-  const inicio = Date.now();
+  try {
+    // Tenta usar DOMParser
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    
+    const titulo = 
+      doc.querySelector('meta[property="og:title"]')?.getAttribute('content') ||
+      doc.querySelector('meta[name="twitter:title"]')?.getAttribute('content') ||
+      doc.querySelector('title')?.textContent ||
+      null;
+    
+    const imagem = 
+      doc.querySelector('meta[property="og:image"]')?.getAttribute('content') ||
+      doc.querySelector('meta[name="twitter:image"]')?.getAttribute('content') ||
+      null;
+    
+    if (titulo || imagem) {
+      return { titulo, imagem };
+    }
+  } catch (e) {
+    // Fallback: usar regex
+    console.log('Fallback para regex');
+  }
+  
+  // Fallback com regex
+  const tituloMatch = html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']*)["']/i);
+  const imagemMatch = html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']*)["']/i);
+  
+  return {
+    titulo: tituloMatch ? tituloMatch[1] : null,
+    imagem: imagemMatch ? imagemMatch[1] : null
+  };
+}
+
+// ==========================================================
+// FUNÇÃO PARA TESTAR (opcional)
+// ==========================================================
+async function testarBuscaWhatsApp(link) {
+  console.log('🚀 Testando busca para:', link);
   const resultado = await buscarMetadadosWhatsApp(link);
-  const tempo = ((Date.now() - inicio) / 1000).toFixed(2);
+  console.log('📊 Resultado:', resultado);
   
-  console.log('📊 Resultado em', tempo, 'segundos:');
-  console.log('✅ Sucesso:', resultado.sucesso);
-  if (resultado.titulo) console.log('📝 Título:', resultado.titulo);
-  if (resultado.imagem) console.log('🖼️ Imagem:', resultado.imagem);
-  if (resultado.erro) console.log('❌ Erro:', resultado.erro);
+  if (resultado.sucesso) {
+    console.log('✅ Nome:', resultado.titulo);
+    console.log('✅ Foto:', resultado.imagem);
+  } else {
+    console.log('❌ Erro:', resultado.erro);
+  }
   
   return resultado;
 }
 
-// ==========================================================
-// FUNÇÃO PARA USAR NO SEU APP
-// ==========================================================
-async function buscarDados(link) {
-  const resultado = await buscarMetadadosWhatsApp(link);
-  
-  if (resultado.sucesso) {
-    return {
-      nome: resultado.titulo || 'Grupo WhatsApp',
-      foto: resultado.imagem || null,
-      sucesso: true
-    };
-  } else {
-    return {
-      nome: null,
-      foto: null,
-      sucesso: false,
-      erro: resultado.erro
-    };
-  }
-}
-
 // EXPORTS (se estiver usando módulos)
-// export { buscarMetadadosWhatsApp, testarBusca, buscarDados };
+// export { buscarMetadadosWhatsApp, testarBuscaWhatsApp };
