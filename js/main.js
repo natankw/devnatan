@@ -1,73 +1,143 @@
-// =============================
-// R.H.S - MAIN
-// =============================
+/* ==========================================================
+   R.H.S - MAIN.JS
+   Sistema principal
+   ========================================================== */
 
-document.addEventListener("DOMContentLoaded", () => {
+"use strict";
 
-    const welcome = document.getElementById("welcome");
-    const site = document.getElementById("site");
-    const entrar = document.getElementById("entrar");
+let banco = {
+  comunidades: [],
+  aliados: [],
+  adms: [],
+  config: {}
+};
 
-    // Oculta o site ao iniciar
-    if (site) {
-        site.style.display = "none";
-    }
+let filtroTipo = "todos";
+let filtroCategoria = "todas";
 
-    // Botão Entrar
-    if (entrar) {
-        entrar.addEventListener("click", () => {
+const $ = (e) => document.querySelector(e);
 
-            if (welcome) {
-                welcome.style.opacity = "0";
+document.addEventListener("DOMContentLoaded", async () => {
 
-                setTimeout(() => {
-                    welcome.style.display = "none";
+  iniciarEntrada();
 
-                    if (site) {
-                        site.style.display = "block";
+  await carregarBanco();
 
-                        requestAnimationFrame(() => {
-                            site.style.opacity = "1";
-                        });
-                    }
+  aplicarConfiguracoes();
 
-                }, 400);
-            }
+  renderizarComunidades();
 
-        });
-    }
+  renderizarAliados();
 
-    // Busca automática do banco
-    carregarBanco();
+  iniciarPesquisa();
+
+  iniciarFiltros();
 
 });
 
-async function carregarBanco() {
+function iniciarEntrada(){
 
-    try {
+    const btn = $("#entrar");
+    const welcome = $("#welcome");
+    const site = $("#site");
 
-        const resposta = await fetch("./banco.json?" + Date.now());
+    if(site){
+        site.style.display="none";
+        site.style.opacity="0";
+    }
 
-        if (!resposta.ok)
-            throw new Error("Banco não encontrado.");
+    if(!btn) return;
 
-        const dados = await resposta.json();
+    btn.onclick=()=>{
 
-        console.log("Banco carregado:", dados);
+        welcome.style.opacity="0";
 
-        if (typeof renderizarDownloads === "function")
-            renderizarDownloads(dados.downloads || []);
+        setTimeout(()=>{
 
-        if (typeof renderizarGrupos === "function")
-            renderizarGrupos(dados.grupos || []);
+            welcome.style.display="none";
 
-        if (typeof renderizarCanais === "function")
-            renderizarCanais(dados.canais || []);
+            site.style.display="block";
 
-    } catch (erro) {
+            requestAnimationFrame(()=>{
 
-        console.error("Erro:", erro);
+                site.style.opacity="1";
+
+            });
+
+            iniciarMusica();
+
+        },400);
 
     }
+
+}
+
+async function carregarBanco(){
+
+    try{
+
+        if(typeof carregarBancoGithub==="function"){
+
+            banco = await carregarBancoGithub();
+
+        }else{
+
+            const req = await fetch("data/db.json?"+Date.now());
+
+            banco = await req.json();
+
+        }
+
+    }catch(e){
+
+        console.error(e);
+
+        mostrarToast("Erro ao carregar banco.");
+
+        banco={
+            comunidades:[],
+            aliados:[],
+            adms:[],
+            config:{}
+        };
+
+    }
+
+}
+
+function aplicarConfiguracoes(){
+
+    if(!banco.config) return;
+
+    if($("#siteDescricao"))
+        $("#siteDescricao").textContent=banco.config.descricao||"";
+
+    if($("#footerTexto"))
+        $("#footerTexto").textContent=banco.config.footer||"";
+
+    if($("#canalOficial"))
+        $("#canalOficial").href=banco.config.whatsapp||"#";
+
+    if($("#logoCanal") && banco.config.logo)
+        $("#logoCanal").src=banco.config.logo;
+
+    if($("#logoEntrada") && banco.config.logo)
+        $("#logoEntrada").src=banco.config.logo;
+
+}
+
+function iniciarMusica(){
+
+    const audio=$("#music");
+
+    if(!audio) return;
+
+    if(!banco.config?.musica) return;
+
+    audio.src=banco.config.musica;
+
+    audio.volume=.4;
+
+    audio.play().catch(()=>{});
 
 }
