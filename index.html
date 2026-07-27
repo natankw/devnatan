@@ -81,7 +81,26 @@
 
     <p class="mostrando">Mostrando <span id="qtdMostrada">0</span> de <span id="qtdTotal">0</span> comunidades</p>
 
-    <div id="comunidades" class="cards"></div>
+    <div class="carrossel-bloco">
+      <h3 class="carrossel-titulo">
+        <span class="icon icon-megaphone"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4a1 1 0 0 0 1 1h2l4 5V4L6 9H4a1 1 0 0 0-1 1Z"/><path d="M14.5 8a4 4 0 0 1 0 8"/><path d="M18 5a8 8 0 0 1 0 14"/></svg></span>
+        Canais
+        <span class="count-pill" id="totalCanais">0</span>
+      </h3>
+      <div id="canais" class="cards"></div>
+      <p id="vazioCanais" class="empty-state" hidden>Nenhum canal nessa frequência ainda.</p>
+    </div>
+
+    <div class="carrossel-bloco">
+      <h3 class="carrossel-titulo">
+        <span class="icon icon-users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="9" cy="7" r="3"/><path d="M22.5 20v-1a3.5 3.5 0 0 0-2.5-3.36"/><path d="M16 3.5a3.5 3.5 0 0 1 0 6.8"/></svg></span>
+        Grupos
+        <span class="count-pill" id="totalGrupos">0</span>
+      </h3>
+      <div id="grupos" class="cards"></div>
+      <p id="vazioGrupos" class="empty-state" hidden>Nenhum grupo nessa frequência ainda.</p>
+    </div>
+
     <p id="vazioComunidades" class="empty-state" hidden>
       Nenhuma comunidade nessa frequência ainda.<br>
       <span>Tente outro filtro ou volte mais tarde — a central está sempre recebendo novos sinais.</span>
@@ -123,4 +142,4 @@
 <script src="js/whatsapp-meta.js"></script>
 <script src="js/main.js"></script>
 </body>
-  </html>
+</html>
