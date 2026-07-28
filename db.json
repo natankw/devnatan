@@ -1,0 +1,95 @@
+{
+  "comunidades": [
+    {
+      "id": "com_1785000955692_0866k",
+      "titulo": "#6/6/6xk 🇬🇪",
+      "imagem": "https://mmg.whatsapp.net/m1/v/t24/An8e_NeUagb9HwMwo4P9ImklT56zOwmGLtlgM-3JLXcXkh1MxlzCUVOzsaiWkUGP00ZvdB0n4965bUpQgmcfDRYpk8YbWo9NaeEmlXl-mBbnnxpplTIaXAMaH8zWfg3uY-iQCEehRtnrkk2mYsE_?_nc_gid=pIW5wcLtNn4pzn4-_eA-Dw&_nc_oc=AdrByWUqiM9yICOv5hFQpDwGKSniB8QRHd8YOnpt0gCy-OCO_JhbxC_gVV7d1D-8os0&ccb=10-5&oh=01_Q5Aa5AH0WZWFPN5oKByRjb5uN1rwTwe3MhztfBNpSBDNJcAE_A&oe=6A8C79C1&_nc_sid=471a72",
+      "link": "https://whatsapp.com/channel/0029Vb8XsOg7dmeZYaHEhg3p",
+      "tipo": "canal",
+      "categoria": "Programação",
+      "desc": "",
+      "vip": true,
+      "fixado": false,
+      "cliques": 0,
+      "criadoEm": 1785000955693
+    },
+    {
+      "id": "com_1785007092737_0dyqc",
+      "titulo": "Ls & Vekaz | Channel The Return🤤",
+      "imagem": "https://mmg.whatsapp.net/m1/v/t24/An815arrLoQQeUIdPs8aemFv-gZjWa36T_aaG1C3IgqJP8Qc8nVBdfmXu-EVB_7KdzlArduoqFXo_dGqbMXtm9c9KqAHgJgAsRyoIOO0dbPXmtV5Uy7ia5C8xm9B2SFD5CzgnBVVnir1Hu3_SRCU?_nc_gid=OMp_RWksD4pzwgPuAYKvfw&_nc_oc=Adrj4WFxYH6rLNz8ybNFgtty9NZtp2Xhbbjc2NOsWMa8LWIdN5CDDpyG-Fr9hrn4yx0&ccb=10-5&oh=01_Q5Aa5AEQpVIS_PTuLWTcxmvFmcg8-w49m2wqLVvRD8akoayfLQ&oe=6A8C73E8&_nc_sid=471a72",
+      "link": "https://whatsapp.com/channel/0029VbDM5C0BKfi2aaUMrP2f",
+      "tipo": "canal",
+      "categoria": "Programação",
+      "desc": "",
+      "vip": false,
+      "fixado": false,
+      "cliques": 0,
+      "criadoEm": 1785007092747
+    },
+    {
+      "id": "com_1785069741107_4ozfn6",
+      "titulo": "↯ 𝕮𝖍𝖆𝖙 𝖉𝖆 𝕿𝕳 ↯",
+      "imagem": "https://pps.whatsapp.net/v/t61.24694-24/534424620_1562160725541360_4718123964457934782_n.jpg?ccb=11-4&oh=01_Q5Aa5AFpPCSGQe-08aMW5IEFQaJIqTzAS9p8ptkVxui28fsXRg&oe=6A730BC7&_nc_sid=5e03e0&_nc_cat=110",
+      "link": "https://chat.whatsapp.com/D0isFrFUxnmArAhk7fBJub?s=cl&p=a&ilr=0",
+      "tipo": "grupo",
+      "categoria": "Amizade",
+      "desc": "",
+      "vip": false,
+      "fixado": false,
+      "cliques": 0,
+      "criadoEm": 1785069741110
+    },
+    {
+      "id": "com_1785108292919_6hhqca",
+      "titulo": "Shawtt -Chat",
+      "imagem": "https://i.ibb.co/pvPx1V6k/IMG-20260726-WA0571.jpg",
+      "link": "https://chat.whatsapp.com/DeEuA9CHzj6GXzLWc8xaZ5",
+      "tipo": "grupo",
+      "categoria": "Amizade",
+      "desc": "",
+      "vip": false,
+      "fixado": false,
+      "cliques": 0,
+      "criadoEm": 1785108292923
+    },
+    {
+      "id": "com_1785122001745_foptuu",
+      "titulo": "Cabaré da starzinha",
+      "imagem": "https://i.ibb.co/Cp5PJDvd/Picsart-26-07-26-02-44-19-281.jpg",
+      "link": "https://chat.whatsapp.com/Hm80xnZyN58LlH0xtIrX58?s=cl&p=a&mlu=4&amv=0",
+      "tipo": "grupo",
+      "categoria": "Amizade",
+      "desc": "",
+      "vip": false,
+      "fixado": false,
+      "cliques": 0,
+      "criadoEm": 1785122001763
+    }
+  ],
+  "aliados": [],
+  "admins": [
+    {
+      "id": "adm_1785122364371_iwibm1",
+      "nome": "Kyde",
+      "numero": "22992135054"
+    },
+    {
+      "id": "adm_1785122390399_dtvrcw",
+      "nome": "Bn",
+      "numero": "3799962824"
+    },
+    {
+      "id": "adm_1785123407491_qkrjdm",
+      "nome": "Never",
+      "numero": "5586988213854"
+    }
+  ],
+  "config": {
+    "nome": "R.H.S",
+    "logo": "https://i.ibb.co/Zz9dW15c/IMG-20260722-WA0205.jpg",
+    "descricao": "Sistema de comunidades premium",
+    "whatsapp": "https://whatsapp.com/channel/0029VbD5fHG1dAw02pNMXQ3X",
+    "musica": "audio/musica.mp3",
+    "footer": "© 2026 R.H.S — Todos os direitos reservados."
+  }
+}
